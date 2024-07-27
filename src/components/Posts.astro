@@ -39,9 +39,12 @@ posts.forEach((post) => {
 });
 ---
 
-<section id="tags" class="py-4 my-4">
-  <h2 class="text-3xl mb-2 uppercase">Tags</h2>
-  <div class="flex flex-wrap gap-2">
+<section
+  id="posts"
+  class="py-8 gap-x-16 gap-y-6 border-b-2 border-t-2 min-h-screen"
+>
+  <h2 class="text-4xl mb-4 uppercase">Posts</h2>
+  <div class="flex flex-wrap gap-2 mb-8">
     {
       Object.values(tags).map((tag: TagProps) => (
         <a
@@ -53,10 +56,6 @@ posts.forEach((post) => {
       ))
     }
   </div>
-</section>
-
-<section id="posts" class="py-8 gap-x-16 gap-y-6 border-b-2 border-t-2 min-h-screen">
-  <h2 class="text-4xl mb-4 uppercase">Posts</h2>
   {
     error ? (
       <p class="text-red-500">Failed to load posts and tags: {error}</p>
