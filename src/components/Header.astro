@@ -1,5 +1,4 @@
 ---
-import Nav from "./Nav.astro";
 import Socials from "./Socials.astro";
 
 interface Props {
@@ -11,7 +10,6 @@ const { title, subtitle } = Astro.props;
 ---
 
 <header class="md:min-h-screen subpixel-antialiased border-b-2">
-  <Nav />
   <hgroup class="md:py-40 py-20">
     <h1 class="md:text-8xl text-6xl uppercase tracking-tight mb-4">
       {title}

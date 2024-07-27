@@ -1,5 +1,4 @@
 ---
-import Nav from "../components/Nav.astro";
 import Layout from "./Layout.astro";
 interface Props {
   title: string;
@@ -10,7 +9,6 @@ const { title } = Astro.props;
 
 <Layout title={title}>
   <main class="flex flex-col h-full">
-    <Nav />
     <slot />
   </main>
 </Layout>

@@ -7,6 +7,9 @@ export default {
         sans: "Inter",
         mono: "IBM Plex Mono",
       },
+	  colors: {
+		black: '#333333'
+	  }
     },
   },
   plugins: [
