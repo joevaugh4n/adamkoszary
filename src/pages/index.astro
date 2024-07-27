@@ -1,16 +1,34 @@
 ---
+// Astro imports
+import { Image } from "astro:assets";
+
+// Components
 import Grid from "../components/Grid.astro";
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Testimonial from "../components/Testimonial.astro";
 import Posts from "../components/Posts.astro";
+import Logo from "../components/Logo.astro";
+import Logos from "../components/Logos.astro";
+
+// Images
 import AdamHedge from "../../src/images/adam_hedge.webp";
-import { fetchPageBySlug } from "../lib/wordpress";
-import service from "astro/assets/services/squoosh";
-const principlesPage = await fetchPageBySlug("principles");
-const servicesPage = await fetchPageBySlug("services");
-const placeholder =
-  "This content + placeholder image will be editable via WordPress.";
+import ExampleLogo from "../../src/images/logoipsum.svg";
+
+/** 
+
+ADDING NEW SECTIONS
+
+If you need to add new sections, use the <Grid></Grid> component. You can use the component to automatically render content from a WordPress page, by including the 'slug' attribute:
+
+slug={INSERT_WORDPRESS_SLUG}
+
+Alternatively, you can include content within the middle of the <Grid></Grid>, e.g.
+
+<Grid title='Example title'>This will appear as section copy</Grid>.
+
+The only attribute the Grid component requires is the title. You don't need to use an image.
+*/
 ---
 
 <Layout title="Adam Koszary">
@@ -25,18 +43,25 @@ const placeholder =
     image={AdamHedge}
     slug="services"
   />
+  <Logos title="Places I've worked with">
+    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
+    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
+    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
+    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
+  </Logos>
   <Grid
     title="Principles"
     alt="Adam Koszary"
     image={AdamHedge}
     slug="principles"
   />
-<Testimonial
-  background
-  quote="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut maximus urna. Vestibulum sit amet sapien vel erat congue posuere. Etiam a elit tempor neque consequat consequat. Morbi mi justo, pretium in quam non, sagittis dictum felis. Proin sapien lacus, porttitor quis nisl ac, rutrum venenatis augue."
-  author="Lauren Ipsom"
-  role="Ipsom"
-  org="Lauren Ipsom"
-  link="https://laurenipsom.org"
-/>
-<Posts />
+  <Testimonial
+    background
+    quote="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut maximus urna. Vestibulum sit amet sapien vel erat congue posuere. Etiam a elit tempor neque consequat consequat. Morbi mi justo, pretium in quam non, sagittis dictum felis. Proin sapien lacus, porttitor quis nisl ac, rutrum venenatis augue."
+    author="Lauren Ipsom"
+    role="Ipsom"
+    org="Lauren Ipsom"
+    link="https://laurenipsom.org"
+  />
+  <Posts />
+</Layout>

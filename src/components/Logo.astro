@@ -1,0 +1,17 @@
+---
+import { Image } from "astro:assets";
+
+interface props {
+  src: ImageMetadata;
+  org: string;
+  url: string;
+}
+
+const { src, url, org } = Astro.props;
+---
+
+<div class="w-full h-full flex items-center justify-center">
+  <a title={`Link to ${org}'s website`} href={url}>
+    <Image alt={org} src={src} />
+  </a>
+</div>

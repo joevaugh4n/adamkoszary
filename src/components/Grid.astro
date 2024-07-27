@@ -1,17 +1,19 @@
 ---
 import { Image } from "astro:assets";
-import { fetchPageBySlug } from "../lib/wordpress"
+import { fetchPageBySlug } from "../lib/wordpress";
 
 interface Props {
-  /** Grid title */
+  /** The section title, e.g. 'Principles, What I Do'. Renders in uppercase. */
   title: string;
-  /** Hero image */
-  image: ImageMetadata;
-  alt: string;
+  /** The section hero image. */
+  image?: ImageMetadata | undefined;
+  /** Section hero image alt text. */
+  alt?: string | undefined;
+  /** Do you want a background colour? */
   background?: boolean;
-  /** If image is above the fold, use 'eager'. Else, use 'lazy'*/
+  /** If section appears at the top of the page, use 'eager'. Else, use 'lazy' or simply ignore to set lazy loading automatically. */
   loading?: "eager" | "lazy";
-  /** WordPress page slug */
+  /** Slug for WordPress page. For example: 'principles' would load content from 'https://test113736.wordpress.com/principles/' */
   slug?: string;
 }
 
@@ -26,14 +28,23 @@ if (slug) {
 
 <section
   id="services"
-  class={`grid md:grid-cols-2 py-8 gap-x-16 gap-y-6 border-b-2 ${
+  class={`grid ${image && "md:grid-cols-2"} py-8 gap-x-16 gap-y-6 border-b-2 ${
     background && "bg-slate-100"
   }`}
 >
-  <Image class="w-full rounded-sm" alt={alt} src={image} loading={loading} />
+  {
+    image && alt && (
+      <Image
+        class="w-full rounded-sm"
+        alt={alt}
+        src={image}
+        loading={loading}
+      />
+    )
+  }
   <article>
     <h2 class="text-4xl mb-2 uppercase">{title}</h2>
-    <div class="prose dark:prose-invert dark:text-white">
+    <div class="prose dark:prose-invert dark:text-white text-pretty">
       {content ? <div set:html={content} /> : <slot />}
     </div>
   </article>
