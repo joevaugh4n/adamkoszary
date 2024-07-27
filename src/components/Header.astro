@@ -1,22 +1,32 @@
 ---
 import Socials from "./Socials.astro";
+import { fetchPageBySlug } from "../lib/wordpress"; //
 
 interface Props {
   // Site title. Automatically renders in uppercase.
   title: string;
-  // Site subheading.
-  subtitle: string;
+  // Slug for the WordPress page to fetch
+  slug: string;
 }
 
-const { title, subtitle } = Astro.props;
+const { title, slug } = Astro.props;
+
+// Fetch the page content
+const page = await fetchPageBySlug(slug);
+
+// Extract the content from the fetched page
+const content = page?.content?.rendered || "";
 ---
 
-<header class="md:min-h-screen subpixel-antialiased border-b-2">
-  <hgroup class="md:py-40 py-20">
-    <h1 class="md:text-8xl text-6xl uppercase tracking-tight mb-4">
+<header class="lg:min-h-screen subpixel-antialiased border-b-2">
+  <hgroup class="lg:py-20 py-12">
+    <h1 class="lg:text-8xl text-6xl uppercase tracking-tight mb-8">
       {title}
     </h1>
-    <p class="md:text-4xl text-2xl font-light text-pretty">{subtitle}</p>
+    <div
+      class="lg:text-2xl text-lg leading-loose prose md:prose-p:leading-loose dark:prose-invert prose-p:leading-normal"
+      set:html={content}
+    />
   </hgroup>
   <Socials />
 </header>

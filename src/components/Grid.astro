@@ -15,9 +15,19 @@ interface Props {
   loading?: "eager" | "lazy";
   /** Slug for WordPress page. For example: 'principles' would load content from 'https://test113736.wordpress.com/principles/' */
   slug?: string;
+  // Whether the image or text should appear first
+  order?: "image-first" | "text-first";
 }
 
-const { title, image, alt, background, loading = "lazy", slug } = Astro.props;
+const {
+  title,
+  image,
+  alt,
+  background,
+  loading = "lazy",
+  slug,
+  order = "image-first",
+} = Astro.props;
 
 let content;
 if (slug) {
@@ -28,24 +38,42 @@ if (slug) {
 
 <section
   id="services"
-  class={`grid ${image && "md:grid-cols-2"} py-8 gap-x-16 gap-y-6 border-b-2 ${
-    background && "bg-slate-100"
+  class={`${image ? "grid md:grid-cols-2" : "md:flex md:justify-center"} py-8 gap-x-16 gap-y-6 border-b-2 ${
+    background && "bg-slate-100 px-4"
   }`}
 >
-  {
-    image && alt && (
-      <Image
-        class="w-full rounded-sm"
-        alt={alt}
-        src={image}
-        loading={loading}
-      />
-    )
-  }
-  <article>
-    <h2 class="text-4xl mb-2 uppercase">{title}</h2>
-    <div class="prose dark:prose-invert dark:text-white text-pretty">
+  <div
+    class={`image-container ${order === "text-first" ? "md:order-last" : ""}`}
+  >
+    {
+      image && alt && (
+        <Image
+          class="w-full rounded-sm"
+          alt={alt}
+          src={image}
+          loading={loading}
+        />
+      )
+    }
+  </div>
+
+  <article
+    class={`${order === "text-first" ? "md:order-first" : ""} ${background ? "dark:text-black" : "text-black dark:text-white"}`}
+  >
+    <h2 class="md:text-4xl text-2xl md:mb-4 mb-2 uppercase">{title}</h2>
+    <div
+      class={`prose dark:prose-invert text-pretty prose-p:leading-loose prose-p:mt-0 prose-p:mb-2 prose-ul:m-0 ${background ? "dark:text-black" : "text-black dark:text-white"}`}
+    >
       {content ? <div set:html={content} /> : <slot />}
     </div>
   </article>
 </section>
+
+<style>
+  @media (max-width: 768px) {
+    .image-container,
+    article {
+      order: initial !important;
+    }
+  }
+</style>

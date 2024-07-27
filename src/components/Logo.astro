@@ -10,7 +10,7 @@ interface props {
 const { src, url, org } = Astro.props;
 ---
 
-<div class="w-full h-full flex items-center justify-center">
+<div class="w-full h-full flex items-center justify-center dark:bg-white dark:p-2">
   <a title={`Link to ${org}'s website`} href={url}>
     <Image alt={org} src={src} />
   </a>

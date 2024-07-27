@@ -2,21 +2,21 @@
 import { Icon } from "astro-icon/components";
 ---
 
-<nav class="flex gap-2 justify-between pb-20">
-  <div>
+<nav class="flex gap-2 lg:justify-between justify-end pb-20">
+  <div class="lg:block hidden">
     <a href="/#services" title="Scroll down"
       ><Icon
-        class="md:text-6xl text-4xl animate-pulse"
+        class="lg:text-6xl text-4xl animate-pulse"
         name="tabler:circle-arrow-down"
       /></a
     >
   </div>
   <div class="flex gap-2">
     <a title="Twitter" href="https://x.com/AdamKoszary">
-      <Icon class="md:text-6xl text-4xl" name="tabler:brand-x" />
+      <Icon class="lg:text-6xl text-4xl" name="tabler:brand-x" />
     </a>
     <a title="LinkedIn" href="https://linkedin.com/in/adam-koszary"
-      ><Icon class="md:text-6xl text-4xl" name="tabler:brand-linkedin" /></a
+      ><Icon class="lg:text-6xl text-4xl" name="tabler:brand-linkedin" /></a
     >
   </div>
 </nav>

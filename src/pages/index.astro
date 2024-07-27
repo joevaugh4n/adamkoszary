@@ -32,29 +32,29 @@ The only attribute the Grid component requires is the title. You don't need to u
 ---
 
 <Layout title="Adam Koszary">
-  <Header
-    title="adam koszary"
-    subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus etipsum quam."
-  />
+  <Header title="adam koszary" slug="pitch" />
   <Grid
     loading="eager"
-    title="What I Do"
+    title="How I Can Help"
     alt="Adam Koszary"
     image={AdamHedge}
     slug="services"
   />
-  <Logos title="Places I've worked with">
+  <Grid
+    background
+    title="How I Do It"
+    alt="Adam Koszary"
+    slug="principles"
+    order="text-first"
+  />
+  <Logos title="Previous clients">
+    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
+    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
     <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
     <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
     <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
     <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
   </Logos>
-  <Grid
-    title="Principles"
-    alt="Adam Koszary"
-    image={AdamHedge}
-    slug="principles"
-  />
   <Testimonial
     background
     quote="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut maximus urna. Vestibulum sit amet sapien vel erat congue posuere. Etiam a elit tempor neque consequat consequat. Morbi mi justo, pretium in quam non, sagittis dictum felis. Proin sapien lacus, porttitor quis nisl ac, rutrum venenatis augue."
@@ -64,4 +64,8 @@ The only attribute the Grid component requires is the title. You don't need to u
     link="https://laurenipsom.org"
   />
   <Posts />
+  <Grid title="Get in touch">
+    Chatting to me is free, and I have a discount for smaller organisations
+    (less than £100k annual revenue). We can always work something out.
+  </Grid>
 </Layout>
