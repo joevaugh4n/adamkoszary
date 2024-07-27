@@ -4,8 +4,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Testimonial from "../components/Testimonial.astro";
 import Posts from "../components/Posts.astro";
-import { ViewTransitions } from 'astro:transitions';
-
+import AdamHedge from "../../src/images/adam_hedge.webp";
 ---
 
 <Layout title="Adam Koszary">
@@ -13,19 +12,11 @@ import { ViewTransitions } from 'astro:transitions';
     title="adam koszary"
     subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus etipsum quam."
   />
-  <Grid
-    title="What I Do"
-    alt="Adam Koszary"
-    image="https://pbs.twimg.com/profile_images/1253966083746418688/hw16PJaM_400x400.jpg"
-  >
-    insert content
+  <Grid title="What I Do" alt="Adam Koszary" image={AdamHedge}>
+    This content will be editable via WordPress.
   </Grid>
-  <Grid
-    title="Principles"
-    alt="Adam Koszary"
-    image="https://pbs.twimg.com/profile_images/1253966083746418688/hw16PJaM_400x400.jpg"
-  >
-    insert content
+  <Grid title="Principles" alt="Adam Koszary" image={AdamHedge}>
+    This content will be editable via WordPress.
   </Grid>
   <Testimonial
     background
