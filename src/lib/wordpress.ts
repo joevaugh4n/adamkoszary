@@ -48,3 +48,52 @@ export async function fetchTags(): Promise<TagProps[]> {
     return [];
   }
 }
+
+// Fetch page by slug
+export async function fetchPageBySlug(slug: string): Promise<PostProps | null> {
+  try {
+    const res = await fetch(
+      `https://public-api.wordpress.com/wp/v2/sites/test113736.wordpress.com/pages?slug=${slug}`
+    );
+    if (!res.ok) throw new Error(`Error fetching page: ${res.statusText}`);
+    const pages = await res.json();
+    return pages.length > 0 ? pages[0] : null;
+  } catch (err: any) {
+    console.error(err.message);
+    return null;
+  }
+}
+
+export function createTagMap(tags: TagProps[]): Map<number, string> {
+  return new Map(tags.map((tag) => [tag.id, tag.name]));
+}
+
+export function filterActiveTags(
+  tags: TagProps[],
+  posts: PostProps[]
+): TagProps[] {
+  return tags.filter((tag) => posts.some((post) => post.tags.includes(tag.id)));
+}
+
+export function groupPostsByTag(
+  posts: PostProps[],
+  tagMap: Map<number, string>
+): Map<string, PostProps[]> {
+  const postsByTag = new Map<string, PostProps[]>();
+  posts.forEach((post) => {
+    post.tags.forEach((tagId) => {
+      const tagName = tagMap.get(tagId);
+      if (tagName) {
+        if (!postsByTag.has(tagName)) {
+          postsByTag.set(tagName, []);
+        }
+        postsByTag.get(tagName)?.push(post);
+      }
+    });
+  });
+  return postsByTag;
+}
+
+export function convertTagName(str: string): string {
+  return str.replace(/_/g, " ");
+}

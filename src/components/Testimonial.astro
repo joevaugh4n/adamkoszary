@@ -20,6 +20,6 @@ const { background, author, quote, role, link, org } = Astro.props;
   <Icon name="tabler:quote" class="text-2xl mb-2" />
   <p class="mb-2">"{quote}"</p>
   <div class="flex flex-col items-end">
-    <p>{author}, {role}</p>
+    <p class="font-bold">{author}, {role}</p>
   </div>
 </section>

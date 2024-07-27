@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import { fetchPageBySlug } from "../lib/wordpress"
 
 interface Props {
   /** Grid title */
@@ -10,9 +11,17 @@ interface Props {
   background?: boolean;
   /** If image is above the fold, use 'eager'. Else, use 'lazy'*/
   loading?: "eager" | "lazy";
+  /** WordPress page slug */
+  slug?: string;
 }
 
-const { title, image, alt, background, loading = "lazy" } = Astro.props;
+const { title, image, alt, background, loading = "lazy", slug } = Astro.props;
+
+let content;
+if (slug) {
+  const page = await fetchPageBySlug(slug);
+  content = page ? page.content.rendered : null;
+}
 ---
 
 <section
@@ -21,14 +30,11 @@ const { title, image, alt, background, loading = "lazy" } = Astro.props;
     background && "bg-slate-100"
   }`}
 >
-  <Image
-    class="w-full rounded-sm"
-    alt={alt}
-    src={image}
-    loading={loading}
-  />
+  <Image class="w-full rounded-sm" alt={alt} src={image} loading={loading} />
   <article>
     <h2 class="text-4xl mb-2 uppercase">{title}</h2>
-    <slot />
+    <div class="prose dark:prose-invert dark:text-white">
+      {content ? <div set:html={content} /> : <slot />}
+    </div>
   </article>
 </section>

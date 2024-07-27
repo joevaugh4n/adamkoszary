@@ -4,6 +4,9 @@ import Post from "../../components/Post.astro";
 import {
   fetchPosts,
   fetchTags,
+  createTagMap,
+  filterActiveTags,
+  convertTagName,
   type PostProps,
   type TagProps,
 } from "../../lib/wordpress";
@@ -13,12 +16,10 @@ export async function getStaticPaths() {
   const tags: TagProps[] = await fetchTags();
   const posts: PostProps[] = await fetchPosts();
 
-  // Create a map of tag IDs to tag names
-  const tagMap = new Map<number, string>(
-    tags.map((tag: TagProps) => [tag.id, tag.name])
-  );
+  const tagMap = createTagMap(tags);
+  const activeTags = filterActiveTags(tags, posts);
 
-  return tags.map((tag: TagProps) => {
+  return activeTags.map((tag: TagProps) => {
     const filteredPosts = posts.filter((post: PostProps) =>
       post.tags.includes(tag.id)
     );
@@ -29,7 +30,7 @@ export async function getStaticPaths() {
         filteredPosts,
         currentTag: tag.name,
         tagMap: Object.fromEntries(tagMap),
-        allTags: tags,
+        allActiveTags: activeTags,
       },
     };
   });
@@ -40,31 +41,26 @@ const {
   filteredPosts,
   currentTag,
   tagMap,
-  allTags,
+  allActiveTags,
 }: {
   filteredPosts: PostProps[];
   currentTag: string;
   tagMap: { [key: number]: string };
-  allTags: TagProps[];
+  allActiveTags: TagProps[];
 } = Astro.props;
-
-// Remove _ from tags for public display
-function convertTags(str: string) {
-  return str.replace(/_/g, " ");
-}
 
 // Fallback for new tags
 const isNewTag = !currentTag;
 
 // Sort tags alphabetically and exclude the current tag
-const otherTags = allTags
+const otherActiveTags = allActiveTags
   .filter((t: TagProps) => t.name !== currentTag)
   .sort((a: TagProps, b: TagProps) => a.name.localeCompare(b.name));
 ---
 
-<Subpage title={`Posts tagged with ${convertTags(tag)}`}>
+<Subpage title={`Posts tagged with ${convertTagName(tag)}`}>
   <h1 class="mt-20 mb-8 text-2xl uppercase">
-    ON <span class="italic">{convertTags(tag)}</span>
+    ON <span class="italic">{convertTagName(tag)}</span>
   </h1>
 
   <section class="grid md:grid-cols-[2fr_1fr] gap-8">
@@ -84,7 +80,7 @@ const otherTags = allTags
     <aside class="md:border-l md:pl-4 md:border-t-0 md:pt-0 border-t pt-4">
       <h2 class="text-xl mb-4">OTHER TAGS</h2>
       <ul class="flex flex-wrap gap-2">
-        {otherTags.map((tag: TagProps) => <TagCard tag={tag.name} />)}
+        {otherActiveTags.map((tag: TagProps) => <TagCard tag={tag.name} />)}
       </ul>
     </aside>
   </section>

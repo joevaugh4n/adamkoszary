@@ -5,7 +5,10 @@ import Header from "../components/Header.astro";
 import Testimonial from "../components/Testimonial.astro";
 import Posts from "../components/Posts.astro";
 import AdamHedge from "../../src/images/adam_hedge.webp";
-
+import { fetchPageBySlug } from "../lib/wordpress";
+import service from "astro/assets/services/squoosh";
+const principlesPage = await fetchPageBySlug("principles");
+const servicesPage = await fetchPageBySlug("services");
 const placeholder =
   "This content + placeholder image will be editable via WordPress.";
 ---
@@ -15,19 +18,25 @@ const placeholder =
     title="adam koszary"
     subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus etipsum quam."
   />
-  <Grid loading="eager" title="What I Do" alt="Adam Koszary" image={AdamHedge}>
-    {placeholder}
-  </Grid>
-  <Grid title="Principles" alt="Adam Koszary" image={AdamHedge}>
-    {placeholder}
-  </Grid>
-  <Testimonial
-    background
-    quote="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut maximus urna. Vestibulum sit amet sapien vel erat congue posuere. Etiam a elit tempor neque consequat consequat. Morbi mi justo, pretium in quam non, sagittis dictum felis. Proin sapien lacus, porttitor quis nisl ac, rutrum venenatis augue."
-    author="Lauren Ipsom"
-    role="Ipsom"
-    org="Lauren Ipsom"
-    link="https://laurenipsom.org"
+  <Grid
+    loading="eager"
+    title="What I Do"
+    alt="Adam Koszary"
+    image={AdamHedge}
+    slug="services"
   />
-  <Posts />
-</Layout>
+  <Grid
+    title="Principles"
+    alt="Adam Koszary"
+    image={AdamHedge}
+    slug="principles"
+  />
+<Testimonial
+  background
+  quote="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut maximus urna. Vestibulum sit amet sapien vel erat congue posuere. Etiam a elit tempor neque consequat consequat. Morbi mi justo, pretium in quam non, sagittis dictum felis. Proin sapien lacus, porttitor quis nisl ac, rutrum venenatis augue."
+  author="Lauren Ipsom"
+  role="Ipsom"
+  org="Lauren Ipsom"
+  link="https://laurenipsom.org"
+/>
+<Posts />

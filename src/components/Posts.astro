@@ -4,13 +4,15 @@ import Tag from "./Tag.astro";
 import {
   fetchPosts,
   fetchTags,
+  createTagMap,
+  filterActiveTags,
+  groupPostsByTag,
   type PostProps,
   type TagProps,
 } from "../lib/wordpress";
 
-// Fetch data and assign to variables
 let posts: PostProps[] = [];
-let tags: { [key: number]: TagProps } = {};
+let tags: TagProps[] = [];
 let error: unknown = null;
 
 try {
@@ -19,24 +21,9 @@ try {
   error = err.message;
 }
 
-// Create a map of tag IDs to tag names
-const tagMap = new Map<number, string>(
-  Object.values(tags).map((tag) => [tag.id, tag.name])
-);
-
-// Group posts by tag
-const postsByTag = new Map<string, PostProps[]>();
-posts.forEach((post) => {
-  post.tags.forEach((tagId) => {
-    const tagName = tagMap.get(tagId);
-    if (tagName) {
-      if (!postsByTag.has(tagName)) {
-        postsByTag.set(tagName, []);
-      }
-      postsByTag.get(tagName)?.push(post);
-    }
-  });
-});
+const tagMap = createTagMap(tags);
+const postsByTag = groupPostsByTag(posts, tagMap);
+const activeTags = filterActiveTags(tags, posts);
 ---
 
 <section
@@ -46,7 +33,7 @@ posts.forEach((post) => {
   <h2 class="text-4xl mb-4 uppercase">Posts</h2>
   <div class="flex flex-wrap gap-2 mb-8">
     {
-      Object.values(tags).map((tag: TagProps) => (
+      activeTags.map((tag: TagProps) => (
         <a
           href={`/tags/${tag.name}`}
           class="bg-gray-200 px-3 py-1 rounded font-mono text-black"

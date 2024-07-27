@@ -6,10 +6,11 @@ export default {
       fontFamily: {
         sans: "Inter",
         mono: "IBM Plex Mono",
+        handwriting: "Permanent Marker",
       },
-	  colors: {
-		black: '#333333'
-	  }
+      colors: {
+        black: "#333333",
+      },
     },
   },
   plugins: [
