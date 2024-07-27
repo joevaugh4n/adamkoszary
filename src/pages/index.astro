@@ -5,6 +5,9 @@ import Header from "../components/Header.astro";
 import Testimonial from "../components/Testimonial.astro";
 import Posts from "../components/Posts.astro";
 import AdamHedge from "../../src/images/adam_hedge.webp";
+
+const placeholder =
+  "This content + placeholder image will be editable via WordPress.";
 ---
 
 <Layout title="Adam Koszary">
@@ -13,10 +16,10 @@ import AdamHedge from "../../src/images/adam_hedge.webp";
     subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus etipsum quam."
   />
   <Grid loading="eager" title="What I Do" alt="Adam Koszary" image={AdamHedge}>
-    This content will be editable via WordPress.
+    {placeholder}
   </Grid>
   <Grid title="Principles" alt="Adam Koszary" image={AdamHedge}>
-    This content will be editable via WordPress.
+    {placeholder}
   </Grid>
   <Testimonial
     background
