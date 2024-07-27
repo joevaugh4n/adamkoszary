@@ -1,0 +1,39 @@
+---
+import Grid from "../components/Grid.astro";
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Testimonial from "../components/Testimonial.astro";
+import Posts from "../components/Posts.astro";
+import { ViewTransitions } from 'astro:transitions';
+
+---
+
+<Layout title="Adam Koszary">
+  <Header
+    title="adam koszary"
+    subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus etipsum quam."
+  />
+  <Grid
+    title="What I Do"
+    alt="Adam Koszary"
+    image="https://pbs.twimg.com/profile_images/1253966083746418688/hw16PJaM_400x400.jpg"
+  >
+    insert content
+  </Grid>
+  <Grid
+    title="Principles"
+    alt="Adam Koszary"
+    image="https://pbs.twimg.com/profile_images/1253966083746418688/hw16PJaM_400x400.jpg"
+  >
+    insert content
+  </Grid>
+  <Testimonial
+    background
+    quote="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut maximus urna. Vestibulum sit amet sapien vel erat congue posuere. Etiam a elit tempor neque consequat consequat. Morbi mi justo, pretium in quam non, sagittis dictum felis. Proin sapien lacus, porttitor quis nisl ac, rutrum venenatis augue."
+    author="Lauren Ipsom"
+    role="Ipsom"
+    org="Lauren Ipsom"
+    link="https://laurenipsom.org"
+  />
+  <Posts />
+</Layout>

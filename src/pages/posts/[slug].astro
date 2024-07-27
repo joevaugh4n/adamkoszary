@@ -1,0 +1,51 @@
+---
+import Post from "../../layouts/Post.astro";
+import Tag from "../../components/Tag.astro";
+import {
+  fetchPosts,
+  fetchTags,
+  type PostProps,
+  type TagProps,
+} from "../../lib/wordpress";
+
+export async function getStaticPaths() {
+  const posts = await fetchPosts();
+  const tags = await fetchTags();
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post, tags },
+  }));
+}
+
+const { post, tags } = Astro.props;
+
+// Create a map of tag IDs to tag names
+const tagMap = new Map<number, string>(
+  Object.values(tags).map((tag) => [tag.id, tag.name])
+);
+
+// Format date
+function formatDate(dateString: string) {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+---
+
+<Post title={post.title.rendered}>
+  <article class="max-w-3xl mx-auto py-8">
+    <hgroup>
+    <h1 class="text-4xl uppercase mb-4">{post.title.rendered}</h1>
+    <p class="text-gray-600 mb-4">{formatDate(post.date)}</p>
+
+    <div class="mb-6 flex gap-2 flex-wrap">
+      {post.tags.map((tagId) => <Tag tag={tagMap.get(tagId) || ""} />)}
+    </div>
+    </hgroup>
+
+    <div class="prose prose-lg" set:html={post.content.rendered} />
+  </article>
+</Post>

@@ -1,0 +1,91 @@
+---
+import Subpage from "../../layouts/Subpage.astro";
+import Post from "../../components/Post.astro";
+import {
+  fetchPosts,
+  fetchTags,
+  type PostProps,
+  type TagProps,
+} from "../../lib/wordpress";
+import TagCard from "../../components/Tag.astro";
+
+export async function getStaticPaths() {
+  const tags: TagProps[] = await fetchTags();
+  const posts: PostProps[] = await fetchPosts();
+
+  // Create a map of tag IDs to tag names
+  const tagMap = new Map<number, string>(
+    tags.map((tag: TagProps) => [tag.id, tag.name])
+  );
+
+  return tags.map((tag: TagProps) => {
+    const filteredPosts = posts.filter((post: PostProps) =>
+      post.tags.includes(tag.id)
+    );
+
+    return {
+      params: { tag: tag.name },
+      props: {
+        filteredPosts,
+        currentTag: tag.name,
+        tagMap: Object.fromEntries(tagMap),
+        allTags: tags,
+      },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const {
+  filteredPosts,
+  currentTag,
+  tagMap,
+  allTags,
+}: {
+  filteredPosts: PostProps[];
+  currentTag: string;
+  tagMap: { [key: number]: string };
+  allTags: TagProps[];
+} = Astro.props;
+
+// Remove _ from tags for public display
+function convertTags(str: string) {
+  return str.replace(/_/g, " ");
+}
+
+// Fallback for new tags
+const isNewTag = !currentTag;
+
+// Sort tags alphabetically and exclude the current tag
+const otherTags = allTags
+  .filter((t: TagProps) => t.name !== currentTag)
+  .sort((a: TagProps, b: TagProps) => a.name.localeCompare(b.name));
+---
+
+<Subpage title={`Posts tagged with ${convertTags(tag)}`}>
+  <h1 class="mt-20 mb-8 text-2xl uppercase">
+    ON <span class="italic">{convertTags(tag)}</span>
+  </h1>
+
+  <section class="grid md:grid-cols-[2fr_1fr] gap-8">
+    <div class="grid lg:grid-cols-2 gap-x-8 gap-y-4">
+      {
+        filteredPosts.map((post: PostProps) => (
+          <Post
+            date={post.date}
+            title={post.title.rendered}
+            slug={post.slug}
+            prose={post.excerpt.rendered}
+            tags={post.tags.map((tagId) => tagMap[tagId] || "")}
+          />
+        ))
+      }
+    </div>
+    <aside class="md:border-l md:pl-4 md:border-t-0 md:pt-0 border-t pt-4">
+      <h2 class="text-xl mb-4">OTHER TAGS</h2>
+      <ul class="flex flex-wrap gap-2">
+        {otherTags.map((tag: TagProps) => <TagCard tag={tag.name} />)}
+      </ul>
+    </aside>
+  </section>
+</Subpage>

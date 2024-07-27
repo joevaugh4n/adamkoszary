@@ -1,0 +1,24 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  background: boolean;
+  author: string;
+  quote: string;
+  role: string;
+  link: string;
+  org: string;
+}
+
+const { background, author, quote, role, link, org } = Astro.props;
+---
+
+<section
+  class={`text-black border-box py-8 my-8 px-4 flex flex-col ${background && "bg-slate-100"}`}
+>
+  <p class="mb-2">"{quote}"</p>
+  <div class="flex flex-col items-end">
+    <p>{author}</p>
+    <p>{role}</p>
+  </div>
+</section>

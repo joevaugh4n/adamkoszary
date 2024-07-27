@@ -1,0 +1,35 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  /** Grid title */
+  title: string;
+  /** Hero image */
+  image: string;
+  alt: string;
+  background?: boolean;
+  /** If image is above the fold, use 'eager'. Else, use 'lazy'*/
+  loading?: "eager" | "lazy";
+}
+
+const { title, image, alt, background, loading = "lazy" } = Astro.props;
+---
+
+<section
+  id="services"
+  class={`grid md:grid-cols-2 py-8 gap-x-16 gap-y-6 border-b-2 ${
+    background && "bg-slate-100"
+  }`}
+>
+  <Image
+    inferSize
+    class="w-full rounded-sm"
+    alt={alt}
+    src={image}
+    loading={loading}
+  />
+  <article>
+    <h2 class="text-4xl mb-2 uppercase">{title}</h2>
+    <slot />
+  </article>
+</section>
