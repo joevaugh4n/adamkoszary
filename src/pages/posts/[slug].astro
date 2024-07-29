@@ -42,7 +42,10 @@ function formatDate(dateString: string) {
     <p class="text-gray-600 dark:text-white mb-4">{formatDate(post.date)}</p>
 
     <div class="mb-6 flex gap-2 flex-wrap">
-      {post.tags.map((tagId) => <Tag tag={tagMap.get(tagId) || ""} />)}
+      {post.tags.map((tagId) => {
+        const tagName = tagMap.get(tagId);
+        return tagName ? <Tag tag={tagName} /> : null;
+      })}
     </div>
     </hgroup>
 

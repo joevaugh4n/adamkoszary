@@ -18,6 +18,8 @@ interface Props {
   slug?: string;
   // Whether the image or text should appear first
   order?: "image-first" | "text-first";
+  // Render bottom border. Defaults to true
+  border?: boolean;
 }
 
 const {
@@ -28,6 +30,7 @@ const {
   loading = "lazy",
   slug,
   order = "image-first",
+  border = true,
 } = Astro.props;
 
 let content;
@@ -39,7 +42,7 @@ if (slug) {
 
 <section
   id="services"
-  class={`${image ? "grid md:grid-cols-2" : "md:flex md:justify-center"} py-8 gap-x-16 gap-y-6 border-b-2 ${
+  class={`${image ? "grid md:grid-cols-2" : "md:flex md:justify-center"} py-8 gap-x-16 gap-y-6 ${border && "border-b-2"} ${
     background && "bg-slate-100 px-4"
   }`}
 >
@@ -61,7 +64,7 @@ if (slug) {
   <article
     class={`${order === "text-first" ? "md:order-first" : ""} ${background ? "dark:text-black" : "text-black dark:text-white"}`}
   >
-    <H2 title={title}/>
+    <H2 title={title} />
     <div
       class={`prose dark:prose-invert text-pretty prose-p:leading-loose prose-p:mt-0 prose-p:mb-2 prose-ul:m-0 ${background ? "dark:text-black" : "text-black dark:text-white"}`}
     >

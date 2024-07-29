@@ -1,0 +1,117 @@
+---
+title: Adam Koszary site docs
+description: How to use and customise this Astro site.
+---
+import AdamHedge from '../../../src/images/adam_hedge.webp'
+import Grid from '../../../src/components/Grid.astro'
+import { Aside, Steps } from '@astrojs/starlight/components';
+import { Code } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+export const buttonAstro = {
+  code: `
+  ---
+  // Astro code for the Button component, reused throughout the site
+
+  interface Props {
+    caption: string;
+  }
+
+  const { caption } = Astro.props;
+  ---
+
+  <button
+    class="text-black rounded-full px-2 py-1 font-mono bg-slate-200 hover:bg-black dark:hover:bg-slate-500 hover:text-white tracking-tight"
+  >
+    {caption}
+  </button>
+`,
+  filename: 'button.astro'
+}
+
+export const navAstro = {
+  code:
+    `[...] 
+  <nav>
+    <Button caption="Posts" />
+    <Button caption="Contact" />
+  </nav>`,
+  filename: 'Nav.astro'
+}
+
+export const gridAstro = {
+  code: `
+    <Grid
+      loading="eager"
+      title="How I Can Help"
+      alt="Adam Koszary"
+      image={AdamHedge}
+      slug="services"
+      border="false"
+    />`,
+  filename: `grid.astro`
+}
+
+This page contains instructions on using and customising your Astro site and each of the individual components that consitute it.
+
+---
+
+## What is Astro?
+This site is built using [Astro](https://astro.build/), a modern web dev framework for building fast and lightweight web apps. 
+
+Astro code lives in `.astro` files. These files combine HTML (the scripting language you know and love) with JavaScript (for interactivity and conditional rendering) and CSS (styling):
+
+<Code title={buttonAstro.filename} code={buttonAstro.code}/>
+<Code title={navAstro.filename} code={navAstro.code}/>
+
+What's really significant is that when Astro code compiles, when it gets ready to render on the web, Astro resolves all code to be entirely HTML. This is crucial because excessive JavaScript kills site speed and efficiency. Astro removes that problem while also giving developers all the tools they need to make great sites.
+
+<Aside title='A note on styling'>While Astro is the web dev framework of choice, the site also uses a CSS framework called [Tailwind CSS](https://tailwindcss.com/). Tailwind lets you add styles on the fly within your code (without having to write and maintain separate CSS stylesheets). Plus, it gives you simple, easy-to-understand utilities for ensuring your site is responsive on different browsers, viewports, and devices. I'll clarify more on how you can use that later, should you need to.</Aside>
+
+## Thinking in components
+Many of the individual pages can be edited using the WordPress CMS.
+
+However, there are some things that you will only be able to change by accessing the Astro code. This is especially the case if you want to add new content sections or change the styling of existing code.
+
+Fortunately, Astro makes these kinds of changes a breeze, due to the fact that Astro code is built upon of components: customised blocks of code that you can reuse throughout a site and edit by simply changing individual properties (also known as props), just like you could change a HTML link by editing the `href` prop of an `A` tag.
+
+---
+
+### Grid component
+The `Grid` component is used for the image sections on the site homepage.
+
+<Tabs>
+  <TabItem label="Implementation" icon="star">
+    <Grid
+      loading="eager"
+      title="How I Can Help"
+      alt="Adam Koszary"
+      image={AdamHedge}
+      slug="services"
+      border={false}
+    />
+  </TabItem>
+    <TabItem label="Code" icon="star">
+    <Code title={gridAstro.filename} code={gridAstro.code}/>
+    </TabItem>
+</Tabs>
+
+The `Grid` component accepts multiple props (where * indicates required).
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title`* | `string` | - | The section title. Renders as an H2 tag. |
+| `image` | `ImageMetadata` | `undefined` | The section image. If provided, the section renders as two columns; otherwise, it renders as a single centered column. |
+| `alt` | `string` | `''` | Alt text for the image. Required if `image` is provided. |
+| `background` | `boolean` | `false` | If `true`, adds a slate background to the section. |
+| `loading` | `'lazy' \| 'eager'` | `'lazy'` | Determines image loading behavior. Use `'eager'` only for above-the-fold images. |
+| `slug` | `string` | `undefined` | WordPress page slug. If provided, renders content from that page. |
+| `order` | `'image-left' \| 'image-right'` | `'image-left'` | Determines the order of image and text columns. |
+| `border` | `boolean` | `true` | If `true`, includes a bottom border/separator. |
+
+**Notes:**
+- Props marked with * are required.
+- If no `slug` is provided, you can add content directly within the `Grid` component tags:
+  ```astro
+  <Grid title="Example">
+    This content will be rendered in the Grid.
+  </Grid>`

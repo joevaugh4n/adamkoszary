@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 
 interface Props {
@@ -12,14 +11,23 @@ interface Props {
 }
 
 const { background, author, quote, role, link, org } = Astro.props;
+
+function stripHtml(html: string) {
+  return html.replace(/<\/?[^>]+(>|$)/g, "");
+}
+
+const cleanAuthor = stripHtml(author);
+const cleanRole = stripHtml(role);
 ---
 
 <section
-  class={`text-black border-box py-8 my-8 lg:px-16 px-4 flex lg:items-center lg:w-fit lg:mx-auto flex-col ${background && "bg-slate-100"}`}
+  class={`text-black py-8 px-8 h-full flex items-center flex-col ${
+    background ? "bg-slate-100" : ""
+  }`}
 >
   <Icon name="tabler:quote" class="text-2xl mb-2" />
-  <p class="mb-2 prose leading-loose">"{quote}"</p>
-  <div class="flex flex-col items-end self-end">
-    <p class="font-bold">{author}, {role}</p>
+  <div class="mb-2 prose leading-loose flex-grow" set:html={quote} />
+  <div class="flex flex-col items-end self-end mt-auto">
+    <p class="font-bold">{cleanAuthor}, {cleanRole}</p>
   </div>
 </section>

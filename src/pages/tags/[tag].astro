@@ -56,6 +56,13 @@ const isNewTag = !currentTag;
 const otherActiveTags = allActiveTags
   .filter((t: TagProps) => t.name !== currentTag)
   .sort((a: TagProps, b: TagProps) => a.name.localeCompare(b.name));
+
+// Function to get valid tags for a post
+function getValidTags(post: PostProps): string[] {
+  return post.tags
+    .map((tagId) => tagMap[tagId])
+    .filter((tag): tag is string => typeof tag === 'string' && tag !== '');
+}
 ---
 
 <Subpage title={`Posts tagged with ${convertTagName(tag)}`}>
@@ -72,7 +79,7 @@ const otherActiveTags = allActiveTags
             title={post.title.rendered}
             slug={post.slug}
             prose={post.excerpt.rendered}
-            tags={post.tags.map((tagId) => tagMap[tagId] || "")}
+            tags={getValidTags(post)}
           />
         ))
       }

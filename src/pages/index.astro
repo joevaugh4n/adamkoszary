@@ -1,12 +1,13 @@
 ---
 // Astro imports
 import { Image } from "astro:assets";
+import { logWordpress } from "../lib/wordpress";
 
 // Components
 import Grid from "../components/Grid.astro";
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
-import Testimonial from "../components/Testimonial.astro";
+import Testimonials from "../components/Testimonials.astro";
 import Posts from "../components/Posts.astro";
 import Logo from "../components/Logo.astro";
 import Logos from "../components/Logos.astro";
@@ -15,20 +16,7 @@ import Logos from "../components/Logos.astro";
 import AdamHedge from "../../src/images/adam_hedge.webp";
 import ExampleLogo from "../../src/images/logoipsum.svg";
 
-/** 
-
-ADDING NEW SECTIONS
-
-If you need to add new sections, use the <Grid></Grid> component. You can use the component to automatically render content from a WordPress page, by including the 'slug' attribute:
-
-slug={INSERT_WORDPRESS_SLUG}
-
-Alternatively, you can include content within the middle of the <Grid></Grid>, e.g.
-
-<Grid title='Example title'>This will appear as section copy</Grid>.
-
-The only attribute the Grid component requires is the title. You don't need to use an image.
-*/
+logWordpress(); // Call the function
 ---
 
 <Layout title="Adam Koszary">
@@ -47,25 +35,12 @@ The only attribute the Grid component requires is the title. You don't need to u
     slug="principles"
     order="text-first"
   />
-  <Logos title="Previous clients">
-    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
-    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
-    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
-    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
-    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
-    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
-  </Logos>
-  <Testimonial
-    background
-    quote="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut maximus urna. Vestibulum sit amet sapien vel erat congue posuere. Etiam a elit tempor neque consequat consequat. Morbi mi justo, pretium in quam non, sagittis dictum felis. Proin sapien lacus, porttitor quis nisl ac, rutrum venenatis augue."
-    author="Lauren Ipsom"
-    role="Ipsom"
-    org="Lauren Ipsom"
-    link="https://laurenipsom.org"
-  />
+  <Testimonials />
   <Posts />
   <Grid title="Get in touch">
     Chatting to me is free, and I have a discount for smaller organisations
-    (less than £100k annual revenue). We can always work something out. <b>Contact form TBC</b>
+    (less than £100k annual revenue). We can always work something out. <b
+      >Contact form TBC</b
+    >
   </Grid>
 </Layout>

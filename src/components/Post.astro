@@ -38,7 +38,7 @@ const link = `/posts/${slug}`;
   <div class="flex gap-2 mt-2 flex-wrap">
     {
       tags &&
-        tags.map((tag) => (
+        tags.filter(Boolean).map((tag) => (
           <div class="bg-gray-200 px-3 py-1 rounded font-mono text-black">
             {convertTags(tag)}
           </div>
