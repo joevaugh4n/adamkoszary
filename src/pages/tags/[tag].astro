@@ -61,11 +61,14 @@ const otherActiveTags = allActiveTags
 function getValidTags(post: PostProps): string[] {
   return post.tags
     .map((tagId) => tagMap[tagId])
-    .filter((tag): tag is string => typeof tag === 'string' && tag !== '');
+    .filter((tag): tag is string => typeof tag === "string" && tag !== "");
 }
 ---
 
-<Subpage title={`Posts tagged with ${convertTagName(tag)}`}>
+<Subpage
+  description={`Posts tagged with ${convertTagName(tag)}, by Adam Koszary.`}
+  title={`Posts tagged with ${convertTagName(tag)}`}
+>
   <h1 class="mt-20 mb-8 text-2xl uppercase">
     ON <span class="italic">{convertTagName(tag)}</span>
   </h1>
