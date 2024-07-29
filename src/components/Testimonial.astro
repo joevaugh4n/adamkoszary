@@ -21,12 +21,12 @@ const cleanRole = stripHtml(role);
 ---
 
 <section
-  class={`text-black py-8 px-8 h-full flex items-center flex-col ${
-    background ? "bg-slate-100" : ""
+  class={`py-8 px-8 h-full flex items-center flex-col ${
+    background ? "bg-slate-100 text-black" : "dark:text-white"
   }`}
 >
   <Icon name="tabler:quote" class="text-2xl mb-2" />
-  <div class="mb-2 prose leading-loose flex-grow" set:html={quote} />
+  <div class={`mb-2 leading-loose flex-grow ${background ? '' : 'dark:text-white'}`} set:html={quote} />
   <div class="flex flex-col items-end self-end mt-auto">
     <p class="font-bold">{cleanAuthor}, {cleanRole}</p>
   </div>

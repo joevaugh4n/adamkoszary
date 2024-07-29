@@ -15,7 +15,7 @@ const layoutClass =
     ? "grid grid-cols-1"
     : testimonials.length === 2
       ? "grid grid-cols-1 md:grid-cols-2"
-      : "flex overflow-x-auto snap-x snap-mandatory scrollbar-hide";
+      : "flex overflow-x-auto snap-x snap-mandatory scrollbar scrollbar-track-[white]";
 
 // Determine the item class based on the number of testimonials
 const itemClass =
@@ -33,6 +33,7 @@ const itemClass =
     <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
     <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
   </Logos>
+
   <div
     class={`w-full overflow-hidden py-5 ${testimonials.length > 2 ? "overflow-x-auto" : ""}`}
   >
