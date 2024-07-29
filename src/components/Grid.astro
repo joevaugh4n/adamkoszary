@@ -20,6 +20,8 @@ interface Props {
   order?: "image-first" | "text-first";
   // Render bottom border. Defaults to true
   border?: boolean;
+  // Anchor, used for page links
+  anchor: string;
 }
 
 const {
@@ -31,6 +33,7 @@ const {
   slug,
   order = "image-first",
   border = true,
+  anchor,
 } = Astro.props;
 
 let content;
@@ -41,7 +44,7 @@ if (slug) {
 ---
 
 <section
-  id="services"
+  id={anchor}
   class={`${image ? "grid md:grid-cols-2" : "md:flex md:justify-center"} py-8 gap-x-16 gap-y-6 ${border && "border-b-2"} ${
     background && "bg-slate-100 px-4"
   }`}

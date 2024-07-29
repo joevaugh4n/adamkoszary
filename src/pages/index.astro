@@ -9,12 +9,9 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Posts from "../components/Posts.astro";
-import Logo from "../components/Logo.astro";
-import Logos from "../components/Logos.astro";
 
 // Images
 import AdamHedge from "../../src/images/adam_hedge.webp";
-import ExampleLogo from "../../src/images/logoipsum.svg";
 
 logWordpress(); // Call the function
 ---
@@ -27,8 +24,10 @@ logWordpress(); // Call the function
     alt="Adam Koszary"
     image={AdamHedge}
     slug="services"
+    anchor="services"
   />
   <Grid
+    anchor="principles"
     background
     title="How I Do It"
     alt="Adam Koszary"
@@ -37,10 +36,11 @@ logWordpress(); // Call the function
   />
   <Testimonials />
   <Posts />
-  <Grid title="Get in touch">
+  <Grid anchor="contact" title="Get in touch">
     Chatting to me is free, and I have a discount for smaller organisations
-    (less than £100k annual revenue). We can always work something out. <b
-      >Contact form TBC</b
-    >
+    (less than £100k annual revenue). We can always work something out. <a
+      href="mailto:adamkoszaryconsulting@gmail.com"
+      title="Get in touch">Get in touch</a
+    >.
   </Grid>
 </Layout>
