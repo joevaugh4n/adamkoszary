@@ -3,13 +3,14 @@ import Layout from "./Layout.astro";
 
 interface Props {
   title: string;
+  description: string;
 }
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
 
 // All styling here is handled by [slug].astro
 ---
 
-<Layout title={title}>
+<Layout title={title} description={description}>
   <slot />
 </Layout>
