@@ -1,12 +1,7 @@
 ---
 import Post from "../../layouts/Post.astro";
 import Tag from "../../components/Tag.astro";
-import {
-  fetchPosts,
-  fetchTags,
-  type PostProps,
-  type TagProps,
-} from "../../lib/wordpress";
+import { fetchPosts, fetchTags } from "../../lib/wordpress";
 
 export async function getStaticPaths() {
   const posts = await fetchPosts();
@@ -35,20 +30,25 @@ function formatDate(dateString: string) {
 }
 ---
 
-<Post title={post.title.rendered}>
+<Post title={post.title.rendered} description={post.excerpt.rendered}>
   <article class="max-w-3xl mx-auto py-8">
     <hgroup>
-    <h1 class="text-4xl uppercase mb-4">{post.title.rendered}</h1>
-    <p class="text-gray-600 dark:text-white mb-4">{formatDate(post.date)}</p>
+      <h1 class="text-4xl uppercase mb-4">{post.title.rendered}</h1>
+      <p class="text-gray-600 dark:text-white mb-4">{formatDate(post.date)}</p>
 
-    <div class="mb-6 flex gap-2 flex-wrap">
-      {post.tags.map((tagId) => {
-        const tagName = tagMap.get(tagId);
-        return tagName ? <Tag tag={tagName} /> : null;
-      })}
-    </div>
+      <div class="mb-6 flex gap-2 flex-wrap">
+        {
+          post.tags.map((tagId) => {
+            const tagName = tagMap.get(tagId);
+            return tagName ? <Tag tag={tagName} /> : null;
+          })
+        }
+      </div>
     </hgroup>
 
-    <div class="prose prose-lg dark:prose-invert" set:html={post.content.rendered} />
+    <div
+      class="prose prose-lg dark:prose-invert"
+      set:html={post.content.rendered}
+    />
   </article>
 </Post>

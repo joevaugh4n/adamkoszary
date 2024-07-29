@@ -70,15 +70,15 @@ export async function fetchPageBySlug(slug: string): Promise<PostProps | null> {
 export async function fetchTestimonialsPage(): Promise<string | null> {
   try {
     const res = await fetch(`${wordpressSite}/pages?slug=testimonials`);
-    if (!res.ok) throw new Error(`Error fetching testimonials page: ${res.statusText}`);
+    if (!res.ok)
+      throw new Error(`Error fetching testimonials page: ${res.statusText}`);
     const pages = await res.json();
     return pages.length > 0 ? pages[0].content.rendered : null;
   } catch (err: any) {
-    console.error('Error fetching testimonials page:', err);
+    console.error("Error fetching testimonials page:", err);
     return null;
   }
 }
-
 
 // Tags
 export function createTagMap(tags: TagProps[]): Map<number, string> {
