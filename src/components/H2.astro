@@ -1,11 +1,14 @@
 ---
 interface Props {
   title: string;
+  nodarkmode?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, nodarkmode = false } = Astro.props;
 ---
 
-<h2 class="md:text-4xl text-2xl md:mb-4 mb-2 uppercase font-medium">
+<h2
+  class={`md:text-4xl text-2xl md:mb-4 mb-2 uppercase font-medium ${nodarkmode && "text-black"}`}
+>
   {title}
 </h2>

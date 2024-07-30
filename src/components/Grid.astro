@@ -51,43 +51,43 @@ if (slug) {
 
 <section
   id={anchor}
-  class={`${image ? "grid md:grid-cols-2" : "md:flex md:justify-center"} py-8 gap-x-16 gap-y-6 ${border && "border-b-2"} ${
-    background && "bg-slate-100 px-4"
-  }`}
+  class={`${image ? "grid md:grid-cols-[1fr_2fr]" : "md:flex md:justify-center"} 
+    py-12 my-6 md:gap-x-12 gap-y-8 
+    ${background ? "bg-slate-100 dark:bg-slate-700 py-16 px-4 sm:px-6 lg:px-8 rounded-lg" : "border-b-2 border-gray-300 dark:border-gray-600"}
+  `}
 >
   <div
-    class={`image-container ${order === "text-first" ? "md:order-last" : ""}`}
+    class={`image-container ${order === "text-first" ? "md:order-last" : ""} 
+      ${background ? "md:pr-0" : "md:px-6"}`}
   >
     {
       image && alt && (
-        <Image
-          class="w-full rounded-sm"
-          alt={alt}
-          src={image}
-          loading={loading}
-        />
+        <Image class="w-full rounded" alt={alt} src={image} loading={loading} />
       )
     }
   </div>
 
   <article
-    class={`${order === "text-first" ? "md:order-first" : ""} ${background ? "dark:text-black" : "text-black dark:text-white"}`}
+    class={`${order === "text-first" ? "md:order-first" : ""} 
+      ${background ? "md:pl-0" : "md:px-6"}
+      text-black dark:text-white
+      flex flex-col`}
   >
     <H2 title={title} />
     <div
-      class={`prose dark:prose-invert text-pretty prose-p:leading-loose prose-p:mt-0 prose-p:mb-2 prose-ul:m-0 ${background ? "dark:text-black" : "text-black dark:text-white"}`}
+      class={`prose dark:prose-invert text-pretty 
+        prose-p:leading-relaxed prose-p:my-3 
+        prose-ul:my-3 prose-ul:pl-5 
+        text-black dark:text-white`}
     >
-      {error && <p class="text-red-500">Error loading content. Please try again later.</p>}
+      {
+        error && (
+          <p class="text-red-500">
+            Error loading content. Please try again later.
+          </p>
+        )
+      }
       {content ? <div set:html={content} /> : <slot />}
     </div>
   </article>
 </section>
-
-<style>
-  @media (max-width: 768px) {
-    .image-container,
-    article {
-      order: initial !important;
-    }
-  }
-</style>
