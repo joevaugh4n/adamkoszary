@@ -1,0 +1,44 @@
+---
+import Subpage from "../../layouts/Subpage.astro";
+import { fetchPosts, fetchTags, createTagMap } from "../../lib/wordpress";
+import Post from "../../components/Post.astro";
+
+const posts = await fetchPosts();
+const tags = await fetchTags();
+const tagMap = createTagMap(tags);
+
+// Sort posts by date, most recent first
+const sortedPosts = posts.sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
+
+// Function to get tag names from tag IDs
+function getTagNames(tagIds: number[]): string[] {
+  return tagIds.map((id) => tagMap.get(id) || "").filter(Boolean);
+}
+
+// Function to truncate the content for the excerpt
+function truncateContent(content: string, maxLength: number = 150): string {
+  const stripped = content.replace(/<[^>]*>/g, "");
+  return stripped.length > maxLength
+    ? stripped.slice(0, maxLength) + "..."
+    : stripped;
+}
+---
+
+<Subpage description="All blog posts by Adam Koszary." title="All Posts">
+  <h1 class="mt-20 mb-8 text-2xl uppercase">ALL POSTS</h1>
+  <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+    {
+      sortedPosts.map((post) => (
+        <Post
+          slug={post.slug}
+          title={post.title.rendered}
+          date={post.date}
+          prose={truncateContent(post.content.rendered)}
+          tags={getTagNames(post.tags)}
+        />
+      ))
+    }
+  </div>
+</Subpage>

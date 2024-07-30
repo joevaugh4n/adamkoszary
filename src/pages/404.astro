@@ -1,0 +1,14 @@
+---
+import Button from "../components/Button.astro";
+import Layout from "../layouts/Layout.astro";
+import H2 from "../components/H2.astro";
+---
+
+<Layout title="404" description="404" noindex={true}>
+  <header class="mt-20">
+    <H2 title="404: Page not found" />
+    <a href="/" title="Return to homepage"
+      ><Button caption="Return to homepage" /></a
+    >
+  </header>
+</Layout>

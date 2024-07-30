@@ -37,9 +37,15 @@ const {
 } = Astro.props;
 
 let content;
+let error;
 if (slug) {
-  const page = await fetchPageBySlug(slug);
-  content = page ? page.content.rendered : null;
+  try {
+    const page = await fetchPageBySlug(slug);
+    content = page ? page.content.rendered : null;
+  } catch (e) {
+    error = e;
+    console.error(`Error fetching content for slug "${slug}":`, e);
+  }
 }
 ---
 
@@ -71,6 +77,7 @@ if (slug) {
     <div
       class={`prose dark:prose-invert text-pretty prose-p:leading-loose prose-p:mt-0 prose-p:mb-2 prose-ul:m-0 ${background ? "dark:text-black" : "text-black dark:text-white"}`}
     >
+      {error && <p class="text-red-500">Error loading content. Please try again later.</p>}
       {content ? <div set:html={content} /> : <slot />}
     </div>
   </article>

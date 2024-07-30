@@ -2,14 +2,49 @@
 import Footer from "../components/Footer.astro";
 import Nav from "../components/Nav.astro";
 import { ViewTransitions } from "astro:transitions";
+import AdamOGImage from "../../src/images/opengraph.jpg";
 
-// To do - add open graph image
-interface Props {
-  title: string;
-  description: string;
+enum OGType {
+  Website = "website",
+  Article = "article",
+  Book = "book",
+  Profile = "profile",
+  MusicSong = "music.song",
+  MusicAlbum = "music.album",
+  MusicPlaylist = "music.playlist",
+  MusicRadioStation = "music.radio_station",
+  VideoMovie = "video.movie",
+  VideoEpisode = "video.episode",
+  VideoTVShow = "video.tv_show",
+  VideoOther = "video.other",
 }
 
-const { title, description } = Astro.props;
+interface Props {
+  // Page title
+  title: string;
+  // Meta description
+  description: string;
+  // Should this page be noindexed? Defaults to false
+  noindex?: boolean;
+  // Set a canonical URL for this page
+  canonicalUrl?: string;
+  // Define og image
+  ogImage?: ImageMetadata;
+  // og type properties. Defaults to website
+  ogType?: OGType;
+  // Twitter card content
+  twitterCard?: string;
+}
+
+const {
+  title,
+  description,
+  noindex = false,
+  canonicalUrl,
+  ogImage = AdamOGImage,
+  ogType = "website",
+  twitterCard = "summary_large_image",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -23,11 +58,13 @@ const { title, description } = Astro.props;
       rel="stylesheet"
     />
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
     <meta
       name="description"
       content={description ? description : "No description provided"}
     />
-    <meta name="viewport" content="width=device-width" />
+    {noindex && <meta name="robots" content="noindex" />}
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -36,6 +73,20 @@ const { title, description } = Astro.props;
     <meta name="theme-color" content="#ffffff" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {ogImage && <meta property="og:image" content={ogImage.src} />}
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content={twitterCard} />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    {ogImage && <meta property="twitter:image" content={ogImage.src} />}
   </head>
   <body class="min-h-screen flex flex-col px-8 my-2">
     <Nav />

@@ -7,7 +7,20 @@ import Logos from "./Logos.astro";
 import ExampleLogo from "../../src/images/logoipsum.svg";
 
 const pageContent = await fetchTestimonialsPage();
-const testimonials = pageContent ? parseTestimonials(pageContent) : [];
+// const testimonials = pageContent ? parseTestimonials(pageContent) : [];
+
+const mockedData = [
+  {
+    background: false,
+    author: "Joe Biden",
+    quote: "My fellow Americans",
+    role: "President",
+    org: "United States of America",
+    link: "whitehouse.gov",
+  },
+];
+
+const testimonials = mockedData;
 
 // Determine the layout class based on the number of testimonials
 const layoutClass =

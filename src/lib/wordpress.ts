@@ -26,35 +26,75 @@ export interface TagProps {
   name: string;
 }
 
-// Fetch posts
+// Fallback data
+const fallbackPosts: PostProps[] = [
+  // Add some sample posts here
+];
+
+const fallbackTags: TagProps[] = [
+  // Add some sample tags here
+];
+
+// Fetch posts with fallback
 export async function fetchPosts(): Promise<PostProps[]> {
-  return fetchWithRetry(`${wordpressSite}/posts/`);
+  try {
+    return await fetchWithRetry(`${wordpressSite}/posts/`);
+  } catch (error) {
+    console.error('Failed to fetch posts, using fallback data', error);
+    return fallbackPosts;
+  }
 }
 
-// Fetch tags
+// Fetch tags with fallback
 export async function fetchTags(): Promise<TagProps[]> {
-  return fetchWithRetry(`${wordpressSite}/tags?_fields=id,name`);
+  try {
+    return await fetchWithRetry(`${wordpressSite}/tags?_fields=id,name`);
+  } catch (error) {
+    console.error('Failed to fetch tags, using fallback data', error);
+    return fallbackTags;
+  }
 }
 
-// Fetch page by slug
+// Fetch page by slug with fallback
 export async function fetchPageBySlug(slug: string): Promise<PostProps | null> {
-  const pages = await fetchWithRetry(`${wordpressSite}/pages?slug=${slug}`);
-  return pages.length > 0 ? pages[0] : null;
+  try {
+    const pages = await fetchWithRetry(`${wordpressSite}/pages?slug=${slug}`);
+    return pages.length > 0 ? pages[0] : null;
+  } catch (error) {
+    console.error(`Failed to fetch page with slug ${slug}, returning null`, error);
+    return null;
+  }
 }
 
-// Fetch testimonials
+// Fetch testimonials with fallback
 export async function fetchTestimonialsPage(): Promise<string | null> {
-  const pages = await fetchWithRetry(`${wordpressSite}/pages?slug=testimonials`);
-  return pages.length > 0 ? pages[0].content.rendered : null;
+  try {
+    const pages = await fetchWithRetry(`${wordpressSite}/pages?slug=testimonials`);
+    return pages.length > 0 ? pages[0].content.rendered : null;
+  } catch (error) {
+    console.error('Failed to fetch testimonials, returning null', error);
+    return null;
+  }
 }
 
-// General fetch function with retry logic
-async function fetchWithRetry(url: string, options = {}, retries = 3, backoff = 300) {
+// General fetch function with retry logic and timeout
+async function fetchWithRetry(url: string, options: RequestInit = {}, retries = 3, backoff = 300): Promise<any> {
+  const timeout = 10000; // 10 seconds timeout
+
   for (let i = 0; i < retries; i++) {
     try {
-      const res = await fetch(url, options);
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
+
+      const res = await fetch(url, { ...options, signal: controller.signal });
+      clearTimeout(id);
+
       if (!res.ok) throw new Error(`Error fetching: ${res.statusText}`);
-      return await res.json();
+      const data = await res.json();
+
+      // Check for circular references before returning
+      JSON.stringify(data); // This will throw an error if there's a circular reference
+      return data;
     } catch (err: any) {
       console.error(`Fetch attempt ${i + 1} failed:`, err.message);
       if (i < retries - 1) {
