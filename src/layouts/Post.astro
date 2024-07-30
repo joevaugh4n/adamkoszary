@@ -1,5 +1,5 @@
 ---
-import Layout from "./Layout.astro";
+import Layout, {OGType} from "./Layout.astro";
 
 interface Props {
   title: string;
@@ -11,6 +11,6 @@ const { title, description } = Astro.props;
 // All styling here is handled by [slug].astro
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} ogType={OGType.Article}>
   <slot />
 </Layout>

@@ -4,12 +4,22 @@ import { parseTestimonials } from "../lib/testimonials";
 import Testimonial from "../components/Testimonial.astro";
 import Logo from "./Logo.astro";
 import Logos from "./Logos.astro";
-import ExampleLogo from "../../src/images/logoipsum.svg";
+
+// Logos – use svg (ideally) or webp where svgs aren't available
+import HistoricEngland from "../../src/images/historicengland.svg";
+import TripleC from "../../src/images/triplec.webp";
+import LondonArtStudies from "../../src/images/londonartstudies.webp";
+import Unboxed from "../../src/images/unboxed.webp";
+import GoodLawProject from "../../src/images/goodlawproject.svg";
+import BM from "../../src/images/bm.svg";
+import BletchleyPark from "../../src/images/bp.svg";
+import MuseumsAssociation from "../../src/images/museumsassociation.svg";
+import MuseumsGalleriesEdinburgh from "../../src/images/museumsgalleriesedinburgh.webp";
 
 const pageContent = await fetchTestimonialsPage();
-// const testimonials = pageContent ? parseTestimonials(pageContent) : [];
+const testimonials = pageContent ? parseTestimonials(pageContent) : [];
 
-const mockedData = [
+/** const mockedData = [
   {
     background: false,
     author: "Joe Biden",
@@ -21,6 +31,7 @@ const mockedData = [
 ];
 
 const testimonials = mockedData;
+*/
 
 // Determine the layout class based on the number of testimonials
 const layoutClass =
@@ -39,32 +50,63 @@ const itemClass =
 
 <section>
   <Logos title="Previous clients">
-    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
-    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
-    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
-    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
-    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
-    <Logo org="Logo Ipsum" src={ExampleLogo} url="https://loremipsum.com" />
+    <Logo org="British Museum" src={BM} url="https://www.britishmuseum.org/" />
+    <Logo
+      org="Historic England"
+      src={HistoricEngland}
+      url="https://historicengland.org.uk/"
+    />
+    <Logo
+      org="Good Law Project"
+      src={GoodLawProject}
+      url="https://goodlawproject.org/"
+    />
+    <Logo
+      org="Museums Association"
+      src={MuseumsAssociation}
+      url="https://www.museumsassociation.org/"
+    />
+    <Logo
+      org="Bletchley Park"
+      src={BletchleyPark}
+      url="https://bletchleypark.org.uk/"
+    />
+    <Logo org="Triple C" src={TripleC} url="https://triplec.org.uk/" />
+    <Logo
+      org="London Art Studies"
+      src={LondonArtStudies}
+      url="https://londonartstudies.com/"
+    />
+    <Logo org="Unboxed 2022" src={Unboxed} url="https://unboxed2022.uk/" />
+    <Logo
+      org="Museums & Galleries Edinburgh"
+      src={MuseumsGalleriesEdinburgh}
+      url="https://www.edinburghmuseums.org.uk/"
+    />
   </Logos>
 
-  <div
-    class={`w-full overflow-hidden py-5 ${testimonials.length > 2 ? "overflow-x-auto" : ""}`}
-  >
-    <div class={layoutClass}>
-      {
-        testimonials.map((testimonial, index) => (
-          <div class={`${itemClass} px-2.5`}>
-            <Testimonial
-              background={index % 2 === 0}
-              author={testimonial.author}
-              quote={testimonial.quote}
-              role={testimonial.role}
-              link={testimonial.link}
-              org={testimonial.org}
-            />
-          </div>
-        ))
-      }
-    </div>
-  </div>
+  {
+    testimonials.length == 0 ? (
+      ""
+    ) : (
+      <div
+        class={`w-full overflow-hidden py-5 ${testimonials.length > 2 ? "overflow-x-auto" : ""}`}
+      >
+        <div class={layoutClass}>
+          {testimonials.map((testimonial, index) => (
+            <div class={`${itemClass} px-2.5`}>
+              <Testimonial
+                background={index % 2 === 0}
+                author={testimonial.author}
+                quote={testimonial.quote}
+                role={testimonial.role}
+                link={testimonial.link}
+                org={testimonial.org}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
 </section>

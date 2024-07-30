@@ -4,7 +4,8 @@ import Nav from "../components/Nav.astro";
 import { ViewTransitions } from "astro:transitions";
 import AdamOGImage from "../../src/images/opengraph.jpg";
 
-enum OGType {
+// OGType options
+export enum OGType {
   Website = "website",
   Article = "article",
   Book = "book",
@@ -42,7 +43,7 @@ const {
   noindex = false,
   canonicalUrl,
   ogImage = AdamOGImage,
-  ogType = "website",
+  ogType = OGType.Website,
   twitterCard = "summary_large_image",
 } = Astro.props;
 ---
