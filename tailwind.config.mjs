@@ -14,7 +14,7 @@ export default {
     },
   },
   plugins: [
-    require("@tailwindcss/typography", 'tailwind-scrollbar'),
+    require("@tailwindcss/typography", '@tailwindcss/aspect-ratio'),
     // ...
   ],
 };

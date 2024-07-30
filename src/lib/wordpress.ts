@@ -5,6 +5,10 @@ export function logWordpress() {
   console.log(`WP site is: ${wordpressSite}`);
 }
 
+export interface FeaturedMedia {
+  source_url: string;
+}
+
 export interface PostProps {
   id: number;
   slug: string;
@@ -19,6 +23,7 @@ export interface PostProps {
     rendered: string;
   };
   tags: number[];
+  featured_media?: FeaturedMedia;
 }
 
 export interface TagProps {
@@ -38,9 +43,14 @@ const fallbackTags: TagProps[] = [
 // Fetch posts with fallback
 export async function fetchPosts(): Promise<PostProps[]> {
   try {
-    return await fetchWithRetry(`${wordpressSite}/posts/`);
+    const posts = await fetchWithRetry(`${wordpressSite}/posts?_embed`);
+    return posts.map((post: any) => ({
+      ...post,
+      featured_media:
+        post._embedded?.["wp:featuredmedia"]?.[0] || null, // Correctly map the entire object
+    }));
   } catch (error) {
-    console.error('Failed to fetch posts, using fallback data', error);
+    console.error("Failed to fetch posts, using fallback data", error);
     return fallbackPosts;
   }
 }
@@ -50,7 +60,7 @@ export async function fetchTags(): Promise<TagProps[]> {
   try {
     return await fetchWithRetry(`${wordpressSite}/tags?_fields=id,name`);
   } catch (error) {
-    console.error('Failed to fetch tags, using fallback data', error);
+    console.error("Failed to fetch tags, using fallback data", error);
     return fallbackTags;
   }
 }
@@ -61,7 +71,10 @@ export async function fetchPageBySlug(slug: string): Promise<PostProps | null> {
     const pages = await fetchWithRetry(`${wordpressSite}/pages?slug=${slug}`);
     return pages.length > 0 ? pages[0] : null;
   } catch (error) {
-    console.error(`Failed to fetch page with slug ${slug}, returning null`, error);
+    console.error(
+      `Failed to fetch page with slug ${slug}, returning null`,
+      error
+    );
     return null;
   }
 }
@@ -69,16 +82,23 @@ export async function fetchPageBySlug(slug: string): Promise<PostProps | null> {
 // Fetch testimonials with fallback
 export async function fetchTestimonialsPage(): Promise<string | null> {
   try {
-    const pages = await fetchWithRetry(`${wordpressSite}/pages?slug=testimonials`);
+    const pages = await fetchWithRetry(
+      `${wordpressSite}/pages?slug=testimonials`
+    );
     return pages.length > 0 ? pages[0].content.rendered : null;
   } catch (error) {
-    console.error('Failed to fetch testimonials, returning null', error);
+    console.error("Failed to fetch testimonials, returning null", error);
     return null;
   }
 }
 
 // General fetch function with retry logic and timeout
-async function fetchWithRetry(url: string, options: RequestInit = {}, retries = 3, backoff = 300): Promise<any> {
+async function fetchWithRetry(
+  url: string,
+  options: RequestInit = {},
+  retries = 3,
+  backoff = 300
+): Promise<any> {
   const timeout = 10000; // 10 seconds timeout
 
   for (let i = 0; i < retries; i++) {
@@ -99,10 +119,10 @@ async function fetchWithRetry(url: string, options: RequestInit = {}, retries = 
       console.error(`Fetch attempt ${i + 1} failed:`, err.message);
       if (i < retries - 1) {
         console.log(`Retrying in ${backoff}ms...`);
-        await new Promise(resolve => setTimeout(resolve, backoff));
+        await new Promise((resolve) => setTimeout(resolve, backoff));
         backoff *= 2; // Exponential backoff
       } else {
-        console.error('All fetch attempts failed');
+        console.error("All fetch attempts failed");
         throw err;
       }
     }
@@ -114,11 +134,17 @@ export function createTagMap(tags: TagProps[]): Map<number, string> {
   return new Map(tags.map((tag) => [tag.id, tag.name]));
 }
 
-export function filterActiveTags(tags: TagProps[], posts: PostProps[]): TagProps[] {
+export function filterActiveTags(
+  tags: TagProps[],
+  posts: PostProps[]
+): TagProps[] {
   return tags.filter((tag) => posts.some((post) => post.tags.includes(tag.id)));
 }
 
-export function groupPostsByTag(posts: PostProps[], tagMap: Map<number, string>): Map<string, PostProps[]> {
+export function groupPostsByTag(
+  posts: PostProps[],
+  tagMap: Map<number, string>
+): Map<string, PostProps[]> {
   const postsByTag = new Map<string, PostProps[]>();
   posts.forEach((post) => {
     post.tags.forEach((tagId) => {

@@ -1,6 +1,7 @@
 ---
 import Post from "../../layouts/Post.astro";
 import Tag from "../../components/Tag.astro";
+import { Image } from "astro:assets";
 import { fetchPosts, fetchTags } from "../../lib/wordpress";
 
 export async function getStaticPaths() {
@@ -32,6 +33,19 @@ function formatDate(dateString: string) {
 
 <Post title={post.title.rendered} description={post.excerpt.rendered}>
   <article class="max-w-3xl mx-auto py-8">
+    {
+      post.featured_media?.source_url && (
+        <div class="mb-8 relative" style={{ paddingBottom: "56.25%" }}>
+          <Image
+            inferSize
+            src={post.featured_media.source_url}
+            alt={post.title.rendered}
+            class="absolute inset-0 w-full h-full object-cover rounded-sm" loading="eager"
+          />
+        </div>
+      )
+    }
+
     <hgroup>
       <h1 class="text-4xl uppercase mb-4">{post.title.rendered}</h1>
       <p class="text-gray-600 dark:text-white mb-4">{formatDate(post.date)}</p>
