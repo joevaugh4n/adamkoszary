@@ -9,11 +9,11 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Posts from "../components/Posts.astro";
+import Services from "../components/Services.tsx";
 
 // Images
-import AdamHedge from "../../src/images/adam_hedge.webp";
-
-logWordpress(); // Call the function
+import AdamPhones from "../../src/images/adam_phones.webp";
+import GoViral from "../../src/images/go_viral.webp";
 ---
 
 <Layout
@@ -24,25 +24,28 @@ logWordpress(); // Call the function
   <Grid
     loading="lazy"
     title="How I Can Help"
-    alt="Adam Koszary"
-    image={AdamHedge}
-    slug="services"
+    alt="How does one go viral?"
     anchor="services"
-  />
+    order="text-first"
+  >
+    <Services client:load />
+  </Grid>
   <Grid
     anchor="principles"
     background
     title="How I Do It"
+    image={AdamPhones}
     alt="Adam Koszary"
     slug="principles"
-    order="text-first"
+    order="image-first"
   />
+
   <Testimonials />
   <Posts />
   <Grid anchor="contact" title="Get in touch">
     Chatting to me is free, and I have a discount for smaller organisations
     (less than £100k annual revenue). We can always work something out. <a
-      href="mailto:adamkoszaryconsulting@gmail.com"
+      href="mailto:adamkoszaryconsulting@gmail.com" class="font-semibold underline"
       title="Get in touch">Get in touch</a
     >.
   </Grid>

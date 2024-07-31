@@ -4,23 +4,14 @@ import { fetchPageBySlug } from "../lib/wordpress";
 import H2 from "./H2.astro";
 
 interface Props {
-  /** The section title, e.g. 'Principles, What I Do'. Renders in uppercase. */
   title: string;
-  /** The section hero image. */
   image?: ImageMetadata | undefined;
-  /** Section hero image alt text. */
   alt?: string | undefined;
-  /** Do you want a background colour? */
   background?: boolean;
-  /** If section appears at the top of the page, use 'eager'. Else, use 'lazy' or simply ignore to set lazy loading automatically. */
   loading?: "eager" | "lazy";
-  /** Slug for WordPress page. For example: 'principles' would load content from 'https://test113736.wordpress.com/principles/' */
   slug?: string;
-  // Whether the image or text should appear first
   order?: "image-first" | "text-first";
-  // Render bottom border. Defaults to true
   border?: boolean;
-  // Anchor, used for page links
   anchor: string;
 }
 
@@ -49,45 +40,64 @@ if (slug) {
 }
 ---
 
-<section
-  id={anchor}
-  class={`${image ? "grid md:grid-cols-[1fr_2fr]" : "md:flex md:justify-center"} 
-    py-12 my-6 md:gap-x-12 gap-y-8 
-    ${background ? "bg-slate-100 dark:bg-slate-700 py-16 px-4 sm:px-6 lg:px-8 rounded-lg" : "border-b-2 border-gray-300 dark:border-gray-600"}
-  `}
+<!-- Border wrapper -->
+<div
+  class={`my-6 ${border && "border-b-2 border-gray-300 dark:border-gray-600 pb-6"}`}
 >
-  <div
-    class={`image-container ${order === "text-first" ? "md:order-last" : ""} 
-      ${background ? "md:pr-0" : "md:px-6"}`}
+  <!-- Main wrapper -->
+  <section
+    id={anchor}
+    class={`
+    py-12 flex justify-center items-center
+    ${background ? "bg-slate-100 dark:bg-slate-700 py-16 px-4 sm:px-6 lg:px-8 rounded-lg" : ""}
+  `}
   >
-    {
-      image && alt && (
-        <Image class="w-full rounded" alt={alt} src={image} loading={loading} />
-      )
-    }
-  </div>
-
-  <article
-    class={`${order === "text-first" ? "md:order-first" : ""} 
-      ${background ? "md:pl-0" : "md:px-6"}
-      text-black dark:text-white
-      flex flex-col`}
-  >
-    <H2 title={title} />
+    <!-- Content container -->
     <div
-      class={`prose dark:prose-invert text-pretty 
-        prose-p:leading-relaxed prose-p:my-3 
-        prose-ul:my-3 prose-ul:pl-5 
-        text-black dark:text-white`}
+      class={`w-full max-w-6xl flex ${image ? "lg:flex-row flex-col lg:gap-12 gap-8 lg:items-start" : "flex-col"} items-center`}
     >
-      {
-        error && (
-          <p class="text-red-500">
-            Error loading content. Please try again later.
-          </p>
-        )
-      }
-      {content ? <div set:html={content} /> : <slot />}
+      {image && (
+        <!-- Image wrapper -->
+        <div
+          class={`lg:w-2/5 md:w-1/2 w-full flex justify-center ${
+            order === "image-first" ? "lg:order-first" : "lg:order-last"
+          } order-first`}
+        >
+          {alt && (
+            <div class="w-full max-w-md aspect-square relative overflow-hidden rounded-lg shadow-lg">
+              <Image
+                class="object-cover object-center w-full h-full"
+                alt={alt}
+                src={image}
+                loading={loading}
+                title={alt}
+              />
+            </div>
+          )}
+        </div>
+      )}
+
+      <!-- Text wrapper -->
+      <article
+        class={`${image ? "lg:w-3/5" : ""} w-full flex flex-col ${image ? (order === "image-first" ? "lg:order-last" : "lg:order-first") : ""} order-last`}
+      >
+        <div
+          class={`w-full ${background ? "" : "px-4"} text-black dark:text-white`}
+        >
+          <H2 title={title} />
+          <div
+            class={`text-black dark:text-white ${slug ? 'prose dark:prose-invert text-pretty prose-p:leading-relaxed prose-p:my-3 prose-ul:my-3 prose-ul:pl-5' : ''}`}>
+            {
+              error && (
+                <p class="text-red-500">
+                  Error loading content. Please try again later.
+                </p>
+              )
+            }
+            {content ? <div set:html={content} /> : <slot />}
+          </div>
+        </div>
+      </article>
     </div>
-  </article>
-</section>
+  </section>
+</div>
