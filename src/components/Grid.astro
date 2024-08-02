@@ -29,6 +29,7 @@ const {
 
 let content;
 let error;
+
 if (slug) {
   try {
     const page = await fetchPageBySlug(slug);
@@ -56,37 +57,40 @@ if (slug) {
     <div
       class={`w-full max-w-6xl flex ${image ? "lg:flex-row flex-col lg:gap-12 gap-8 lg:items-start" : "flex-col"} items-center`}
     >
-      {image && (
-        <!-- Image wrapper -->
-        <div
-          class={`lg:w-2/5 md:w-1/2 w-full flex justify-center ${
-            order === "image-first" ? "lg:order-first" : "lg:order-last"
-          } order-first`}
-        >
-          {alt && (
-            <div class="w-full md:max-w-md aspect-square relative overflow-hidden rounded-sm">
-              <Image
-                class="object-cover object-center w-full h-full"
-                alt={alt}
-                src={image}
-                loading={loading}
-                title={alt}
-              />
-            </div>
-          )}
-        </div>
-      )}
+      {
+        image && (
+          // Image wrapper
+          <div
+            class={`lg:w-2/5 md:w-1/2 w-full flex justify-center ${
+              order === "image-first" ? "lg:order-first" : "lg:order-last"
+            } order-first`}
+          >
+            {alt && (
+              <div class="w-full md:max-w-md aspect-square relative overflow-hidden rounded-sm">
+                <Image
+                  class="object-cover object-center w-full h-full"
+                  alt={alt}
+                  src={image}
+                  loading={loading}
+                  title={alt}
+                />
+              </div>
+            )}
+          </div>
+        )
+      }
 
       <!-- Text wrapper -->
       <article
         class={`${image ? "lg:w-3/5" : ""} w-full flex flex-col ${image ? (order === "image-first" ? "lg:order-last" : "lg:order-first") : ""} order-last`}
       >
         <div
-          class={`w-full ${background ? "" : "px-4"} text-black dark:text-white`}
+          class={`w-full text-black dark:text-white`}
         >
           <H2 title={title} />
           <div
-            class={`text-black dark:text-white ${slug ? 'prose dark:prose-invert text-pretty prose-p:leading-relaxed prose-p:my-3 prose-ul:my-3 prose-ul:pl-5' : ''}`}>
+            class={`text-black dark:text-white ${slug ? "prose dark:prose-invert text-pretty prose-p:leading-relaxed prose-p:my-3 prose-ul:my-3 prose-ul:pl-5" : ""}`}
+          >
             {
               error && (
                 <p class="text-red-500">

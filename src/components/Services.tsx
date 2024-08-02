@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchPageBySlug } from '../lib/wordpress';
 import Drawer from './Drawer'; // Make sure this is also a React component
+import Keith from '../images/keith.webp';
 
 interface Service {
     title: string;
@@ -32,9 +33,16 @@ export default function Services() {
     return (
         <div className='grid md:grid-cols-2 w-full mt-8 gap-x-8 gap-y-8'>
             {services.map((service, index) => (
-                <Drawer key={index} title={service.title}>
-                    <p>{service.description}</p>
-                </Drawer>
+                service.title.includes("Keith") ?
+                    <Drawer key={index} title={service.title}>
+                        <p>{service.description}</p>
+                        <img src={Keith.src} alt='Keith, a fox terrier' title='Keith, a fox terrier' className='rounded-sm' />
+                        <div className='text-center text-sm'>Meet Keith</div>
+                    </Drawer>
+                    :
+                    <Drawer key={index} title={service.title}>
+                        <p>{service.description}</p>
+                    </Drawer>
             ))}
         </div>
     );

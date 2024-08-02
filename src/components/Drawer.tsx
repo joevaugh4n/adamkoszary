@@ -1,6 +1,7 @@
 import { useState, useCallback, type ReactNode, useRef, useEffect } from "react";
 
 export interface DrawerProps {
+    // The drawer title
     title: string;
     children: ReactNode;
 }
@@ -65,7 +66,7 @@ export default function Drawer({ title, children }: DrawerProps) {
             <div
                 className={`overflow-hidden transition-all duration-300 ease-in-out ${open ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}
             >
-                <div className="prose dark:text-white p-2">
+                <div className="prose dark:text-white p-2 prose-img:mb-2">
                     {children}
                 </div>
             </div>
