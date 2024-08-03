@@ -1,88 +1,91 @@
 ---
 import Subpage from "../../layouts/Subpage.astro";
 import Post from "../../components/Post.astro";
-import {
-  fetchPosts,
-  fetchTags,
-  createTagMap,
-  filterActiveTags,
-  convertTagName,
-  type PostProps,
-  type TagProps,
-} from "../../lib/wordpress";
-import TagCard from "../../components/Tag.astro";
+import TagCard from "../../components/atoms/Tag.astro";
+import { wpquery } from "../../lib/wordpress";
 
 export async function getStaticPaths() {
-  const tags: TagProps[] = await fetchTags();
-  const posts: PostProps[] = await fetchPosts();
-
-  const tagMap = createTagMap(tags);
-  const activeTags = filterActiveTags(tags, posts);
-
-  return activeTags.map((tag: TagProps) => {
-    const filteredPosts = posts.filter((post: PostProps) =>
-      post.tags.includes(tag.id)
-    );
-
-    return {
-      params: { tag: tag.name },
-      props: {
-        filteredPosts,
-        currentTag: tag.name,
-        tagMap: Object.fromEntries(tagMap),
-        allActiveTags: activeTags,
-      },
-    };
+  const data = await wpquery({
+    query: `
+      query GetTags {
+        tags(first: 1000) {
+          nodes {
+            name
+            slug
+            count
+          }
+        }
+      }
+    `,
   });
+
+  return data.tags.nodes.map((tag: any) => ({
+    params: { tag: tag.slug },
+    props: { tagSlug: tag.slug },
+  }));
 }
 
-const { tag } = Astro.params;
-const {
-  filteredPosts,
-  currentTag,
-  tagMap,
-  allActiveTags,
-}: {
-  filteredPosts: PostProps[];
-  currentTag: string;
-  tagMap: { [key: number]: string };
-  allActiveTags: TagProps[];
-} = Astro.props;
+const { tagSlug } = Astro.props;
 
-// Fallback for new tags
-const isNewTag = !currentTag;
+// Fetch tag data, posts, and other active tags
+const data = await wpquery({
+  query: `
+    query GetTagData($slug: ID!) {
+      tag(id: $slug, idType: SLUG) {
+        name
+        slug
+        posts {
+          nodes {
+            title
+            date
+            excerpt
+            slug
+            tags {
+              nodes {
+                name
+                slug
+              }
+            }
+          }
+        }
+      }
+      tags(first: 1000) {
+        nodes {
+          name
+          slug
+          count
+        }
+      }
+    }
+  `,
+  variables: { slug: tagSlug },
+});
 
-// Sort tags alphabetically and exclude the current tag
-const otherActiveTags = allActiveTags
-  .filter((t: TagProps) => t.name !== currentTag)
-  .sort((a: TagProps, b: TagProps) => a.name.localeCompare(b.name));
-
-// Function to get valid tags for a post
-function getValidTags(post: PostProps): string[] {
-  return post.tags
-    .map((tagId) => tagMap[tagId])
-    .filter((tag): tag is string => typeof tag === "string" && tag !== "");
-}
+const tag = data.tag;
+const posts = data.tag.posts.nodes;
+const otherActiveTags = data.tags.nodes.filter(
+  (t: any) => t.slug !== tagSlug && t.count > 0,
+);
 ---
 
 <Subpage
-  description={`Posts tagged with ${convertTagName(tag)}, by Adam Koszary.`}
-  title={`Posts tagged with ${convertTagName(tag)}`}
+  description={`Posts tagged with ${tag.name}, by Adam Koszary.`}
+  title={`Posts tagged with ${tag.name}`}
 >
   <h1 class="mt-20 mb-8 text-2xl uppercase">
-    ON <span class="italic">{convertTagName(tag)}</span>
+    ON <span class="italic">{tag.name}</span>
   </h1>
 
   <section class="grid md:grid-cols-[2fr_1fr] gap-8">
     <div class="grid lg:grid-cols-2 gap-x-8 gap-y-4">
       {
-        filteredPosts.map((post: PostProps) => (
+        posts.map((post: any) => (
           <Post
             date={post.date}
-            title={post.title.rendered}
+            title={post.title}
             slug={post.slug}
-            prose={post.excerpt.rendered}
-            tags={getValidTags(post)}
+            prose={post.excerpt}
+            tags={post.tags.nodes}
           />
         ))
       }
@@ -90,7 +93,11 @@ function getValidTags(post: PostProps): string[] {
     <aside class="md:border-l md:pl-4 md:border-t-0 md:pt-0 border-t pt-4">
       <h2 class="text-xl mb-4">OTHER TAGS</h2>
       <ul class="flex flex-wrap gap-2">
-        {otherActiveTags.map((tag: TagProps) => <TagCard tag={tag.name} />)}
+        {
+          otherActiveTags.map((activeTag: any) => (
+            <TagCard tag={activeTag.name} />
+          ))
+        }
       </ul>
     </aside>
   </section>

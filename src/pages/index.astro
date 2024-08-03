@@ -1,8 +1,4 @@
 ---
-// Astro imports
-import { Image } from "astro:assets";
-import { logWordpress } from "../lib/wordpress";
-
 // Components
 import Grid from "../components/Grid.astro";
 import Layout from "../layouts/Layout.astro";
@@ -10,46 +6,62 @@ import Header from "../components/Header.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Posts from "../components/Posts.astro";
 import Services from "../components/Services.tsx";
+import HR from "../components/atoms/HR.astro";
 
 // Images
 import AdamPhones from "../../src/images/adam_phones.webp";
-import GoViral from "../../src/images/go_viral.webp";
+
+// API calls
+import { wpquery } from "../lib/wordpress";
+
+const data = await wpquery({
+  query: `
+        query GetPageContent {
+          pages {
+            nodes {
+              slug
+              content(format: RENDERED)
+              title
+            }
+          }
+        }
+      `,
+});
+
+console.log(data.pages.nodes);
 ---
 
 <Layout
   description="Adam Koszary is an expert in social media and digital engagement for museums, galleries, libraries, archives and theatres."
   title="Adam Koszary"
 >
-  <Header title="adam koszary" slug="pitch" />
-  <Grid
-    loading="lazy"
-    title="How I Can Help"
-    alt="How does one go viral?"
-    anchor="services"
-    order="text-first"
-  >
+  <Fragment class="max-w-6xl">
+    <Header title="Adam Koszary" subtitle={data.pages.nodes[1].content} />
+    <HR />
     <Services client:load />
-  </Grid>
-  <Grid
-    anchor="principles"
-    background
-    title="How I Do It"
-    image={AdamPhones}
-    alt="Adam Koszary"
-    slug="principles"
-    order="image-first"
-  />
-
-  <Testimonials />
-  <Posts />
-  <Grid anchor="contact" title="Get in touch">
-    <p class="prose text-black dark:text-white">
-      Chatting to me is free, and I have a discount for smaller organisations
-      (less than £100k annual revenue). We can always work something out. <a
-        href="mailto:adamkoszaryconsulting@gmail.com"
-        class="font-semibold underline dark:text-white"
-        title="Get in touch">Get in touch</a
-      >.
-    </p>
-  </Grid>
+    <HR />
+    <Grid
+      anchor="principles"
+      background
+      title="How I Do It"
+      src={AdamPhones}
+      alt="Adam Koszary"
+      slug="principles"
+    />
+    <HR />
+    <Testimonials />
+    <HR />
+    <Posts />
+    <HR />
+    <Grid anchor="contact" title="Get in touch">
+      <p class="prose text-black dark:text-white">
+        Chatting to me is free, and I have a discount for smaller organisations
+        (less than £100k annual revenue). We can always work something out. <a
+          href="mailto:adamkoszaryconsulting@gmail.com"
+          class="font-semibold underline dark:text-white"
+          title="Get in touch">Get in touch</a
+        >.
+      </p>
+    </Grid>
+  </Fragment>
 </Layout>

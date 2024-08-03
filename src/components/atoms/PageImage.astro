@@ -1,0 +1,19 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+    src: ImageMetadata;
+    alt: string | null;
+    loading?: "eager" | "lazy" | null;
+}
+
+const { src, alt, loading } = Astro.props;
+---
+
+<div class="lg:w-2/5 md:w-1/2 w-full flex justify-center">
+    <div
+        class="w-full aspect-square md:max-w-md relative overflow-hidden rounded-sm"
+    >
+        <Image {src} {alt} {loading} />
+    </div>
+</div>

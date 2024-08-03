@@ -1,12 +1,13 @@
 ---
-import { Image } from "astro:assets";
-import { fetchPageBySlug } from "../lib/wordpress";
-import H2 from "./H2.astro";
+import PageImage from "./atoms/PageImage.astro";
+import PageText from "./atoms/PageText.astro";
+import { wpquery } from "../lib/wordpress";
 
+// Props definition
 interface Props {
   title: string;
-  image?: ImageMetadata | undefined;
-  alt?: string | undefined;
+  src?: ImageMetadata;
+  alt?: string;
   background?: boolean;
   loading?: "eager" | "lazy";
   slug?: string;
@@ -15,93 +16,67 @@ interface Props {
   anchor: string;
 }
 
-const {
-  title,
-  image,
-  alt,
-  background,
-  loading = "lazy",
-  slug,
-  order = "image-first",
-  border = true,
-  anchor,
-} = Astro.props;
-
-let content;
-let error;
-
-if (slug) {
-  try {
-    const page = await fetchPageBySlug(slug);
-    content = page ? page.content.rendered : null;
-  } catch (e) {
-    error = e;
-    console.error(`Error fetching content for slug "${slug}":`, e);
-  }
+interface PageNode {
+  date: string;
+  title: string;
+  content: string;
+  slug: string;
 }
+
+interface DataProps {
+  pages: {
+    nodes: PageNode[];
+  };
+}
+
+const { src, alt, background, loading = "lazy", anchor, slug } = Astro.props;
+
+// API call. Fetch API data, based on the page slug
+const data = (await wpquery({
+  query: `
+    query GetPageContent {
+      pages {
+        nodes {
+          date
+          title
+          content(format: RENDERED)
+          slug
+        }
+      }
+    }
+  `,
+})) as DataProps;
+
+const pageData = data.pages.nodes.find((page) => page.slug === slug);
+const pageContent = pageData?.content ?? "";
+const pageTitle = pageData?.title ?? "";
 ---
 
-<!-- Border wrapper -->
-<div
-  class={`my-6 ${border && "border-b-2 border-gray-300 dark:border-gray-600 pb-6"}`}
->
-  <!-- Main wrapper -->
-  <section
-    id={anchor}
-    class={`
-    py-12 flex justify-center items-center
+<!-- Main wrapper -->
+<section
+  id={anchor}
+  class={`
+    flex justify-center items-center
     ${background ? "bg-slate-100 dark:bg-slate-700 py-16 px-4 sm:px-6 lg:px-8 rounded-lg" : ""}
   `}
+>
+  <!-- Content container: if there's an image, it's a row. Else, it's a column -->
+  <div
+    class={`
+      w-full max-w-6xl flex items-center
+      ${src ? "lg:flex-row flex-col lg:gap-12 gap-8 lg:items-start" : "flex-col"}
+    `}
   >
-    <!-- Content container -->
-    <div
-      class={`w-full max-w-6xl flex ${image ? "lg:flex-row flex-col lg:gap-12 gap-8 lg:items-start" : "flex-col"} items-center`}
-    >
-      {
-        image && (
-          // Image wrapper
-          <div
-            class={`lg:w-2/5 md:w-1/2 w-full flex justify-center ${
-              order === "image-first" ? "lg:order-first" : "lg:order-last"
-            } order-first`}
-          >
-            {alt && (
-              <div class="w-full md:max-w-md aspect-square relative overflow-hidden rounded-sm">
-                <Image
-                  class="object-cover object-center w-full h-full"
-                  alt={alt}
-                  src={image}
-                  loading={loading}
-                  title={alt}
-                />
-              </div>
-            )}
-          </div>
-        )
-      }
+    {src && alt && <PageImage {loading} {src} {alt} />}
 
-      <!-- Text wrapper -->
-      <article
-        class={`${image ? "lg:w-3/5" : ""} w-full flex flex-col ${image ? (order === "image-first" ? "lg:order-last" : "lg:order-first") : ""} order-last`}
-      >
-        <div
-          class={`w-full text-black dark:text-white`}
-        >
-          <H2 title={title} />
-          <div
-            class={`text-black dark:text-white ${slug ? "prose dark:prose-invert text-pretty prose-p:leading-relaxed prose-p:my-3 prose-ul:my-3 prose-ul:pl-5" : ""}`}
-          >
-            {
-              error && (
-                <p class="text-red-500">
-                  Error loading content. Please try again later.
-                </p>
-              )
-            }
-            {content ? <div set:html={content} /> : <slot />}
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
-</div>
+    {
+      slug ? (
+        <PageText image={src} title={pageTitle} content={pageContent} />
+      ) : (
+        <Fragment class="justify-start text-left ml-0">
+          <slot />
+        </Fragment>
+      )
+    }
+  </div>
+</section>

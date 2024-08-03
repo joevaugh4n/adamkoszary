@@ -1,63 +1,79 @@
 ---
 import Post from "./Post.astro";
-import H2 from "./H2.astro";
-import {
-  fetchPosts,
-  fetchTags,
-  createTagMap,
-  filterActiveTags,
-  groupPostsByTag,
-  type PostProps,
-  type TagProps,
-} from "../lib/wordpress";
+import { wpquery } from "../lib/wordpress";
+import H2 from "./atoms/H2.astro";
+import Tag from "./atoms/Tag.astro";
 
-let posts: PostProps[] = [];
-let tags: TagProps[] = [];
-let error: unknown = null;
+// API call
+const data = await wpquery({
+  query: `
+query GetPostExcerptsAndAllTags {
+  posts {
+    nodes {
+      title
+      dateGmt
+      excerpt
+      slug
+      featuredImage {
+        node {
+          mediaItemUrl
+          altText
+        }
+      }
+      tags {
+        nodes {
+          name
+          slug
+          count
+        }
+      }
+    }
+  }
+}
+  `,
+});
 
-try {
-  [posts, tags] = await Promise.all([fetchPosts(), fetchTags()]);
-} catch (err: any) {
-  error = err.message;
+interface Tag {
+  name: string;
+  slug: string;
+  count: number;
 }
 
-const tagMap = createTagMap(tags);
-const postsByTag = groupPostsByTag(posts, tagMap);
-const activeTags = filterActiveTags(tags, posts);
+interface PostProps {
+  dateGmt: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  tags: { nodes: Tag[] };
+}
+
+// Collect all unique tags from posts
+const tagsSet = new Set();
+data.posts.nodes.forEach((post:PostProps) => {
+  post.tags.nodes.forEach((tag) => tagsSet.add(JSON.stringify(tag)));
+});
+const uniqueTags = Array.from(tagsSet).map((tag:any) => JSON.parse(tag));
 ---
 
-<section
-  id="posts"
-  class="pt-8 md:pb-8 pb-16 gap-x-16 gap-y-6 border-t-2 max-w-6xl md:min-h-screen border-b-2 border-gray-300 dark:border-gray-600 mx-auto"
->
+<section id="posts" class="gap-x-16 gap-y-6 max-w-7xl md:min-h-screen mx-auto">
   <H2 title="Posts" />
-  <div class="flex flex-wrap gap-2 mb-8">
+
+  <!-- map all unique tags associated with posts -->
+  <div class="mb-8 flex flex-wrap gap-2">
+    {uniqueTags.map((tag: Tag) => <Tag tag={tag.name} link />)}
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-x-4 gap-y-8">
     {
-      activeTags.map((tag: TagProps) => (
-        <a
-          href={`/tags/${tag.name}`}
-          class="bg-gray-200 px-3 py-1 rounded font-mono text-black"
-        >
-          {tag.name}
-        </a>
+      data.posts.nodes.map((post: PostProps) => (
+        <Post
+          date={post.dateGmt}
+          title={post.title}
+          slug={post.slug}
+          prose={post.excerpt}
+          tags={post.tags.nodes}
+        />
       ))
     }
   </div>
-  {
-    error ? (
-      <p class="text-red-500">Failed to load posts and tags: {error}</p>
-    ) : (
-      <div class="grid lg:grid-cols-2 gap-x-4 gap-y-8">
-        {posts.map((post: PostProps) => (
-          <Post
-            date={post.date}
-            title={post.title.rendered}
-            slug={post.slug}
-            prose={post.excerpt.rendered}
-            tags={post.tags.map((tagId) => tagMap.get(tagId) || "")}
-          />
-        ))}
-      </div>
-    )
-  }
 </section>

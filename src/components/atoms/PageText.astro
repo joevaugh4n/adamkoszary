@@ -1,0 +1,23 @@
+---
+import H2 from "./H2.astro";
+
+interface Props {
+    image?: ImageMetadata;
+    title: string;
+    content: string;
+}
+
+const { image, title, content } = Astro.props;
+---
+
+<article class={`${image ? "lg:w-3/5" : ""} w-full flex flex-col`}>
+    <H2 title={title} />
+    {
+        // If there's content (via slug), render it. Else, use what's provided
+        content ? (
+            <div set:html={content} class="prose dark:text-white text-black" />
+        ) : (
+            <slot />
+        )
+    }
+</article>

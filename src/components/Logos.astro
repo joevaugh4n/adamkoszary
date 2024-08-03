@@ -1,5 +1,5 @@
 ---
-import H2 from "./H2.astro";
+import H2 from "./atoms/H2.astro";
 
 interface Props {
   title: string;
@@ -10,7 +10,7 @@ const { title, description } = Astro.props;
 ---
 
 <div
-  class="bg-gradient-to-b from-slate-50 to-slate-100 py-16 px-4 sm:px-6 lg:px-8 rounded-lg max-w-6xl mx-auto"
+  class="bg-gradient-to-b from-slate-50 to-slate-100 py-16 px-4 sm:px-6 lg:px-8 rounded-lg"
 >
   <section class="max-w-7xl mx-auto">
     <hgroup class="mb-12">
