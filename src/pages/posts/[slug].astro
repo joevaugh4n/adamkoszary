@@ -82,6 +82,7 @@ const { post } = Astro.props;
       post.featuredImage && (
         <div class="h-[400px] overflow-hidden mb-8 rounded ">
           <Picture
+            loading="eager"
             src={post.featuredImage.node.mediaItemUrl}
             alt={post.featuredImage.node.altText}
             height="200"
