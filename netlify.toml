@@ -1,3 +1,29 @@
-/wp-admin/* https://adamkoszary.co.uk/wp-admin/:splat 200
-/wp-content/* https://adamkoszary.co.uk/wp-content/:splat 200
-/wp-includes/* https://adamkoszary.co.uk/wp-includes/:splat 200
+[[redirects]]
+  from = "/wp-admin/*"
+  to = "https://adamkoszary.co.uk/wp-admin/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/wp-content/*"
+  to = "https://adamkoszary.co.uk/wp-content/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/wp-includes/*"
+  to = "https://adamkoszary.co.uk/wp-includes/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/wp-json/*"
+  to = "https://adamkoszary.co.uk/wp-json/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/wp-login.php"
+  to = "https://adamkoszary.co.uk/wp-login.php"
+  status = 200
+  force = true
