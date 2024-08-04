@@ -3,8 +3,12 @@ import Subpage from "../../layouts/Subpage.astro";
 import Post from "../../components/Post.astro";
 import { wpquery } from "../../lib/wordpress";
 
-const data = await wpquery({
-  query: `
+let data = null;
+let posts = [];
+
+try {
+  data = await wpquery({
+    query: `
       query GetPostExcerpts {
         posts {
           nodes {
@@ -29,9 +33,13 @@ const data = await wpquery({
         }
       }
     `,
-});
+  });
 
-const posts = data.posts.nodes;
+  posts = data?.posts?.nodes ?? [];
+} catch (error) {
+  console.error("Error fetching posts:", error);
+  posts = [];
+}
 ---
 
 <Subpage description="All blog posts by Adam Koszary." title="All Posts">
@@ -39,15 +47,17 @@ const posts = data.posts.nodes;
   <section class="grid grid-cols-2">
     {console.log(posts)}
     {
-      posts.map((post: any) => (
-        <Post
-          slug={post.slug}
-          title={post.title.rendered}
-          date={post.dateGmt}
-          prose={post.excerpt}
-          tags={post.tags.nodes}
-        />
-      ))
+      posts.length > 0
+        ? posts.map((post: any) => (
+            <Post
+              slug={post.slug}
+              title={post.title}
+              date={post.dateGmt}
+              prose={post.excerpt}
+              tags={post.tags.nodes}
+            />
+          ))
+        : <p>No posts available.</p>
     }
   </section>
 </Subpage>
