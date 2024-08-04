@@ -1,3 +1,10 @@
+# Redirect root to WordPress login page
+[[redirects]]
+  from = "/"
+  to = "https://adamkoszary.co.uk/wp-login.php"
+  status = 301
+  force = true
+
 # WordPress-specific redirects
 [[redirects]]
   from = "/wp-admin/*"
