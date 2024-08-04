@@ -1,20 +1,20 @@
 # Proxy WordPress login page
-/wp-login.php  https://your-wordpress-domain.com/wp-login.php  200
+/wp-login.php  https://adamkoszary.co.uk/wp-login.php  200
 
 # Proxy WordPress admin area
-/wp-admin/*  https://your-wordpress-domain.com/wp-admin/:splat  200
+/wp-admin/*  https://adamkoszary.co.uk/wp-admin/:splat  200
 
 # Proxy WordPress content
-/wp-content/*  https://your-wordpress-domain.com/wp-content/:splat  200
+/wp-content/*  https://adamkoszary.co.uk/wp-content/:splat  200
 
 # Proxy WordPress includes
-/wp-includes/*  https://your-wordpress-domain.com/wp-includes/:splat  200
+/wp-includes/*  https://adamkoszary.co.uk/wp-includes/:splat  200
 
 # Proxy WordPress JSON API
-/wp-json/*  https://your-wordpress-domain.com/wp-json/:splat  200
+/wp-json/*  https://adamkoszary.co.uk/wp-json/:splat  200
 
 # Catch-all redirect for any WordPress requests not caught above
-/wp-*  https://your-wordpress-domain.com/:splat  200
+/wp-*  https://adamkoszary.co.uk/:splat  200
 
 # Serve your Astro frontend for all other requests
 /*  /index.html  200
