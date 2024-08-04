@@ -1,3 +1,11 @@
+# Redirect all requests from admin subdomain to main domain
+[[redirects]]
+  from = "https://admin.adamkoszary.co.uk/*"
+  to = "https://adamkoszary.co.uk/:splat"
+  status = 200
+  force = true
+
+# WordPress-specific redirects
 [[redirects]]
   from = "/wp-admin/*"
   to = "https://adamkoszary.co.uk/wp-admin/:splat"
@@ -27,3 +35,16 @@
   to = "https://adamkoszary.co.uk/wp-login.php"
   status = 200
   force = true
+
+# Catch-all redirect for any WordPress requests not caught above
+[[redirects]]
+  from = "/wp-*"
+  to = "https://adamkoszary.co.uk/:splat"
+  status = 200
+  force = true
+
+# Serve your Netlify site for all other requests
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
