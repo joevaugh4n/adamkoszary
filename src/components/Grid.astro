@@ -32,24 +32,37 @@ interface DataProps {
 const { src, alt, background, loading = "lazy", anchor, slug } = Astro.props;
 
 // API call. Fetch API data, based on the page slug
-const data = (await wpquery({
-  query: `
-    query GetPageContent {
-      pages {
-        nodes {
-          date
-          title
-          content(format: RENDERED)
-          slug
+let data: DataProps = { pages: { nodes: [] } };
+let pageContent = "";
+let pageTitle = "";
+
+try {
+  const response = await wpquery({
+    query: `
+      query GetPageContent {
+        pages {
+          nodes {
+            date
+            title
+            content(format: RENDERED)
+            slug
+          }
         }
       }
-    }
-  `,
-})) as DataProps;
+    `,
+  });
 
-const pageData = data.pages.nodes.find((page) => page.slug === slug);
-const pageContent = pageData?.content ?? "";
-const pageTitle = pageData?.title ?? "";
+  if (response.pages?.nodes) {
+    data = response as DataProps;
+    const pageData = data.pages.nodes.find((page) => page.slug === slug);
+    pageContent = pageData?.content ?? "Content not found";
+    pageTitle = pageData?.title ?? "Title not found";
+  } else {
+    console.error("No nodes found in the response", response);
+  }
+} catch (error) {
+  console.error("Error fetching page content:", error);
+}
 ---
 
 <!-- Main wrapper -->
