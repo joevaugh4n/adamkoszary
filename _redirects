@@ -1,6 +1,3 @@
-# Redirect root to WordPress login page
-/  https://your-wordpress-domain.com/wp-login.php  301!
-
 # Proxy WordPress login page
 /wp-login.php  https://your-wordpress-domain.com/wp-login.php  200
 
