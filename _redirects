@@ -1,0 +1,23 @@
+# Redirect root to WordPress login page
+/  https://your-wordpress-domain.com/wp-login.php  301!
+
+# Proxy WordPress login page
+/wp-login.php  https://your-wordpress-domain.com/wp-login.php  200
+
+# Proxy WordPress admin area
+/wp-admin/*  https://your-wordpress-domain.com/wp-admin/:splat  200
+
+# Proxy WordPress content
+/wp-content/*  https://your-wordpress-domain.com/wp-content/:splat  200
+
+# Proxy WordPress includes
+/wp-includes/*  https://your-wordpress-domain.com/wp-includes/:splat  200
+
+# Proxy WordPress JSON API
+/wp-json/*  https://your-wordpress-domain.com/wp-json/:splat  200
+
+# Catch-all redirect for any WordPress requests not caught above
+/wp-*  https://your-wordpress-domain.com/:splat  200
+
+# Serve your Astro frontend for all other requests
+/*  /index.html  200
