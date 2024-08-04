@@ -39,8 +39,8 @@ export default function Services() {
                 {services.map((service, index) => (
                     <Drawer key={index} title={service.name}>
                         <p>{service.description}</p>
-                        {service.title.toLowerCase().includes("keith") && (
-                          <img src={Keith.src} alt='Keith, a fox terrier' title='Keith, a fox terrier' className='rounded-sm' />
+                        {service.name.toLowerCase().includes("keith") && (
+                            <img src={Keith.src} alt='Keith, a fox terrier' title='Keith, a fox terrier' className='rounded-sm' />
                         )}
                     </Drawer>
                 ))}
