@@ -41,7 +41,6 @@ query GetPostExcerpts {
 }
 */
 
-
 interface WPGraphQLParams {
   query: string;
   variables?: object;

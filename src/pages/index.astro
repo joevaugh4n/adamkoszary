@@ -28,16 +28,15 @@ const data = await wpquery({
       `,
 });
 
-const Ready = false;
 ---
 
 <Layout
   description="Adam Koszary is an expert in social media and digital engagement for museums, galleries, libraries, archives and theatres."
   title="Adam Koszary"
+  ready = {false}
 >
   <Fragment class="max-w-6xl">
     
-    {Ready ?
     <Header title="Adam Koszary" subtitle={data.pages.nodes[1].content} />
     <HR />
     <Services client:load />

@@ -39,38 +39,53 @@ function formatDate(date: string) {
 
 // API call to fetch the data
 export async function getStaticPaths() {
-  const data = await wpquery({
-    query: `
-      query GetPostExcerpts {
-        posts {
-          nodes {
-            title
-            dateGmt
-            excerpt
-            slug
-            content
-            tags {
-              nodes {
-                id
-                name
+  try {
+    const data = await wpquery({
+      query: `
+        query GetPostExcerpts {
+          posts {
+            nodes {
+              title
+              dateGmt
+              excerpt
+              slug
+              content
+              tags {
+                nodes {
+                  id
+                  name
+                }
               }
-            }
-            featuredImage {
-              node {
-                mediaItemUrl
-                altText
+              featuredImage {
+                node {
+                  mediaItemUrl
+                  altText
+                }
               }
             }
           }
         }
-      }
-    `,
-  });
+      `,
+    });
 
-  return data.posts.nodes.map((post: PostProps) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+    return (data.posts?.nodes || []).map((post: Partial<PostProps>) => ({
+      params: { slug: post.slug || 'unknown' },
+      props: { 
+        post: {
+          title: post.title || 'Untitled',
+          dateGmt: post.dateGmt || new Date().toISOString(),
+          excerpt: post.excerpt || '',
+          slug: post.slug || 'unknown',
+          content: post.content || '',
+          tags: post.tags || { nodes: [] },
+          featuredImage: post.featuredImage || null,
+        }
+      },
+    }));
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return []; // Return an empty array if the query fails
+  }
 }
 
 const { post } = Astro.props;
@@ -79,12 +94,12 @@ const { post } = Astro.props;
 <Post title={post.title} description={post.excerpt}>
   <article class="max-w-3xl mx-auto py-8">
     {
-      post.featuredImage && (
+      post.featuredImage && post.featuredImage.node && (
         <div class="h-[400px] overflow-hidden mb-8 rounded ">
           <Picture
             loading="eager"
             src={post.featuredImage.node.mediaItemUrl}
-            alt={post.featuredImage.node.altText}
+            alt={post.featuredImage.node.altText || ''}
             height="200"
             width="1000"
             class="object-cover"

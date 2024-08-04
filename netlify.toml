@@ -1,0 +1,3 @@
+/wp-admin/* https://adamkoszary.co.uk/wp-admin/:splat 200
+/wp-content/* https://adamkoszary.co.uk/wp-content/:splat 200
+/wp-includes/* https://adamkoszary.co.uk/wp-includes/:splat 200
