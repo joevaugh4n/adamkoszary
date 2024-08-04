@@ -21,6 +21,8 @@ export enum OGType {
 }
 
 interface Props {
+  // Ready?
+  ready?: boolean;
   // Page title
   title: string;
   // Meta description
@@ -45,6 +47,7 @@ const {
   ogImage = AdamOGImage,
   ogType = OGType.Website,
   twitterCard = "summary_large_image",
+  ready = true,
 } = Astro.props;
 ---
 
@@ -89,11 +92,11 @@ const {
     <meta property="twitter:description" content={description} />
     {ogImage && <meta property="twitter:image" content={ogImage.src} />}
   </head>
-  
+
   <body class="min-h-screen flex flex-col px-8 my-2">
     <Nav />
     <main>
-      <slot />
+      {ready ? <slot /> : <div>Under construction!</div>}
     </main>
     <Footer />
   </body>
