@@ -4,35 +4,7 @@ import { wpquery } from "../lib/wordpress";
 import H2 from "./atoms/H2.astro";
 import Tag from "./atoms/Tag.astro";
 
-// API call
-const data = await wpquery({
-  query: `
-query GetPostExcerptsAndAllTags {
-  posts {
-    nodes {
-      title
-      dateGmt
-      excerpt
-      slug
-      featuredImage {
-        node {
-          mediaItemUrl
-          altText
-        }
-      }
-      tags {
-        nodes {
-          name
-          slug
-          count
-        }
-      }
-    }
-  }
-}
-  `,
-});
-
+// Define interfaces
 interface Tag {
   name: string;
   slug: string;
@@ -47,12 +19,61 @@ interface PostProps {
   tags: { nodes: Tag[] };
 }
 
-// Collect all unique tags from posts
-const tagsSet = new Set();
-data.posts.nodes.forEach((post:PostProps) => {
-  post.tags.nodes.forEach((tag) => tagsSet.add(JSON.stringify(tag)));
-});
-const uniqueTags = Array.from(tagsSet).map((tag:any) => JSON.parse(tag));
+interface DataProps {
+  posts: {
+    nodes: PostProps[];
+  };
+}
+
+// Initialize data with default empty structure
+let data: DataProps = { posts: { nodes: [] } };
+let uniqueTags: Tag[] = [];
+
+try {
+  // API call
+  const response = await wpquery({
+    query: `
+      query GetPostExcerptsAndAllTags {
+        posts {
+          nodes {
+            title
+            dateGmt
+            excerpt
+            slug
+            featuredImage {
+              node {
+                mediaItemUrl
+                altText
+              }
+            }
+            tags {
+              nodes {
+                name
+                slug
+                count
+              }
+            }
+          }
+        }
+      }
+    `,
+  });
+
+  if (response.posts?.nodes) {
+    data = response as DataProps;
+
+    // Collect all unique tags from posts
+    const tagsSet = new Set();
+    data.posts.nodes.forEach((post: PostProps) => {
+      post.tags.nodes.forEach((tag) => tagsSet.add(JSON.stringify(tag)));
+    });
+    uniqueTags = Array.from(tagsSet).map((tag: any) => JSON.parse(tag));
+  } else {
+    console.error("No posts found in the response", response);
+  }
+} catch (error) {
+  console.error("Error fetching post data:", error);
+}
 ---
 
 <section id="posts" class="gap-x-16 gap-y-6 max-w-7xl md:min-h-screen mx-auto">

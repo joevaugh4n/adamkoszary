@@ -4,6 +4,35 @@ import Post from "../../components/Post.astro";
 import TagCard from "../../components/atoms/Tag.astro";
 import { wpquery } from "../../lib/wordpress";
 
+interface TagNode {
+  name: string;
+  slug: string;
+  count: number;
+}
+
+interface PostNode {
+  title: string;
+  date: string;
+  excerpt: string;
+  slug: string;
+  tags: {
+    nodes: TagNode[];
+  };
+}
+
+interface TagDataProps {
+  tag: {
+    name: string;
+    slug: string;
+    posts: {
+      nodes: PostNode[];
+    };
+  };
+  tags: {
+    nodes: TagNode[];
+  };
+}
+
 export async function getStaticPaths() {
   const data = await wpquery({
     query: `
@@ -19,7 +48,12 @@ export async function getStaticPaths() {
     `,
   });
 
-  return data.tags.nodes.map((tag: any) => ({
+  if (!data.tags?.nodes) {
+    console.error("No tags found in the response", data);
+    return [];
+  }
+
+  return data.tags.nodes.map((tag: TagNode) => ({
     params: { tag: tag.slug },
     props: { tagSlug: tag.slug },
   }));
@@ -28,44 +62,53 @@ export async function getStaticPaths() {
 const { tagSlug } = Astro.props;
 
 // Fetch tag data, posts, and other active tags
-const data = await wpquery({
-  query: `
-    query GetTagData($slug: ID!) {
-      tag(id: $slug, idType: SLUG) {
-        name
-        slug
-        posts {
-          nodes {
-            title
-            date
-            excerpt
-            slug
-            tags {
-              nodes {
-                name
-                slug
+let data: TagDataProps = { tag: { name: "", slug: "", posts: { nodes: [] } }, tags: { nodes: [] } };
+try {
+  const response = await wpquery({
+    query: `
+      query GetTagData($slug: ID!) {
+        tag(id: $slug, idType: SLUG) {
+          name
+          slug
+          posts {
+            nodes {
+              title
+              date
+              excerpt
+              slug
+              tags {
+                nodes {
+                  name
+                  slug
+                }
               }
             }
           }
         }
-      }
-      tags(first: 1000) {
-        nodes {
-          name
-          slug
-          count
+        tags(first: 1000) {
+          nodes {
+            name
+            slug
+            count
+          }
         }
       }
-    }
-  `,
-  variables: { slug: tagSlug },
-});
+    `,
+    variables: { slug: tagSlug },
+  });
+
+  if (response.tag && response.tags?.nodes) {
+    data = response as TagDataProps;
+  } else {
+    console.error("Tag data or tags nodes missing in the response", response);
+  }
+} catch (error) {
+  console.error("Error fetching tag data:", error);
+}
 
 const tag = data.tag;
 const posts = data.tag.posts.nodes;
-const otherActiveTags = data.tags.nodes.filter(
-  (t: any) => t.slug !== tagSlug && t.count > 0,
-);
+const otherActiveTags = data.tags.nodes.filter((t: TagNode) => t.slug !== tagSlug && t.count > 0);
 ---
 
 <Subpage
@@ -79,7 +122,7 @@ const otherActiveTags = data.tags.nodes.filter(
   <section class="grid md:grid-cols-[2fr_1fr] gap-8">
     <div class="grid lg:grid-cols-2 gap-x-8 gap-y-4">
       {
-        posts.map((post: any) => (
+        posts.map((post: PostNode) => (
           <Post
             date={post.date}
             title={post.title}
@@ -94,7 +137,7 @@ const otherActiveTags = data.tags.nodes.filter(
       <h2 class="text-xl mb-4">OTHER TAGS</h2>
       <ul class="flex flex-wrap gap-2">
         {
-          otherActiveTags.map((activeTag: any) => (
+          otherActiveTags.map((activeTag: TagNode) => (
             <TagCard tag={activeTag.name} />
           ))
         }

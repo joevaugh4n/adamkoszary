@@ -91,11 +91,11 @@ const {
     <meta property="twitter:description" content={description} />
     {ogImage && <meta property="twitter:image" content={ogImage.src} />}
   </head>
-  
+
   <body class="min-h-screen flex flex-col px-8 my-2">
     <Nav />
     <main>
-      <slot />
+      {ready ? <slot /> : <div>Under construction</div>}
     </main>
     <Footer />
   </body>
