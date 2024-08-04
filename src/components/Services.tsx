@@ -16,7 +16,7 @@ interface PageNode {
 }
 
 interface DataProps {
-    pages: {
+    pages?: {
         nodes: PageNode[];
     };
 }
@@ -34,30 +34,41 @@ function parseContent(content: string): ServiceData[] {
     });
 }
 
-export default function Services({ slug = 'services' }) {
+const Services: React.FC<{ slug?: string }> = ({ slug = 'services' }) => {
     const [services, setServices] = useState<ServiceData[]>([]);
 
     useEffect(() => {
         async function fetchData() {
-            const data = await wpquery({
-                query: `
-                  query GetPageContent {
-                    pages {
-                      nodes {
-                        date
-                        title
-                        content(format: RENDERED)
-                        slug
+            try {
+                const data = await wpquery({
+                    query: `
+                      query GetPageContent {
+                        pages {
+                          nodes {
+                            date
+                            title
+                            content(format: RENDERED)
+                            slug
+                          }
+                        }
                       }
-                    }
-                  }
-                `,
-            }) as DataProps;
+                    `,
+                }) as DataProps;
 
-            const pageData = data.pages.nodes.find((page) => page.slug === slug);
-            const pageContent = pageData?.content ?? "";
-            const parsedServices = parseContent(pageContent);
-            setServices(parsedServices);
+                // Debug: Log the data structure
+                console.log('Fetched data:', data);
+
+                if (data.pages) {
+                    const pageData = data.pages.nodes.find(page => page.slug === slug);
+                    const pageContent = pageData?.content ?? "";
+                    const parsedServices = parseContent(pageContent);
+                    setServices(parsedServices);
+                } else {
+                    console.error('No pages data found in the fetched data.');
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         }
 
         fetchData();
@@ -66,16 +77,14 @@ export default function Services({ slug = 'services' }) {
     return (
         <section className='max-w-6xl mx-auto'>
             <h2 id='services' className='md:text-4xl text-2xl md:mb-4 mb-2 uppercase font-medium dark:text-white text-black'>
-                WHAT I DO</h2>
+                WHAT I DO
+            </h2>
             <div className='grid md:grid-cols-2 w-full mt-8 gap-x-8 gap-y-8'>
                 {services.map((service, index) => (
                     <Drawer key={index} title={service.title}>
                         <p>{service.description}</p>
-
                         {service.title.toLowerCase().includes("keith") && (
-                            <>
-                                <img src={Keith.src} alt='Keith, a fox terrier' title='Keith, a fox terrier' className='rounded-sm' />
-                            </>
+                            <img src={Keith.src} alt='Keith, a fox terrier' title='Keith, a fox terrier' className='rounded-sm' />
                         )}
                     </Drawer>
                 ))}
@@ -83,3 +92,5 @@ export default function Services({ slug = 'services' }) {
         </section>
     );
 }
+
+export default Services;

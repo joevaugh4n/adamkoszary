@@ -28,7 +28,7 @@ const data = await wpquery({
       `,
 });
 
-console.log(data.pages.nodes);
+const Ready = false;
 ---
 
 <Layout
@@ -36,6 +36,8 @@ console.log(data.pages.nodes);
   title="Adam Koszary"
 >
   <Fragment class="max-w-6xl">
+    
+    {Ready ?
     <Header title="Adam Koszary" subtitle={data.pages.nodes[1].content} />
     <HR />
     <Services client:load />
@@ -63,5 +65,7 @@ console.log(data.pages.nodes);
         >.
       </p>
     </Grid>
-  </Fragment>
+
+    : <div>Under construction!</div>
+  }
 </Layout>
