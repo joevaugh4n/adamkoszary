@@ -1,6 +1,16 @@
-/** Proxy code
+import { defineConfig } from 'astro/config'
+import tailwind from '@astrojs/tailwind'
+import icon from 'astro-icon'
+import starlight from '@astrojs/starlight'
+import react from '@astrojs/react'
 
-server: {
+export default defineConfig({
+  integrations: [
+    tailwind(),
+    icon(),
+    react()
+  ],
+  server: {
     proxy: {
       '/wp-admin': {
         target: 'https://adamkoszary.co.uk',
@@ -28,19 +38,5 @@ server: {
         rewrite: (path) => path.replace(/^\/wp-login\.php/, '/wp-login.php')
       }
     }
-      
- */
-
-import { defineConfig } from 'astro/config'
-import tailwind from '@astrojs/tailwind'
-import icon from 'astro-icon'
-import starlight from '@astrojs/starlight'
-import react from '@astrojs/react'
-
-export default defineConfig({
-  integrations: [
-    tailwind(),
-    icon(),
-    react()
-  ]
-})
+  }
+});
