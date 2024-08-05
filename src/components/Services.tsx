@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
 import Drawer from './Drawer';
 import Keith from '../images/keith.webp';
 
+// Array for services. The component logic maps through these and  applies a change when it gets to Keith!
 const services = [
     {
         name: 'Social media and content strategy',

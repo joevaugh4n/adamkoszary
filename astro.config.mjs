@@ -1,19 +1,6 @@
-import { defineConfig } from 'astro/config'
-import tailwind from '@astrojs/tailwind'
-import icon from 'astro-icon'
-import starlight from '@astrojs/starlight'
-import react from '@astrojs/react'
+/** Proxy code
 
-export default defineConfig({
-  integrations: [
-    tailwind(),
-    icon(),
-    starlight({
-      title: 'Documentation'
-    }),
-    react()
-  ],
-  server: {
+server: {
     proxy: {
       '/wp-admin': {
         target: 'https://adamkoszary.co.uk',
@@ -41,5 +28,19 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/wp-login\.php/, '/wp-login.php')
       }
     }
-  }
+      
+ */
+
+import { defineConfig } from 'astro/config'
+import tailwind from '@astrojs/tailwind'
+import icon from 'astro-icon'
+import starlight from '@astrojs/starlight'
+import react from '@astrojs/react'
+
+export default defineConfig({
+  integrations: [
+    tailwind(),
+    icon(),
+    react()
+  ]
 })

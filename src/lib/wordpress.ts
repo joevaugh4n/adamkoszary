@@ -1,6 +1,3 @@
-export const siteUrl: string = `adamkoszary.co.uk`;
-export const wordpressSite: string = `https://${siteUrl}/wp-json/wp/v2`;
-
 interface WPGraphQLParams {
   query: string;
   variables?: Record<string, any>;
@@ -13,7 +10,7 @@ interface WPGraphQLResponse {
 
 export async function wpquery({ query, variables = {} }: WPGraphQLParams): Promise<Record<string, any>> {
   try {
-    const res = await fetch('https://adamkoszary.co.uk/graphql', {
+    const res = await fetch('https://admin.adamkoszary.co.uk/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
