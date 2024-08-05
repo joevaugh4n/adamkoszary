@@ -1,0 +1,16 @@
+---
+import Subpage from "../../layouts/Subpage.astro";
+import { fetchPageContent } from "../../lib/wordpress";
+
+// Fetch the privacy policy content
+const { content: privacyPolicyContent } = await fetchPageContent("privacy-policy");
+---
+
+<Subpage
+    title="Privacy policy"
+    subtitle="How I use your data"
+    description="How I use your data"
+    noindex={true}
+>
+    <div class="privacy-policy-content" set:html={privacyPolicyContent} />
+</Subpage>

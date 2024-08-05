@@ -1,10 +1,28 @@
 ---
 interface Props {
-    height?: number;
-    width?: string | number;
+    width?: string;
+    startColor?: string;
+    endColor?: string;
+    variant?: 'solid' | 'dashed' | 'dotted';
 }
 
-const {} = Astro.props;
+const { 
+    width = 'w-3/4', 
+    startColor = 'from-transparent via-gray-300 to-transparent',
+    endColor = 'dark:from-transparent dark:via-gray-600 dark:to-transparent',
+    variant = 'solid' 
+} = Astro.props;
+
+const variantClasses = {
+    solid: '',
+    dashed: 'border-dashed border-y-2 bg-clip-content',
+    dotted: 'border-dotted border-y-2 bg-clip-content'
+};
+
 ---
 
-<hr class="w-full h-px border-0 bg-gray-300 dark:bg-gray-600 mt-8 mb-12" />
+<div class="flex items-center justify-center my-16">
+    <div class={`${width} h-px ${variantClasses[variant]}`}>
+        <div class={`w-full h-full bg-gradient-to-r ${startColor} ${endColor}`}></div>
+    </div>
+</div>

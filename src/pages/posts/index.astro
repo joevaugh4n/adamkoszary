@@ -42,22 +42,23 @@ try {
 }
 ---
 
-<Subpage description="All blog posts by Adam Koszary." title="All Posts">
-  <h1 class="mt-20 mb-8 text-4xl uppercase">POSTS</h1>
-  <section class="grid grid-cols-2">
+<Subpage description="Blogposts by Adam Koszary" title="Blog">
+  <section class="grid md:grid-cols-2">
     {console.log(posts)}
     {
-      posts.length > 0
-        ? posts.map((post: any) => (
-            <Post
-              slug={post.slug}
-              title={post.title}
-              date={post.dateGmt}
-              prose={post.excerpt}
-              tags={post.tags.nodes}
-            />
-          ))
-        : <p>No posts available.</p>
+      posts.length > 0 ? (
+        posts.map((post: any) => (
+          <Post
+            slug={post.slug}
+            title={post.title}
+            date={post.dateGmt}
+            prose={post.excerpt}
+            tags={post.tags.nodes}
+          />
+        ))
+      ) : (
+        <p>No posts available.</p>
+      )
     }
   </section>
 </Subpage>

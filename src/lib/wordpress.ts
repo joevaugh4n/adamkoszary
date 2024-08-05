@@ -35,3 +35,54 @@ export async function wpquery({ query, variables = {} }: WPGraphQLParams): Promi
     return {};
   }
 }
+
+interface PageNode {
+  date: string;
+  title: string;
+  content: string;
+  slug: string;
+}
+
+interface DataProps {
+  pages: {
+    nodes: PageNode[];
+  };
+}
+
+export const fetchPageContent = async (slug: string): Promise<{ title: string; content: string }> => {
+  let data: DataProps = { pages: { nodes: [] } };
+  let pageContent = "Content not found";
+  let pageTitle = "Title not found";
+
+  try {
+    const response = await wpquery({
+      query: `
+        query GetPageContent {
+          pages {
+            nodes {
+              date
+              title
+              content(format: RENDERED)
+              slug
+            }
+          }
+        }
+      `,
+    });
+
+    if (response.pages?.nodes) {
+      data = response as DataProps;
+      const pageData = data.pages.nodes.find((page) => page.slug === slug);
+      if (pageData) {
+        pageContent = pageData.content;
+        pageTitle = pageData.title;
+      }
+    } else {
+      console.error("No nodes found in the response", response);
+    }
+  } catch (error) {
+    console.error("Error fetching page content:", error);
+  }
+
+  return { title: pageTitle, content: pageContent };
+};

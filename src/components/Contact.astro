@@ -1,49 +1,83 @@
-<form
-    name="contact"
-    method="POST"
-    data-netlify="true"
-    class="md:max-w-7xl max-w-auto md:w-auto w-full mx-auto bg-slate-100 rounded-lg px-8 py-6 mt-10"
->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Your Name</label>
-            <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="John Doe"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:font-mono"
-                required
-            />
+---
+import H2 from "./atoms/H2.astro";
+---
+
+<section class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="contact">
+    <div class="lg:grid lg:grid-cols-2 lg:gap-12 items-start">
+        <div class="mb-12 lg:mb-0">
+            <H2 title="Get in touch" />
+            <p class="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-prose text-pretty">
+                Chatting to me is free, and I have a discount for smaller
+                organisations (less than £100k annual revenue). We can always work
+                something out.
+            </p>
         </div>
-        <div>
-            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Your Email</label>
-            <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="johndoe@example.com"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:font-mono"
-                required
-            />
-        </div>
-    </div>
-    <div class="mt-6">
-        <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Message</label>
-        <textarea
-            id="message"
-            name="message"
-            rows="6"
-            placeholder="Type your message here..."
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:font-mono"
-            required></textarea>
-    </div>
-    <div class="mt-6 flex items-center justify-center">
-        <button
-            type="submit"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-300"
+        
+        <form
+            name="contact"
+            method="POST"
+            data-netlify="true"
+            data-netlify-recaptcha="true"
+            class="rounded-sm group transition-colors"
         >
-            Submit
-        </button>
+            <p class="hidden">
+                <label>
+                    Don't fill this out if you're human: <input name="bot-field" />
+                </label>
+            </p>
+            <div class="space-y-6">
+                <div>
+                    <label for="name" class="block text-sm font-medium mb-1">Your Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="John Doe"
+                        class="w-full px-4 py-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:font-mono bg-transparent"
+                        required
+                    />
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium mb-1">Your Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="johndoe@example.com"
+                        class="w-full px-4 py-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:font-mono bg-transparent"
+                        required
+                    />
+                </div>
+                <div>
+                    <label for="message" class="block text-sm font-medium mb-1">Message</label>
+                    <textarea
+                        id="message"
+                        name="message"
+                        rows="6"
+                        placeholder="Type your message here..."
+                        class="w-full px-4 py-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:font-mono bg-transparent"
+                        required
+                    ></textarea>
+                </div>
+            </div>
+            
+            <div data-netlify-recaptcha="true" class="mt-6"></div>
+            
+            <div class="mt-4">
+                <input type="checkbox" id="consent" name="consent" required />
+                <label for="consent" class="text-sm text-gray-600 dark:text-gray-300">
+                    I agree to the processing of my personal data in accordance with the <a href="/privacy-policy" target="_blank" class="text-blue-500">Privacy Policy</a>.
+                </label>
+            </div>
+
+            <div class="mt-8">
+                <button
+                    type="submit"
+                    class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-300"
+                >
+                    Submit
+                </button>
+            </div>
+        </form>
     </div>
-</form>
+</section>

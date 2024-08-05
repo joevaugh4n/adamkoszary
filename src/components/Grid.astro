@@ -1,8 +1,8 @@
 ---
 import PageImage from "./atoms/PageImage.astro";
 import PageText from "./atoms/PageText.astro";
-import { wpquery } from "../lib/wordpress";
 import H2 from "./atoms/H2.astro";
+import { fetchPageContent } from "../lib/wordpress";
 
 // Props definition
 interface Props {
@@ -17,19 +17,6 @@ interface Props {
   anchor: string;
 }
 
-interface PageNode {
-  date: string;
-  title: string;
-  content: string;
-  slug: string;
-}
-
-interface DataProps {
-  pages: {
-    nodes: PageNode[];
-  };
-}
-
 const {
   src,
   alt,
@@ -40,37 +27,13 @@ const {
   title,
 } = Astro.props;
 
-// API call. Fetch API data, based on the page slug
-let data: DataProps = { pages: { nodes: [] } };
 let pageContent = "";
 let pageTitle = "";
 
-try {
-  const response = await wpquery({
-    query: `
-      query GetPageContent {
-        pages {
-          nodes {
-            date
-            title
-            content(format: RENDERED)
-            slug
-          }
-        }
-      }
-    `,
-  });
-
-  if (response.pages?.nodes) {
-    data = response as DataProps;
-    const pageData = data.pages.nodes.find((page) => page.slug === slug);
-    pageContent = pageData?.content ?? "Content not found";
-    pageTitle = pageData?.title ?? "Title not found";
-  } else {
-    console.error("No nodes found in the response", response);
-  }
-} catch (error) {
-  console.error("Error fetching page content:", error);
+if (slug) {
+  const { title: fetchedTitle, content: fetchedContent } = await fetchPageContent(slug);
+  pageContent = fetchedContent;
+  pageTitle = fetchedTitle;
 }
 ---
 
@@ -85,8 +48,8 @@ try {
   <!-- Content container: if there's an image, it's a row. Else, it's a column -->
   <div
     class={`
-      w-full flex items-center max-w-7xl mx-auto 
-      ${src ? "lg:flex-row flex-col lg:gap-12 gap-8 lg:items-start" : "flex-col"}
+      w-full flex max-w-7xl mx-auto 
+      ${src ? "lg:flex-row flex-col lg:gap-12 gap-8 lg:items-start items-center" : "flex-col items-start "}
     `}
   >
     {src && alt && <PageImage {loading} {src} {alt} />}
