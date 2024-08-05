@@ -10,10 +10,8 @@ interface Props {
 const { src, alt, loading } = Astro.props;
 ---
 
-<div class="lg:w-2/5 md:w-1/2 w-full flex justify-center">
-    <div
-        class="w-full aspect-square md:max-w-md relative overflow-hidden rounded-sm"
-    >
-        <Image {src} {alt} {loading} />
+<div class="w-full flex justify-center md:w-2/5">
+    <div class="relative w-full overflow-hidden rounded-sm aspect-square md:max-w-md">
+        <Image src={src} alt={alt} loading={loading} />
     </div>
 </div>

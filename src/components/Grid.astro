@@ -37,32 +37,22 @@ if (slug) {
 }
 ---
 
-<!-- Main wrapper -->
 <section
   id={anchor}
-  class={`
-    flex justify-center items-center 
-    ${background ? "bg-slate-100 dark:bg-slate-700 py-16 px-4 sm:px-6 lg:px-8 rounded-lg" : ""}
-  `}
+  class={`flex justify-center items-center ${background ? "bg-slate-100 dark:bg-slate-700 py-16 px-4 sm:px-6 lg:px-8 rounded-lg" : ""}`}
 >
-  <!-- Content container: if there's an image, it's a row. Else, it's a column -->
   <div
-    class={`
-      w-full flex max-w-7xl mx-auto 
-      ${src ? "lg:flex-row flex-col lg:gap-12 gap-8 lg:items-start items-center" : "flex-col items-start "}
-    `}
+    class={`w-full flex max-w-7xl mx-auto ${src ? "lg:flex-row flex-col lg:gap-12 gap-8 lg:items-start items-center" : "flex-col items-start"}`}
   >
-    {src && alt && <PageImage {loading} {src} {alt} />}
+    {src && alt && <PageImage loading={loading} src={src} alt={alt} />}
 
-    {
-      slug ? (
-        <PageText image={src} title={pageTitle} content={pageContent} />
-      ) : (
-        <Fragment class="justify-start text-left ml-0">
-          <H2 title={title} />
-          <slot />
-        </Fragment>
-      )
-    }
+    {slug ? (
+      <PageText image={src} title={pageTitle} content={pageContent} />
+    ) : (
+      <div class="justify-start text-left ml-0">
+        <H2 title={title} />
+        <slot />
+      </div>
+    )}
   </div>
 </section>
