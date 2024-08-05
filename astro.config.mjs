@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config'
 import tailwind from '@astrojs/tailwind'
 import icon from 'astro-icon'
-import starlight from '@astrojs/starlight'
 import react from '@astrojs/react'
 
 export default defineConfig({
