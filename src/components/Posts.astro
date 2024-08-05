@@ -79,10 +79,12 @@ try {
 <section id="posts" class="min-h-screen max-w-7xl mx-auto w-full">
   <H2 title="Posts" />
 
+  
+  {uniqueTags.length > 0 &&
   <!-- Map all unique tags associated with posts -->
   <div class="mb-8 flex flex-wrap gap-2">
     {uniqueTags.map((tag: Tag) => <Tag tag={tag.name} link />)}
-  </div>
+  </div>}
 
   <!-- Render posts with tags -->
   <div class="grid w-full gap-x-4 gap-y-8 md:grid-cols-2">

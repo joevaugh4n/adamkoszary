@@ -1,16 +1,25 @@
 ---
 import Layout, { OGType } from "./Layout.astro";
+import Contact from "../components/Contact.astro";
+import HR from "../components/atoms/HR.astro";
 
 interface Props {
   title: string;
   description: string;
+  CTA?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, CTA } = Astro.props;
 
 // All styling here is handled by [slug].astro
 ---
 
 <Layout title={title} description={description} ogType={OGType.Article}>
   <slot />
+  <HR />
+  <Contact
+    title="Reach out"
+    description={CTA ||
+      "Interested in what I do and how I can help? Get in touch. Chatting to me is free, and I have a discount for smaller organisations (less than £100k annual revenue). "}
+  />
 </Layout>

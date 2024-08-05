@@ -54,6 +54,19 @@ const {
 <!doctype html>
 <html class="scroll-smooth scroll-pt-16" lang="en" transition:animate="slide">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-63R54V45CT"
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-63R54V45CT");
+    </script>
+
     <ViewTransitions />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -95,7 +108,7 @@ const {
 
   <body>
     <Nav />
-    <main class="min-h-screen flex flex-col px-8 my-2">
+    <main class="min-h-screen flex flex-col px-8 my-2 max-w-7xl mx-auto">
       {ready ? <slot /> : <div>🚧Under construction🚧</div>}
     </main>
     <Footer />
@@ -112,5 +125,4 @@ const {
       @apply dark:bg-black dark:text-white;
     }
   }
-
 </style>

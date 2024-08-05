@@ -9,20 +9,19 @@ interface Props {
 const { 
     width = 'w-3/4', 
     startColor = 'from-transparent via-gray-300 to-transparent',
-    endColor = 'dark:from-transparent dark:via-gray-600 dark:to-transparent',
+    endColor = 'dark:from-transparent dark:via-gray-400 dark:to-transparent',
     variant = 'solid' 
 } = Astro.props;
 
 const variantClasses = {
     solid: '',
-    dashed: 'border-dashed border-y-2 bg-clip-content',
-    dotted: 'border-dotted border-y-2 bg-clip-content'
+    dashed: 'border-dashed border-y-2',
+    dotted: 'border-dotted border-y-2'
 };
-
 ---
 
 <div class="flex items-center justify-center my-16">
-    <div class={`${width} h-px ${variantClasses[variant]}`}>
-        <div class={`w-full h-full bg-gradient-to-r ${startColor} ${endColor}`}></div>
+    <div class={`relative ${width} ${variantClasses[variant]} h-0.5`}>
+        <div class={`absolute inset-0 bg-gradient-to-r ${startColor} ${endColor}`}></div>
     </div>
 </div>

@@ -32,8 +32,8 @@ const services = [
 export default function Services() {
     return (
         <section className='max-w-7xl mx-auto'>
-            <h2 id='services' className='md:text-4xl text-2xl md:mb-4 mb-2 uppercase font-medium dark:text-white text-black'>
-                WHAT I DO
+            <h2 id='services' className='md:text-4xl text-2xl md:mb-4 mb-2 font-medium dark:text-white text-black'>
+                What I do
             </h2>
             <div className='grid md:grid-cols-2 w-full mt-8 gap-x-8 gap-y-8'>
                 {services.map((service, index) => (
