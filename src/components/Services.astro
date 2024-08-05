@@ -1,0 +1,83 @@
+---
+import { ViewTransitions } from "astro:transitions";
+import Keith from "../images/keith.webp";
+import Drawer from "./atoms/Drawer.astro";
+import { fetchPageContent } from "../lib/wordpress";
+
+// Define the service interface
+interface Service {
+    name: string;
+    description: string;
+}
+
+// Fetch content from the WordPress API
+const { content: servicesList } = await fetchPageContent("services");
+
+// Utility function to decode HTML entities
+function decodeHTMLEntities(text: string): string {
+    const entities: { [key: string]: string } = {
+        '&amp;': '&',
+        '&lt;': '<',
+        '&gt;': '>',
+        '&quot;': '"',
+        '&#39;': "'",
+        '&#8211;': '–',  // EN DASH
+        '&#8212;': '—',  // EM DASH
+        '&#8230;': '…'   // ELLIPSIS
+    };
+
+    return text.replace(/&[#0-9a-z]+;/gi, (entity) => entities[entity] || entity);
+}
+
+// Function to parse the HTML and extract the services
+function parseServices(html: string): Service[] {
+    // Extract the content within the <ul> tags
+    const ulContent = html.match(/<ul>([\s\S]*?)<\/ul>/)?.[1] || '';
+
+    // Extract the individual <li> items
+    const liItems = ulContent.match(/<li>([\s\S]*?)<\/li>/g) || [];
+
+    // Map each <li> item to a service object
+    return liItems.map(item => {
+        // Remove <li> tags and split by the colon
+        const content = item.replace(/<\/?li>/g, '').trim();
+        const [name, ...descriptionParts] = decodeHTMLEntities(content).split(':');
+        return {
+            name: name.trim(),
+            description: descriptionParts.join(':').trim()
+        };
+    });
+}
+
+const services: Service[] = parseServices(servicesList);
+---
+
+<ViewTransitions />
+
+<section class="max-w-7xl mx-auto">
+    <h2
+        id="services"
+        class="md:text-4xl text-2xl md:mb-4 mb-2 font-medium dark:text-white text-black"
+    >
+        What I do
+    </h2>
+    <div class="grid md:grid-cols-2 w-full mt-8 gap-x-8 gap-y-8">
+        {
+            services.map((service, index) => (
+                <div transition:name={`drawer-${index}`}>
+                    <Drawer title={service.name}>
+                        <p>{service.description}</p>
+                        {service.name.toLowerCase().includes("keith") && (
+                            <img
+                                src={Keith.src}
+                                alt="Keith, a fox terrier"
+                                title="Keith, a fox terrier"
+                                class="rounded-sm"
+                            />
+                        )}
+                    </Drawer>
+                </div>
+            ))
+        }
+    </div>
+</section>

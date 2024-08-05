@@ -1,5 +1,6 @@
 import Drawer from './Drawer';
 import Keith from '../images/keith.webp';
+import { fetchPageContent } from '../../lib/wordpress';
 
 // Array for services. The component logic maps through these and  applies a change when it gets to Keith!
 const services = [
@@ -30,6 +31,7 @@ const services = [
 ];
 
 export default function Services() {
+
     return (
         <section className='max-w-7xl mx-auto'>
             <h2 id='services' className='md:text-4xl text-2xl md:mb-4 mb-2 font-medium dark:text-white text-black'>
