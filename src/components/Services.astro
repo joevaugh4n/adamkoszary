@@ -16,40 +16,52 @@ const { content: servicesList } = await fetchPageContent("services");
 // Utility function to decode HTML entities
 function decodeHTMLEntities(text: string): string {
     const entities: { [key: string]: string } = {
-        '&amp;': '&',
-        '&lt;': '<',
-        '&gt;': '>',
-        '&quot;': '"',
-        '&#39;': "'",
-        '&#8211;': '–',  // EN DASH
-        '&#8212;': '—',  // EM DASH
-        '&#8230;': '…'   // ELLIPSIS
+        "&amp;": "&",
+        "&lt;": "<",
+        "&gt;": ">",
+        "&quot;": '"',
+        "&#39;": "'",
+        "&#8211;": "–", // EN DASH
+        "&#8212;": "—", // EM DASH
+        "&#8230;": "…", // ELLIPSIS
     };
 
-    return text.replace(/&[#0-9a-z]+;/gi, (entity) => entities[entity] || entity);
+    return text.replace(
+        /&[#0-9a-z]+;/gi,
+        (entity) => entities[entity] || entity,
+    );
 }
 
 // Function to parse the HTML and extract the services
 function parseServices(html: string): Service[] {
     // Extract the content within the <ul> tags
-    const ulContent = html.match(/<ul>([\s\S]*?)<\/ul>/)?.[1] || '';
+    const ulContent = html.match(/<ul>([\s\S]*?)<\/ul>/)?.[1] || "";
 
     // Extract the individual <li> items
     const liItems = ulContent.match(/<li>([\s\S]*?)<\/li>/g) || [];
 
     // Map each <li> item to a service object
-    return liItems.map(item => {
+    return liItems.map((item) => {
         // Remove <li> tags and split by the colon
-        const content = item.replace(/<\/?li>/g, '').trim();
-        const [name, ...descriptionParts] = decodeHTMLEntities(content).split(':');
+        const content = item.replace(/<\/?li>/g, "").trim();
+        const [name, ...descriptionParts] =
+            decodeHTMLEntities(content).split(":");
         return {
             name: name.trim(),
-            description: descriptionParts.join(':').trim()
+            description: descriptionParts.join(":").trim(),
         };
     });
 }
 
 const services: Service[] = parseServices(servicesList);
+
+// Function to extract the introduction paragraph
+function parseIntro(html: string): string {
+    const introContent = html.match(/<p id='intro'>([\s\S]*?)<\/p>/)?.[1] || "";
+    return decodeHTMLEntities(introContent);
+}
+
+const intro: string = parseIntro(servicesList);
 ---
 
 <ViewTransitions />
@@ -61,6 +73,7 @@ const services: Service[] = parseServices(servicesList);
     >
         What I do
     </h2>
+    <p>{intro}</p>
     <div class="grid md:grid-cols-2 w-full mt-8 gap-x-8 gap-y-8">
         {
             services.map((service, index) => (

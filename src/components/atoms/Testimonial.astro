@@ -1,23 +1,12 @@
 ---
 import { Icon } from "astro-icon/components";
+import type { Testimonial } from "../../lib/wordpress";
 
-interface Props {
+interface Props extends Testimonial {
   background: boolean;
-  author: string;
-  quote: string;
-  role: string;
-  link: string;
-  org: string;
 }
 
 const { background, author, quote, role, link, org } = Astro.props;
-
-function stripHtml(html: string) {
-  return html.replace(/<\/?[^>]+(>|$)/g, "");
-}
-
-const cleanAuthor = stripHtml(author);
-const cleanRole = stripHtml(role);
 ---
 
 <section
@@ -26,8 +15,12 @@ const cleanRole = stripHtml(role);
   }`}
 >
   <Icon name="tabler:quote" class="text-2xl mb-2" />
-  <div class={`mb-2 leading-loose flex-grow ${background ? '' : 'dark:text-white'}`} set:html={quote} />
+  <div
+    class={`mb-2 leading-loose flex-grow ${background ? "" : "dark:text-white"}`}
+    set:html={quote}
+  />
   <div class="flex flex-col items-end self-end mt-auto">
-    <p class="font-bold">{cleanAuthor}, {cleanRole}</p>
+    <p class="font-bold">{author}, {role}</p>
+    <a href={link} class="text-blue-500">{org}</a>
   </div>
 </section>

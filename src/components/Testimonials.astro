@@ -1,33 +1,21 @@
 ---
 import Logo from "./atoms/Logo.astro";
 import Logos from "./Logos.astro";
+import TestimonialCard from "./atoms/Testimonial.astro";
+import { getTestimonials } from "../lib/wordpress";
+import type { Testimonial } from "../lib/wordpress";
 
 // Logos – use svg (ideally) or webp where svgs aren't available
 import HistoricEngland from "../../src/images/historicengland.svg";
 import TripleC from "../../src/images/triplec.webp";
 import LondonArtStudies from "../../src/images/londonartstudies.webp";
-import Unboxed from "../../src/images/unboxed.webp";
 import GoodLawProject from "../../src/images/goodlawproject.svg";
 import BM from "../../src/images/bm.svg";
 import BletchleyPark from "../../src/images/bp.svg";
 import MuseumsAssociation from "../../src/images/museumsassociation.svg";
 import MuseumsGalleriesEdinburgh from "../../src/images/museumsgalleriesedinburgh.webp";
 
-
-/** const mockedData = [
-  {
-    background: false,
-    author: "Joe Biden",
-    quote: "My fellow Americans",
-    role: "President",
-    org: "United States of America",
-    link: "whitehouse.gov",
-  },
-];
-
-const testimonials = mockedData;
-*/
-
+const testimonials: Testimonial[] = await getTestimonials();
 ---
 
 <section class="mb-8">
@@ -59,9 +47,6 @@ const testimonials = mockedData;
       src={LondonArtStudies}
       url="https://londonartstudies.com/"
     />
-    <!--
-    <Logo org="Unboxed 2022" src={Unboxed} url="https://unboxed2022.uk/" />
-    -->
     <Logo
       org="Museums & Galleries Edinburgh"
       src={MuseumsGalleriesEdinburgh}
@@ -69,28 +54,22 @@ const testimonials = mockedData;
     />
   </Logos>
 
-  {/* 
-    testimonials.length == 0 ? (
-      ""
-    ) : (
-      <div
-        class={`w-full overflow-hidden py-5 ${testimonials.length > 2 ? "overflow-x-auto" : ""}`}
-      >
-        <div class={layoutClass}>
-          {testimonials.map((testimonial, index) => (
-            <div class={`${itemClass} px-2.5`}>
-              <Testimonial
-                background={index % 2 === 0}
-                author={testimonial.author}
-                quote={testimonial.quote}
-                role={testimonial.role}
-                link={testimonial.link}
-                org={testimonial.org}
-              />
-            </div>
-          ))}
-        </div>
+  {testimonials.length > 0 && (
+    <div
+      class={`w-full overflow-hidden py-5 ${testimonials.length > 2 ? "overflow-x-auto" : ""}`}
+    >
+      <div class="flex flex-wrap gap-4">
+        {testimonials.map((testimonial, index) => (
+          <TestimonialCard
+            background={index % 2 === 0}
+            author={testimonial.author}
+            quote={testimonial.quote}
+            role={testimonial.role}
+            link={testimonial.link}
+            org={testimonial.org}
+          />
+        ))}
       </div>
-    )
-  */}
+    </div>
+  )}
 </section>
