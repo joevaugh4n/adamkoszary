@@ -13,7 +13,7 @@ const { title, subtitle, description, noindex = false } = Astro.props;
 <Layout description={description} title={title} {noindex}>
   <hgroup class="mt-12 mb-8 border-b pb-2 w-fit pr-12">
     <h1 class="mb-2 text-4xl uppercase">{title}</h1>
-    {subtitle && <p class="text-lg text-gray-700">{subtitle}</p>}
+    {subtitle && <p class="text-lg text-gray-700 dark:text-white">{subtitle}</p>}
   </hgroup>
   <slot class="prose" />
 </Layout>
