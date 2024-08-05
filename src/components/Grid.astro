@@ -2,6 +2,7 @@
 import PageImage from "./atoms/PageImage.astro";
 import PageText from "./atoms/PageText.astro";
 import { wpquery } from "../lib/wordpress";
+import H2 from "./atoms/H2.astro";
 
 // Props definition
 interface Props {
@@ -29,7 +30,15 @@ interface DataProps {
   };
 }
 
-const { src, alt, background, loading = "lazy", anchor, slug } = Astro.props;
+const {
+  src,
+  alt,
+  background,
+  loading = "lazy",
+  anchor,
+  slug,
+  title,
+} = Astro.props;
 
 // API call. Fetch API data, based on the page slug
 let data: DataProps = { pages: { nodes: [] } };
@@ -69,14 +78,14 @@ try {
 <section
   id={anchor}
   class={`
-    flex justify-center items-center
+    flex justify-center items-center 
     ${background ? "bg-slate-100 dark:bg-slate-700 py-16 px-4 sm:px-6 lg:px-8 rounded-lg" : ""}
   `}
 >
   <!-- Content container: if there's an image, it's a row. Else, it's a column -->
   <div
     class={`
-      w-full max-w-6xl flex items-center
+      w-full flex items-center max-w-7xl mx-auto 
       ${src ? "lg:flex-row flex-col lg:gap-12 gap-8 lg:items-start" : "flex-col"}
     `}
   >
@@ -87,6 +96,7 @@ try {
         <PageText image={src} title={pageTitle} content={pageContent} />
       ) : (
         <Fragment class="justify-start text-left ml-0">
+          <H2 title={title} />
           <slot />
         </Fragment>
       )

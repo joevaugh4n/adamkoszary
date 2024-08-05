@@ -52,7 +52,7 @@ const {
 ---
 
 <!doctype html>
-<html class="scroll-smooth" lang="en" transition:animate="slide">
+<html class="scroll-smooth scroll-pt-16" lang="en" transition:animate="slide">
   <head>
     <ViewTransitions />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -93,9 +93,9 @@ const {
     {ogImage && <meta property="twitter:image" content={ogImage.src} />}
   </head>
 
-  <body class="min-h-screen flex flex-col px-8 my-2">
+  <body>
     <Nav />
-    <main>
+    <main class="min-h-screen flex flex-col px-8 my-2">
       {ready ? <slot /> : <div>🚧Under construction🚧</div>}
     </main>
     <Footer />
@@ -112,4 +112,5 @@ const {
       @apply dark:bg-black dark:text-white;
     }
   }
+
 </style>

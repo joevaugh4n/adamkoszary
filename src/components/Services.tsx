@@ -31,7 +31,7 @@ const services = [
 
 export default function Services() {
     return (
-        <section className='max-w-6xl mx-auto'>
+        <section className='max-w-7xl mx-auto'>
             <h2 id='services' className='md:text-4xl text-2xl md:mb-4 mb-2 uppercase font-medium dark:text-white text-black'>
                 WHAT I DO
             </h2>

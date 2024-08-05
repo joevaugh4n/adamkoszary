@@ -7,6 +7,7 @@ import Testimonials from "../components/Testimonials.astro";
 import Posts from "../components/Posts.astro";
 import Services from "../components/Services.tsx";
 import HR from "../components/atoms/HR.astro";
+import Contact from "../components/Contact.astro";
 
 // Images
 import AdamPhones from "../../src/images/adam_phones.webp";
@@ -27,7 +28,7 @@ interface DataProps {
 }
 
 let data: DataProps = { pages: { nodes: [] } };
-let pageContent = 'Content not found';
+let pageContent = "Content not found";
 
 try {
   const response = await wpquery({
@@ -47,13 +48,13 @@ try {
   if (response.pages?.nodes) {
     data = response as DataProps;
     const pageData = data.pages.nodes[1];
-    pageContent = pageData?.content ?? 'Content not found';
+    pageContent = pageData?.content ?? "Content not found";
   } else {
     console.error("No pages found in the response", response);
   }
 } catch (error) {
   console.error("Error fetching page content:", error);
-  pageContent = 'Error loading content';
+  pageContent = "Error loading content";
 }
 ---
 
@@ -77,8 +78,6 @@ try {
     <HR />
     <Testimonials />
     <HR />
-    <Posts />
-    <HR />
     <Grid anchor="contact" title="Get in touch">
       <p class="prose text-black dark:text-white">
         Chatting to me is free, and I have a discount for smaller organisations
@@ -89,5 +88,8 @@ try {
         >.
       </p>
     </Grid>
+    <Contact />
+    <HR />
+    <Posts />
   </Fragment>
 </Layout>

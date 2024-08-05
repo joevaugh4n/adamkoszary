@@ -76,7 +76,7 @@ try {
 }
 ---
 
-<section id="posts" class="gap-x-16 gap-y-6 max-w-7xl md:min-h-screen mx-auto">
+<section id="posts" class="min-h-screen max-w-7xl mx-auto w-full">
   <H2 title="Posts" />
 
   <!-- Map all unique tags associated with posts -->
@@ -85,7 +85,7 @@ try {
   </div>
 
   <!-- Render posts with tags -->
-  <div class="grid lg:grid-cols-2 gap-x-4 gap-y-8">
+  <div class="grid w-full gap-x-4 gap-y-8 md:grid-cols-2">
     {
       data.posts.nodes.map((post: PostProps) => (
         <Post

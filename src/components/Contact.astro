@@ -1,0 +1,49 @@
+<form
+    name="contact"
+    method="POST"
+    data-netlify="true"
+    class="md:max-w-7xl max-w-auto md:w-auto w-full mx-auto bg-slate-100 rounded-lg px-8 py-6 mt-10"
+>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Your Name</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="John Doe"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:font-mono"
+                required
+            />
+        </div>
+        <div>
+            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Your Email</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="johndoe@example.com"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:font-mono"
+                required
+            />
+        </div>
+    </div>
+    <div class="mt-6">
+        <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Message</label>
+        <textarea
+            id="message"
+            name="message"
+            rows="6"
+            placeholder="Type your message here..."
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:font-mono"
+            required></textarea>
+    </div>
+    <div class="mt-6 flex items-center justify-center">
+        <button
+            type="submit"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-300"
+        >
+            Submit
+        </button>
+    </div>
+</form>
