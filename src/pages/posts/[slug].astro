@@ -92,7 +92,7 @@ const { post } = Astro.props;
 ---
 
 <Post title={post.title} description={post.excerpt}>
-  <article class="w-2/3 py-8 mx-auto">
+  <article>
     {
       post.featuredImage && post.featuredImage.node && (
         <div class="h-[400px] overflow-hidden mb-8 rounded ">
@@ -121,12 +121,8 @@ const { post } = Astro.props;
     </hgroup>
 
     <div
-      class="prose dark:prose-invert prose-img:rounded prose-img:mx-auto prose-img:w-full prose-img:max-w-full md:prose-img:max-w-[80%] lg:prose-img:max-w-[70%] prose-img:block"
+      class="dark:text-white prose dark:prose-invert prose-img:rounded prose-img:mx-auto prose-img:w-full prose-img:max-w-full md:prose-img:max-w-[80%] lg:prose-img:max-w-[70%] prose-img:block"
       set:html={post.content}
     />
-
-    <HR />
-
-    <div>TK - CONTACT ME</div>
   </article>
 </Post>

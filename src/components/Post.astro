@@ -32,7 +32,7 @@ const link = `/posts/${slug}`;
 >
   <div class="flex-grow">
     <p class="text-sm mb-2">{formatDate(date)}</p>
-    <h2 class="text-2xl uppercase mb-2">{title}</h2>
+    <h2 class="text-2xl mb-2">{title}</h2>
     <div class="mb-2" set:html={prose} />
   </div>
   <div class="flex gap-2 mt-2 flex-wrap justify-end">
