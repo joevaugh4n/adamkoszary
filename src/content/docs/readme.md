@@ -3,27 +3,30 @@ title: Using this site
 description: How to use this Astro site
 ---
 
-An explanation of how this site works, how it's maintained, and how you can introduce changes (to either the frontend or the backend).
+There are two ways that you can edit this website’s content:
 
-## Backend: WordPress
+- **WordPress**: Most of the homepage, posts, and subpages pull their content directly from your WordPress dashboard. This means you can change content easily without having to go under the hood.
+- **Astro (via GitHub)**: Some of the text and images are hardcoded into the site design. Changing this content requires a little knowledge of using GitHub (where the code is stored) and HTML to make the edits.
 
-You can customise the majority of the homepage content directly from Wordpress. The site uses WordPress as a backend data source. Here's how the different parts of the homepage connect to WordPress pages.
+## Making changes to the homepage
+Here are each of the homepage sections. I'll flag what you can change in WordPress and what you'd need to change in Astro.
 
-#### Section 1: Introduction
+### Introduction
 
-This section connects to the Pitch page (`/pitch`). The title ('Adam Koszary') is hardcoded, but you can change the subtitle.
+- **Title**: Hardcoded in Astro.
+- **Description**: Edit the content of the Pitch page on WordPress.
 
-#### Section 2: What I do
+### What I do
 
-This section connects to the Services page (`/services`). All content is synced from WordPress.
+This section connects to the Services page (`/services`). All content syncs to WordPress, but there are a few things to keep in mind:
 
-- _Opening paragraph_: The API uses a custom `<p id='introduction'>` tag on WordPress to parse this section. If you change this text, ensure you wrap it with the same HTML `<p>` tag, like so:
+- **Opening paragraph**: Make sure you begin the opening paragraph with `<p id='introduction'>` and close it with `</p>`. This instructs the code to treat the line as the introduction, rather than as one of the collapsible items. For example:
 
 ```
 <p id='intro'>I can help make people actually like you and follow you online.</p>
 ```
 
-- _Individual service drawers_: The API creates the drawers from each individual `<li>` tag within the `<ul>` list. It defines the title from the section before the colon, and selects the description from what's after the colon. To make a new drawer, simply create a new `<li>` line. There is also custom logic for the picture of Keith in the Keith tag (it detects Keith's name and then displays the drawer differently).
+- **Individual service drawers**: The code creates the collapsible items from individual `<li>` tag within a `<ul>` list. For example:
 
 ```
 <ul>
@@ -36,9 +39,28 @@ This section connects to the Services page (`/services`). All content is synced 
 </ul>
 ```
 
-#### Section 3: How I can help
+When the code parses the list, it takes the text before the colon as the item title (`service.name`) and the text after the colon as the item description (`service.description`):
 
-This section connects to the Principles page (`/principles`). You can customise all the text directly from WordPress (the title is the page title, the content is the page content). The only thing that's hardcoded is the image. If you want to change that, just reach out to Joe for now.
+```
+// Services.astro
+<Drawer title={service.name}>
+  <p>{service.description}</p>
+  {service.name.toLowerCase().includes("keith") && (
+    <img
+      src={Keith.src}
+      alt="Keith, a fox terrier"
+      title="Keith, a fox terrier"
+      class="rounded-sm"
+    />
+  )}
+</Drawer>
+```
+
+ ...and there is a custom rule for when the service title mentions Keith!
+
+### How I can help
+
+This section connects to the Principles page (`/principles`). You can customise all the text directly from WordPress: the title is the page title, the content is the page content. Currently, you can't change the image without going under the hood and editing the Astro file. For now, if you need any changes there, reach out to Joe.
 
 ### Section 4: Previous clients
 

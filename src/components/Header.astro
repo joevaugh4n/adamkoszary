@@ -3,6 +3,12 @@ import Socials from "./Socials.astro";
 import { fetchPageContent } from "../lib/wordpress";
 
 const { content: fetchedContent } = await fetchPageContent("pitch");
+
+interface Props {
+  title: string;
+}
+
+const {title} = Astro.props;
 ---
 
 <header
@@ -11,7 +17,7 @@ const { content: fetchedContent } = await fetchPageContent("pitch");
 >
   <hgroup class="lg:py-20 py-12">
     <h1 class="lg:text-9xl text-6xl uppercase tracking-tight mb-8">
-      Adam Koszary
+      {title}
     </h1>
     <div
       class="dark:text-white text-2xl prose prose-a:dark:text-white"

@@ -1,6 +1,11 @@
+import starlightPlugin from "@astrojs/starlight-tailwind";
+
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  content: [
+    "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
+    "!./src/content/docs/*",
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -14,7 +19,7 @@ export default {
     },
   },
   plugins: [
-    require("@tailwindcss/typography", '@tailwindcss/aspect-ratio'),
+    require("@tailwindcss/typography", "@tailwindcss/aspect-ratio"),
     // ...
   ],
 };

@@ -109,7 +109,13 @@ const {
   <body>
     <Nav />
     <main class="min-h-screen flex flex-col px-8 my-2 max-w-7xl mx-auto">
-      {ready ? <slot /> : <div class="text-center">🚧 Under construction 🚧</div>}
+      {
+        ready ? (
+          <slot />
+        ) : (
+          <div class="text-center">🚧 Under construction 🚧</div>
+        )
+      }
     </main>
     <Footer />
   </body>
