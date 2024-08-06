@@ -2,20 +2,17 @@
 import Logo from "./atoms/Logo.astro";
 import Logos from "./Logos.astro";
 import TestimonialCard from "./atoms/Testimonial.astro";
-import { getTestimonials } from "../lib/wordpress";
 import type { Testimonial } from "../lib/wordpress";
 
 // Logos – use svg (ideally) or webp where svgs aren't available
-import HistoricEngland from "../../src/images/historicengland.svg";
-import TripleC from "../../src/images/triplec.webp";
-import LondonArtStudies from "../../src/images/londonartstudies.webp";
-import GoodLawProject from "../../src/images/goodlawproject.svg";
-import BM from "../../src/images/bm.svg";
 import BletchleyPark from "../../src/images/bp.svg";
+import BM from "../../src/images/bm.svg";
+import GoodLawProject from "../../src/images/goodlawproject.svg";
+import HistoricEngland from "../../src/images/historicengland.svg";
+import LondonArtStudies from "../../src/images/londonartstudies.webp";
 import MuseumsAssociation from "../../src/images/museumsassociation.svg";
 import MuseumsGalleriesEdinburgh from "../../src/images/museumsgalleriesedinburgh.webp";
-
-const testimonials: Testimonial[] = await getTestimonials();
+import TripleC from "../../src/images/triplec.webp";
 ---
 
 <section class="mb-8">
@@ -54,7 +51,8 @@ const testimonials: Testimonial[] = await getTestimonials();
     />
   </Logos>
 
-  {testimonials.length > 0 && (
+  {
+    /*{testimonials.length > 0 && (
     <div
       class={`w-full overflow-hidden py-5 ${testimonials.length > 2 ? "overflow-x-auto" : ""}`}
     >
@@ -71,5 +69,6 @@ const testimonials: Testimonial[] = await getTestimonials();
         ))}
       </div>
     </div>
-  )}
+  )*/
+  }
 </section>

@@ -2,13 +2,7 @@
 import Socials from "./Socials.astro";
 import { fetchPageContent } from "../lib/wordpress";
 
-interface Props {
-  slug: string;
-}
-
-const { slug } = Astro.props;
-
-const { content: fetchedContent } = await fetchPageContent(slug);
+const { content: fetchedContent } = await fetchPageContent("pitch");
 ---
 
 <header
