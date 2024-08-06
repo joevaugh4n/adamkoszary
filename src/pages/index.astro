@@ -1,86 +1,34 @@
 ---
 // Components
-import Grid from "../components/Grid.astro";
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
-import Testimonials from "../components/Testimonials.astro";
-import Posts from "../components/Posts.astro";
-import Services from "../components/Services.tsx";
-import HR from "../components/atoms/HR.astro";
 import Contact from "../components/Contact.astro";
+import Grid from "../components/atoms/Grid.astro";
+import Header from "../components/Header.astro";
+import HR from "../components/atoms/HR.astro";
+import Layout from "../layouts/Layout.astro";
+import Posts from "../components/Posts.astro";
+import Principles from "../components/Principles.astro";
+import Services from "../components/Services.astro";
+import Testimonials from "../components/Testimonials.astro";
 
 // Images
-import AdamPhones from "../../src/images/adam_phones.webp";
-
-// API calls
-import { wpquery } from "../lib/wordpress";
-
-interface PageNode {
-  slug: string;
-  content: string;
-  title: string;
-}
-
-interface DataProps {
-  pages: {
-    nodes: PageNode[];
-  };
-}
-
-let data: DataProps = { pages: { nodes: [] } };
-let pageContent = "Content not found";
-
-try {
-  const response = await wpquery({
-    query: `
-      query GetPageContent {
-        pages {
-          nodes {
-            slug
-            content(format: RENDERED)
-            title
-          }
-        }
-      }
-    `,
-  });
-
-  if (response.pages?.nodes) {
-    data = response as DataProps;
-    const pageData = data.pages.nodes[1];
-    pageContent = pageData?.content ?? "Content not found";
-  } else {
-    console.error("No pages found in the response", response);
-  }
-} catch (error) {
-  console.error("Error fetching page content:", error);
-  pageContent = "Error loading content";
-}
 ---
 
 <Layout
-  ready={false}
   description="Adam Koszary is an expert in social media and digital engagement for museums, galleries, libraries, archives, and theatres."
+  ready={true}
   title="Adam Koszary"
 >
-  <Header title="Adam Koszary" subtitle={pageContent} />
+  <Header slug="pitch" />
   <HR />
-  <Services client:load />
+  <Services />
   <HR />
-  <Grid
-    anchor="principles"
-    background
-    title="How I Do It"
-    src={AdamPhones}
-    alt="Adam Koszary"
-    slug="principles"
-  />
+  <Principles />
   <HR />
   <Testimonials />
   <HR />
   <Contact
-    title="Get in touch"
     description="Chatting to me is free, and I have a discount for smaller organisations (less than £100k annual revenue)."
+    title="Get in touch"
   />
   <HR />
   <Posts />
