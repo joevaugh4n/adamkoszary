@@ -8,98 +8,208 @@ There are two ways that you can edit this website’s content:
 - **WordPress**: Most of the homepage, posts, and subpages pull their content directly from your WordPress dashboard. This means you can change content easily without having to go under the hood.
 - **Astro (via GitHub)**: Some of the text and images are hardcoded into the site design. Changing this content requires a little knowledge of using GitHub (where the code is stored) and HTML to make the edits.
 
+---
+
 ## Making changes to the homepage
-Here are each of the homepage sections. I'll flag what you can change in WordPress and what you'd need to change in Astro.
+
+Here are each of the homepage sections and how you can customise them. I'll flag what can be changed in WordPress and what needs editing in code.
 
 ### Introduction
 
-- **Title**: Hardcoded in Astro.
-- **Description**: Edit the content of the Pitch page on WordPress.
+- **Title**: Hardcoded in Astro. You can change it from the [index.astro](https://github.com/joevaugh4n/adamkoszary/blob/main/src/pages/index.astro) page:
+
+```
+// index.astro
+  <Header title="Adam Koszary" />
+```
+
+- **Subtitle**: You can change this by editing the content of the Pitch page on WordPress.
 
 ### What I do
 
-This section connects to the Services page (`/services`). All content syncs to WordPress, but there are a few things to keep in mind:
-
-- **Opening paragraph**: Make sure you begin the opening paragraph with `<p id='introduction'>` and close it with `</p>`. This instructs the code to treat the line as the introduction, rather than as one of the collapsible items. For example:
+- **Title**: Hardcoded in Astro. You can change it from the [index.astro](https://github.com/joevaugh4n/adamkoszary/blob/main/src/pages/index.astro) page:
 
 ```
-<p id='intro'>I can help make people actually like you and follow you online.</p>
+// index.astro
+<Services title="What I do" />
 ```
 
-- **Individual service drawers**: The code creates the collapsible items from individual `<li>` tag within a `<ul>` list. For example:
+- **Opening paragraph**: You can change this by editing the the opening paragraph of the Services page on WordPress. Ensure you begin this section with `<p id='introduction'>` and close it with `</p>`. This tells the code to treat the line differently to the services, which make up the rest of the page.
+
+- **Individual services**: You can change these by editing the the list entries on the Services page. Put the title before a colon, and the description after it. There is also a custom rule for any item that uses Keith as the title!
 
 ```
 <ul>
-    <li>Social media and content strategy: I can help turn your hopes, dreams and challenges into content pillars, action plans and processes to give your organisation clarity, purpose and enthusiasm.</li>
-    <li>Content audit: I can look under the hood of your content and website to pinpoint what needs improving and how.</li>
-    <li>Training and workshops: I provide practical sessions on content creation - from ideation to reporting - as well as inspirational talks that will fire up your staff for the possibilities of social media and content.</li>
-    <li>Critical friend: For when you need someone to sense-check a campaign or strategy, be a sounding board for new projects or to have a quiet word with senior management.</li>
-    <li>Content production: I can help you figure out what content to post, when and who for - as well as write the posts, create the imagery and shoot the video.</li>
-    <li>Keith: On request, I will send you pictures of my fox terrier until you tell me to stop.</li>
+  <li>Social media and content strategy: I can help turn your hopes, dreams and challenges into content pillars, action plans and processes to give your organisation clarity, purpose and enthusiasm.</li>
+  <li>Content audit: I can look under the hood of your content and website to pinpoint what needs improving and how.</li>
+  <li>Training and workshops: I provide practical sessions on content creation - from ideation to reporting - as well as inspirational talks that will fire up your staff for the possibilities of social media and content.</li>
+  <li>Critical friend: For when you need someone to sense-check a campaign or strategy, be a sounding board for new projects or to have a quiet word with senior management.</li>
+  <li>Content production: I can help you figure out what content to post, when and who for - as well as write the posts, create the imagery and shoot the video.</li>
+  <li>Keith: On request, I will send you pictures of my fox terrier until you tell me to stop.</li>
 </ul>
 ```
 
-When the code parses the list, it takes the text before the colon as the item title (`service.name`) and the text after the colon as the item description (`service.description`):
-
-```
-// Services.astro
-<Drawer title={service.name}>
-  <p>{service.description}</p>
-  {service.name.toLowerCase().includes("keith") && (
-    <img
-      src={Keith.src}
-      alt="Keith, a fox terrier"
-      title="Keith, a fox terrier"
-      class="rounded-sm"
-    />
-  )}
-</Drawer>
-```
-
- ...and there is a custom rule for when the service title mentions Keith!
-
 ### How I can help
 
-This section connects to the Principles page (`/principles`). You can customise all the text directly from WordPress: the title is the page title, the content is the page content. Currently, you can't change the image without going under the hood and editing the Astro file. For now, if you need any changes there, reach out to Joe.
-
-### Section 4: Previous clients
-
-This section consists of two components, joined together: one for logos, one for testimonials. The logos are hardcoded. Testimonials can be created and edited from WordPress.
-
-## Frontend: Astro
-
-The frontend for this site is created with [Astro](https://astro.build/), a modern web development language that enables developers to ship great websites that prioritise interactivity _and_ performance. Astro does this by minimising the amount of JavaScript--the language that makes websites interactive--shipped to the end user's browser, which is really heavy on the juice. Instead, Astro optimises websites to be mostly pure HTML and CSS, building lean and performant websites without sacrificing quality.
-
-Astro's scripting language revolves around `.astro` files. These files use a syntax that's much like another very popular scripting language known as `JSX`, which combines HTML and JavaScript. For example, a `.astro` file looks like this:
+- **Title**: You can change this by editing the the title of the Principles page.
+- **Body**: You can change this by editing the body of the Principles page.
+- **Hero image**: Hardcoded in Astro. Reach out to Joe and I can change it for you. Alternatively, you can change it in the code in two steps (from the same `index.astro` page as above). First, save your new image to `src/images`. Then, change the image import link at the top of `index.astro` to the new file destination.
 
 ```
+// index.astro
 
-// Button.astro
+// Imports for the different components used by the page
+import Contact from "../components/Contact.astro";
+import Header from "../components/Header.astro";
+import HR from "../components/atoms/HR.astro";
+import Layout from "../layouts/Layout.astro";
+import Posts from "../components/Posts.astro";
+import Principles from "../components/Principles.astro";
+import Services from "../components/Services.astro";
+import Testimonials from "../components/Testimonials.astro";
+
+// Import for the Principles section's hero image. To use a different image, edit the file name below
+import HeroImage from "../../src/images/adam_phones.webp";
+
+[... rest of file]
+```
+
+### Previous clients
+
+- **Title**: Hardcoded in Astro. You can change it by editing the title property of the `PreviousClients` component in `index.astro`:
+
+```
+// index.astro
+<PreviousClients title="Previous clients" />
+```
+
+- **Logos**: Hardcoded in Astro, but you can add new ones in three steps. First, save your new logo image to `src/images` (ideally as a .svg file or as a .webp file alternatively). Then, import the new image to `index.astro`:
+
+```
+// index.astro
+
+// Imports for the logo images. If you're adding a new logo, you can give it any alias (e.g. 'Bletchley Park' could have been 'Bletch Park', 'BP', etc). Just make sure you refer to the same alias when creating the Logo component.
+import BletchleyPark from "../../src/images/bp.svg";
+import BM from "../../src/images/bm.svg";
+import GoodLawProject from "../../src/images/goodlawproject.svg";
+import HistoricEngland from "../../src/images/historicengland.svg";
+import LondonArtStudies from "../../src/images/londonartstudies.webp";
+import MuseumsAssociation from "../../src/images/museumsassociation.svg";
+import MuseumsGalleriesEdinburgh from "../../src/images/museumsgalleriesedinburgh.webp";
+import TripleC from "../../src/images/triplec.webp";
+
+[... rest of code]
+```
+
+Finally, within the `PreviousClients` component, create a new `Logo` component. Add the relevant properties for `org` (name), `logoImage`, and `url` (website):
+
+```
+// index.astro
+<PreviousClients title="Previous clients">
+  <Logo
+    org="British Museum"
+    logoImage={BM}
+    url="https://www.britishmuseum.org/"
+  />
+  <Logo
+    org="Historic England"
+    logoImage={HistoricEngland}
+    url="https://historicengland.org.uk/"
+  />
+  <Logo
+    org="Good Law Project"
+    logoImage={GoodLawProject}
+    url="https://goodlawproject.org/"
+  />
+  <Logo
+    org="Museums Association"
+    logoImage={MuseumsAssociation}
+    url="https://www.museumsassociation.org/"
+  />
+  <Logo
+    org="Bletchley Park"
+    logoImage={BletchleyPark}
+    url="https://bletchleypark.org.uk/"
+  />
+  <Logo
+    org="Triple C"
+    logoImage={TripleC}
+    url="https://triplec.org.uk/"
+  />
+  <Logo
+    org="London Art Studies"
+    logoImage={LondonArtStudies}
+    url="https://londonartstudies.com/"
+  />
+  <Logo
+    org="Museums & Galleries Edinburgh"
+    logoImage={MuseumsGalleriesEdinburgh}
+    url="https://www.edinburghmuseums.org.uk/"
+  />
+</PreviousClients>
+```
+
+### Contact form
+
+- **Title**: Hardcoded in Astro. You can edit this from `index.astro`.
+- **Description**: Hardcoded in Astro. You can edit this from `index.astro`.
+
+```
+// index.astro
+<Contact
+  description="Chatting to me is  free, and I have a discount for smaller organisations (less than £100k annual revenue)."
+  title="Get in touch"
+/>
+```
+
+### Posts
+
+- **Title**: Hardcoded in Astro. Edit in `index.astro`:
+
+```
+// index.astro
+<Posts title="Posts" />
+```
+
+- **Tags**: Automated from WordPress.
+- **Posts**: Automated from WordPress.
+
+---
+
+## Making changes to the core layout
+
+### Nav
+
+- **Menu items**: Hardcoded in Astro. You can edit these in `layout.astro`:
+
+```
+// layout.astro
+<Nav>
+  <a href="/#posts" class="ml-3"><Button caption="Posts" /></a>
+  <a href="/#contact" class="ml-3"><Button caption="Contact" /></a>
+</Nav>
+```
+
+### Footer
+
+- **Body**: Hardcoded in Astro. You can edit these in `footer.astro`:
+
+```
+//footer.astro
 ---
 interface Props {
-  // The button title
-  caption: string;
-  font?: 'mono' | 'handwriting';
+  year?: Date;
 }
 
-const { caption, font='mono'} = Astro.props;
+const { year = new Date().getFullYear() } = Astro.props;
 ---
 
-<button
-  class=`text-black rounded-lg w-fit px-4 h-12 ${font=='mono'? 'font-mono' : 'font-handwriting'} bg-slate-200 hover:bg-black dark:hover:bg-slate-500 hover:text-white tracking-tight`
->
-  {caption}
-</button>
-
-
-```
-
-In this code:
-
-- The section between `---` and `---` is known as frontmatter. In here, you can add custom JavaScript code and define the properties that your [component](https://docs.astro.build/en/basics/astro-components/) will use. The ability to create a component and then reuse it with customised properties is really significant, because it lets you build a button once and then reuse it with custom properties as many times as you like, never having to start from scratch.
-- The section after the `---` is mostly HTML with inline CSS, using another framework named [Tailwind CSS](https://blog.hubspot.com/website/what-is-tailwind-css). The places in which there are curly braces (`{}`) signify the properties that you can customise. In this case, you can reuse the Button wherever you like, and each time you'll need to specify the caption/label. When you go to reuse the button component in another place, the button will look like this:
-
-```
-// Any .astro file in which you're using the button component
-<Button caption="Posts" />
+<footer class="self-end my-8 flex flex-col items-end text-right px-8">
+  <p>&copy; Adam Koszary, {year}</p>
+  <p>
+    Designed by <a href="https://joevaughan.net" class="underline font-semibold"
+      >Joe Vaughan</a
+    >
+  </p>
+</footer>
 ```

@@ -1,6 +1,11 @@
 ---
 import Grid from "./atoms/Grid.astro";
-import AdamPhones from "../../src/images/adam_phones.webp";
+
+interface Props {
+    src: ImageMetadata;
+}
+
+const {src} = Astro.props;
 ---
 
 <Grid
@@ -9,6 +14,6 @@ import AdamPhones from "../../src/images/adam_phones.webp";
     background
     loading="eager"
     slug="principles"
-    src={AdamPhones}
+    src={src}
     title="How I Do It"
 />

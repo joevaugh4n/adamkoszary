@@ -1,13 +1,13 @@
 ---
 import { Image } from "astro:assets";
 
-interface props {
-  src: ImageMetadata;
+interface Props {
+  logoImage: ImageMetadata;
   org: string;
   url: string;
 }
 
-const { src, url, org } = Astro.props;
+const { logoImage, url, org } = Astro.props;
 ---
 
 <div class="w-[calc(50%-1rem)] sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1rem)] flex items-center justify-center">
@@ -18,7 +18,7 @@ const { src, url, org } = Astro.props;
   >
     <Image 
       alt={org} 
-      src={src} 
+      src={logoImage} 
       class="w-full h-full object-contain"
     />
   </a>

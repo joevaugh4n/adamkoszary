@@ -1,8 +1,9 @@
 ---
-import Footer from "../components/Footer.astro";
-import Nav from "../components/Nav.astro";
-import { ViewTransitions } from "astro:transitions";
-import AdamOGImage from "../../src/images/opengraph.jpg";
+import { ViewTransitions } from "astro:transitions"; // Astro view transitions
+import AdamOGImage from "../../src/images/opengraph.jpg"; // Open Graph image
+import Button from "../components/atoms/Button.astro"; // Button component used in the Nav
+import Footer from "../components/Footer.astro"; // Page footer component
+import Nav from "../components/Nav.astro"; // Nav component
 
 // OGType options
 export enum OGType {
@@ -52,7 +53,7 @@ const {
 ---
 
 <!doctype html>
-<html class="scroll-smooth scroll-pt-16" lang="en" transition:animate="slide">
+<html class="scroll-smooth scroll-pt-20" lang="en" transition:animate="slide">
   <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-63R54V45CT"
@@ -107,7 +108,10 @@ const {
   </head>
 
   <body>
-    <Nav />
+    <Nav>
+      <a href="/#posts" class="ml-3"><Button caption="Posts" /></a>
+      <a href="/#contact" class="ml-3"><Button caption="Contact" /></a>
+    </Nav>
     <main class="min-h-screen flex flex-col px-8 my-2 max-w-7xl mx-auto">
       {
         ready ? (

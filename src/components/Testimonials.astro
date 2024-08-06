@@ -3,51 +3,16 @@ import Logo from "./atoms/Logo.astro";
 import Logos from "./Logos.astro";
 import TestimonialCard from "./atoms/Testimonial.astro";
 
-// Logos – use svg (ideally) or webp where svgs aren't available
-import BletchleyPark from "../../src/images/bp.svg";
-import BM from "../../src/images/bm.svg";
-import GoodLawProject from "../../src/images/goodlawproject.svg";
-import HistoricEngland from "../../src/images/historicengland.svg";
-import LondonArtStudies from "../../src/images/londonartstudies.webp";
-import MuseumsAssociation from "../../src/images/museumsassociation.svg";
-import MuseumsGalleriesEdinburgh from "../../src/images/museumsgalleriesedinburgh.webp";
-import TripleC from "../../src/images/triplec.webp";
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
 ---
 
 <section class="mb-8">
-  <Logos title="Previous clients">
-    <Logo org="British Museum" src={BM} url="https://www.britishmuseum.org/" />
-    <Logo
-      org="Historic England"
-      src={HistoricEngland}
-      url="https://historicengland.org.uk/"
-    />
-    <Logo
-      org="Good Law Project"
-      src={GoodLawProject}
-      url="https://goodlawproject.org/"
-    />
-    <Logo
-      org="Museums Association"
-      src={MuseumsAssociation}
-      url="https://www.museumsassociation.org/"
-    />
-    <Logo
-      org="Bletchley Park"
-      src={BletchleyPark}
-      url="https://bletchleypark.org.uk/"
-    />
-    <Logo org="Triple C" src={TripleC} url="https://triplec.org.uk/" />
-    <Logo
-      org="London Art Studies"
-      src={LondonArtStudies}
-      url="https://londonartstudies.com/"
-    />
-    <Logo
-      org="Museums & Galleries Edinburgh"
-      src={MuseumsGalleriesEdinburgh}
-      url="https://www.edinburghmuseums.org.uk/"
-    />
+  <Logos title={title}>
+    <slot />
   </Logos>
 
   {

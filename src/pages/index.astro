@@ -1,35 +1,84 @@
 ---
-// Components
+// Imports for the different components used by the page.
 import Contact from "../components/Contact.astro";
 import Header from "../components/Header.astro";
 import HR from "../components/atoms/HR.astro";
 import Layout from "../layouts/Layout.astro";
+import Logo from "../components/atoms/Logo.astro";
 import Posts from "../components/Posts.astro";
 import Principles from "../components/Principles.astro";
 import Services from "../components/Services.astro";
-import Testimonials from "../components/Testimonials.astro";
+import PreviousClients from "../components/Testimonials.astro";
 
-// Images
+// Import for the Principles section's hero image. To use a different image, edit the file name below.
+import HeroImage from "../../src/images/adam_phones.webp";
+
+// Imports for the logo images. If you're adding a new logo, you can give it any alias (e.g. 'Bletchley Park' could have been 'Bletch Park', 'BP', etc). Just make sure you refer to the same alias when creating the Logo component.
+import BletchleyPark from "../../src/images/bp.svg";
+import BM from "../../src/images/bm.svg";
+import GoodLawProject from "../../src/images/goodlawproject.svg";
+import HistoricEngland from "../../src/images/historicengland.svg";
+import LondonArtStudies from "../../src/images/londonartstudies.webp";
+import MuseumsAssociation from "../../src/images/museumsassociation.svg";
+import MuseumsGalleriesEdinburgh from "../../src/images/museumsgalleriesedinburgh.webp";
+import TripleC from "../../src/images/triplec.webp";
 ---
 
 <Layout
   description="Adam Koszary is an expert in social media and digital engagement for museums, galleries, libraries, archives, and theatres."
-  ready={false}
   title="Adam Koszary"
+  ready={false}
 >
   <Header title="Adam Koszary" />
   <HR />
-  <Services />
+  <Services title="What I do" />
   <HR />
-  <Principles />
+  <Principles heroImage={HeroImage} />
   <HR />
-  <Testimonials />
+  <PreviousClients title="Previous clients">
+    <Logo
+      org="British Museum"
+      logoImage={BM}
+      url="https://www.britishmuseum.org/"
+    />
+    <Logo
+      org="Historic England"
+      logoImage={HistoricEngland}
+      url="https://historicengland.org.uk/"
+    />
+    <Logo
+      org="Good Law Project"
+      logoImage={GoodLawProject}
+      url="https://goodlawproject.org/"
+    />
+    <Logo
+      org="Museums Association"
+      logoImage={MuseumsAssociation}
+      url="https://www.museumsassociation.org/"
+    />
+    <Logo
+      org="Bletchley Park"
+      logoImage={BletchleyPark}
+      url="https://bletchleypark.org.uk/"
+    />
+    <Logo org="Triple C" logoImage={TripleC} url="https://triplec.org.uk/" />
+    <Logo
+      org="London Art Studies"
+      logoImage={LondonArtStudies}
+      url="https://londonartstudies.com/"
+    />
+    <Logo
+      org="Museums & Galleries Edinburgh"
+      logoImage={MuseumsGalleriesEdinburgh}
+      url="https://www.edinburghmuseums.org.uk/"
+    />
+  </PreviousClients>
   <HR />
   <Contact
-    description="Chatting to me is free, and I have a discount for smaller organisations (less than £100k annual revenue)."
+    description="Chatting to me is  free, and I have a discount for smaller organisations (less than £100k annual revenue)."
     title="Get in touch"
   />
   <HR />
-  <Posts />
+  <Posts title="Posts" />
   <HR />
 </Layout>
