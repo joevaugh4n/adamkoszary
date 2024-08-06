@@ -2,10 +2,10 @@
 import Grid from "./atoms/Grid.astro";
 
 interface Props {
-    src: ImageMetadata;
+    heroImage: ImageMetadata;
 }
 
-const {src} = Astro.props;
+const {heroImage} = Astro.props;
 ---
 
 <Grid
@@ -14,6 +14,6 @@ const {src} = Astro.props;
     background
     loading="eager"
     slug="principles"
-    src={src}
+    src={heroImage}
     title="How I Do It"
 />
