@@ -13,19 +13,6 @@ import { Icon } from "astro-icon/components";
     >
   </div>
   <div class="flex gap-4">
-    <a title="Twitter" href="https://x.com/AdamKoszary">
-      <Icon
-        title="Twitter"
-        class="lg:text-6xl text-4xl"
-        name="tabler:brand-x"
-      />
-    </a>
-    <a title="LinkedIn" href="https://linkedin.com/in/adam-koszary">
-      <Icon
-        title="LinkedIn"
-        class="lg:text-6xl text-4xl"
-        name="tabler:brand-linkedin"
-      /></a
-    >
+    <slot />
   </div>
 </nav>

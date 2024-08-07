@@ -14,7 +14,7 @@ const { title, description, CTA } = Astro.props;
 // All styling here is handled by [slug].astro
 ---
 
-<Layout title={title} description={description} ogType={OGType.Article}>
+<Layout title={title} metaDescription={description} ogType={OGType.Article}>
   <slot />
   <HR />
   <Contact

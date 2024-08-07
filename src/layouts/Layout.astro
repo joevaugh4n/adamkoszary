@@ -27,7 +27,7 @@ interface Props {
   // Page title
   title: string;
   // Meta description
-  description: string;
+  metaDescription: string;
   // Should this page be noindexed? Defaults to false
   noindex?: boolean;
   // Set a canonical URL for this page
@@ -42,7 +42,7 @@ interface Props {
 
 const {
   title,
-  description,
+  metaDescription,
   noindex = false,
   canonicalUrl,
   ogImage = AdamOGImage,
@@ -79,7 +79,7 @@ const {
     <meta name="viewport" content="width=device-width" />
     <meta
       name="description"
-      content={description ? description : "No description provided"}
+      content={metaDescription ? metaDescription : "No description provided"}
     />
     {noindex && <meta name="robots" content="noindex" />}
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
@@ -96,23 +96,23 @@ const {
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={Astro.url} />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={metaDescription} />
     {ogImage && <meta property="og:image" content={ogImage.src} />}
 
     <!-- Twitter -->
     <meta property="twitter:card" content={twitterCard} />
     <meta property="twitter:url" content={Astro.url} />
     <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
+    <meta property="twitter:description" content={metaDescription} />
     {ogImage && <meta property="twitter:image" content={ogImage.src} />}
   </head>
 
-  <body>
+  <body class="px-8 max-w-7xl">
     <Nav>
       <a href="/#posts" class="ml-3"><Button caption="Posts" /></a>
       <a href="/#contact" class="ml-3"><Button caption="Contact" /></a>
     </Nav>
-    <main class="min-h-screen flex flex-col px-8 my-2 max-w-7xl mx-auto">
+    <main class="min-h-screen flex flex-col my-2 mx-auto">
       {
         ready ? (
           <slot />

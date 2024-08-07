@@ -1,12 +1,13 @@
 ---
 interface Props {
+  /** Copyright year. Note: this updates automatically to the current year.*/
   year?: Date;
 }
 
 const { year = new Date().getFullYear() } = Astro.props;
 ---
 
-<footer class="self-end my-8 flex flex-col items-end text-right px-8">
+<footer class="self-end my-8 flex flex-col items-end text-right mx-auto">
   <p>&copy; Adam Koszary, {year}</p>
   <p>
     Designed by <a href="https://joevaughan.net" class="underline font-semibold"

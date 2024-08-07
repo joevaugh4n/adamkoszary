@@ -1,0 +1,20 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+    /** Link title.*/
+    title: string;
+    /** Optional: The icon's styling. This is set by default. Note: className is used as 'class' is a reserved word. */
+    className?: string;
+    /** The icon image. Choose from any of the icons here: https://icon-sets.iconify.design/tabler/. For example: 'tabler:brand-linkedin'.*/
+    name: string;
+    /** The icon target URL. Be sure to add the full link. */
+    url: string;
+}
+
+const { title, className = "lg:text-6xl text-4xl", name, url } = Astro.props;
+---
+
+<a title={title} href={url}>
+    <Icon title={title} class={className} name={name.toLowerCase()} /></a
+>

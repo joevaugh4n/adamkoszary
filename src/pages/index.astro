@@ -6,9 +6,10 @@ import HR from "../components/atoms/HR.astro";
 import Layout from "../layouts/Layout.astro";
 import Logo from "../components/atoms/Logo.astro";
 import Posts from "../components/Posts.astro";
+import PreviousClients from "../components/Testimonials.astro";
 import Principles from "../components/Principles.astro";
 import Services from "../components/Services.astro";
-import PreviousClients from "../components/Testimonials.astro";
+import SocialIcon from "../components/atoms/SocialIcon.astro";
 
 // Import for the Principles section's hero image. To use a different image, edit the file name below.
 import PrinciplesImage from "../../src/images/adam_phones.webp";
@@ -25,60 +26,71 @@ import TripleC from "../../src/images/triplec.webp";
 ---
 
 <Layout
-  description="Adam Koszary is an expert in social media and digital engagement for museums, galleries, libraries, archives, and theatres."
+  metaDescription="Adam Koszary is an expert in social media and digital engagement for museums, galleries, libraries, archives, and theatres."
   title="Adam Koszary"
   ready={false}
 >
-  <Header title="Adam Koszary" />
-  <HR />
-  <Services title="What I do" />
-  <HR />
-  <Principles heroImage={PrinciplesImage} />
-  <HR />
-  <PreviousClients title="Previous clients">
-    <Logo
-      org="British Museum"
-      logoImage={BM}
-      url="https://www.britishmuseum.org/"
+  <Header title="Adam Koszary">
+    <!-- Social icons -->
+    <SocialIcon
+      title="Twitter"
+      url="https://x.com/AdamKoszary"
+      name="tabler:brand-x"
     />
-    <Logo
-      org="Historic England"
-      logoImage={HistoricEngland}
-      url="https://historicengland.org.uk/"
+    <SocialIcon
+      title="Linkedn"
+      name="tabler:brand-Linkedin"
+      url="https://linkedin.com/in/adam-koszary"
     />
-    <Logo
-      org="Good Law Project"
-      logoImage={GoodLawProject}
-      url="https://goodlawproject.org/"
-    />
-    <Logo
-      org="Museums Association"
-      logoImage={MuseumsAssociation}
-      url="https://www.museumsassociation.org/"
-    />
-    <Logo
-      org="Bletchley Park"
-      logoImage={BletchleyPark}
-      url="https://bletchleypark.org.uk/"
-    />
-    <Logo org="Triple C" logoImage={TripleC} url="https://triplec.org.uk/" />
-    <Logo
-      org="London Art Studies"
-      logoImage={LondonArtStudies}
-      url="https://londonartstudies.com/"
-    />
-    <Logo
-      org="Museums & Galleries Edinburgh"
-      logoImage={MuseumsGalleriesEdinburgh}
-      url="https://www.edinburghmuseums.org.uk/"
-    />
-  </PreviousClients>
-  <HR />
-  <Contact
-    description="Chatting to me is  free, and I have a discount for smaller organisations (less than £100k annual revenue)."
-    title="Get in touch"
+  </Header>
+<HR />
+<Services title="What I do" />
+<HR />
+<Principles heroImage={PrinciplesImage} />
+<HR />
+<PreviousClients title="Previous clients">
+  <Logo
+    org="British Museum"
+    logoImage={BM}
+    url="https://www.britishmuseum.org/"
   />
-  <HR />
-  <Posts title="Posts" />
-  <HR />
-</Layout>
+  <Logo
+    org="Historic England"
+    logoImage={HistoricEngland}
+    url="https://historicengland.org.uk/"
+  />
+  <Logo
+    org="Good Law Project"
+    logoImage={GoodLawProject}
+    url="https://goodlawproject.org/"
+  />
+  <Logo
+    org="Museums Association"
+    logoImage={MuseumsAssociation}
+    url="https://www.museumsassociation.org/"
+  />
+  <Logo
+    org="Bletchley Park"
+    logoImage={BletchleyPark}
+    url="https://bletchleypark.org.uk/"
+  />
+  <Logo org="Triple C" logoImage={TripleC} url="https://triplec.org.uk/" />
+  <Logo
+    org="London Art Studies"
+    logoImage={LondonArtStudies}
+    url="https://londonartstudies.com/"
+  />
+  <Logo
+    org="Museums & Galleries Edinburgh"
+    logoImage={MuseumsGalleriesEdinburgh}
+    url="https://www.edinburghmuseums.org.uk/"
+  />
+</PreviousClients>
+<HR />
+<Contact
+  description="Chatting to me is  free, and I have a discount for smaller organisations (less than £100k annual revenue)."
+  title="Get in touch"
+/>
+<HR />
+<Posts title="Posts" />
+<HR />

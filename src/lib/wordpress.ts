@@ -8,6 +8,7 @@ interface WPGraphQLResponse {
   errors?: Array<{ message: string }>;
 }
 
+// Initial API request to WPGraphQL
 export async function wpquery({ query, variables = {} }: WPGraphQLParams): Promise<Record<string, any>> {
   try {
     const res = await fetch('https://admin.adamkoszary.co.uk/graphql', {
@@ -49,19 +50,7 @@ interface DataProps {
   };
 }
 
-export interface Testimonial {
-  quote: string;
-  author: string;
-  role: string;
-  org: string;
-  link: string;
-}
-
-interface PageContent {
-  title: string;
-  content: string;
-}
-
+// Fetch content from the API response
 export const fetchPageContent = async (slug: string): Promise<{ title: string; content: string }> => {
   let data: DataProps = { pages: { nodes: [] } };
   let pageContent = "Content not found";
@@ -83,12 +72,9 @@ export const fetchPageContent = async (slug: string): Promise<{ title: string; c
       `,
     });
 
-    console.log('GraphQL response:', JSON.stringify(response, null, 2));
-
     if (response.pages?.nodes) {
       data = response as DataProps;
       const pageData = data.pages.nodes.find((page) => page.slug === slug);
-      console.log('Page data for slug:', slug, pageData);
       if (pageData) {
         pageContent = pageData.content;
         pageTitle = pageData.title;
