@@ -1,5 +1,4 @@
 ---
-// CookieBanner.astro
 import type { CookieBannerProps } from "../lib/cookies";
 
 const { GA_MEASUREMENT_ID } = Astro.props as CookieBannerProps;
@@ -10,12 +9,12 @@ const { GA_MEASUREMENT_ID } = Astro.props as CookieBannerProps;
 
 <div
     id="cookie-banner"
-    class="fixed bottom-0 left-0 right-0 bg-gray-100 shadow-md z-50"
+    class="fixed bottom-0 left-0 right-0 bg-gray-100 shadow-md z-50 pb-8"
 >
     <div
-        class="max-w-screen-xl mx-auto flex flex-col sm:flex-row items-center justify-between"
+        class="max-w-screen-xl mx-auto flex lg:flex-row flex-col items-center justify-between"
     >
-        <p class="mb-4 p-4 sm:mb-0 text-sm text-gray-800">
+        <p class="py-4 px-4 sm:mb-0 text-sm text-black text-pretty">
             We use cookies to make this service work and analyse performance.
             <a
                 href="/privacy-policy"
