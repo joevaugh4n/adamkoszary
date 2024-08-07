@@ -1,0 +1,113 @@
+---
+// CookieBanner.astro
+import type { CookieBannerProps } from "../lib/cookies";
+
+const { GA_MEASUREMENT_ID } = Astro.props as CookieBannerProps;
+
+// We can't check localStorage on the server side, so we'll always render the banner
+// and then hide it with JavaScript if necessary
+---
+
+<div
+    id="cookie-banner"
+    class="fixed bottom-0 left-0 right-0 bg-gray-100 shadow-md z-50"
+>
+    <div
+        class="max-w-screen-xl mx-auto flex flex-col sm:flex-row items-center justify-between"
+    >
+        <p class="mb-4 p-4 sm:mb-0 text-sm text-gray-800">
+            We use cookies to make this service work and analyse performance.
+            <a
+                href="/privacy-policy"
+                class="text-blue-600 hover:text-blue-800 underline"
+                >Privacy Policy</a
+            >
+        </p>
+        <div>
+            <button
+                id="accept-cookies"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+            >
+                Accept
+            </button>
+            <button
+                id="decline-cookies"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+            >
+                Decline
+            </button>
+        </div>
+    </div>
+</div>
+
+<script define:vars={{ GA_MEASUREMENT_ID }}>
+    const STORAGE_KEY = "cookieChoice";
+
+    function getStorageItem(key) {
+        const item = localStorage.getItem(key);
+        if (!item) return null;
+
+        const { value, expiry } = JSON.parse(item);
+        if (Date.now() > expiry) {
+            localStorage.removeItem(key);
+            return null;
+        }
+        return value;
+    }
+
+    function setStorageItem(key, value, expiryDays) {
+        const expiry = Date.now() + expiryDays * 24 * 60 * 60 * 1000;
+        localStorage.setItem(key, JSON.stringify({ value, expiry }));
+    }
+
+    function hideBanner() {
+        const banner = document.getElementById("cookie-banner");
+        if (banner) {
+            banner.style.display = "none";
+        }
+    }
+
+    function handleCookieChoice(choice) {
+        console.log(`Cookie choice: ${choice}`);
+        setStorageItem(STORAGE_KEY, choice, 365); // Store for 1 year
+        hideBanner();
+        if (choice === "accept") {
+            loadGoogleAnalytics();
+        }
+    }
+
+    function loadGoogleAnalytics() {
+        console.log("Loading Google Analytics");
+        const script1 = document.createElement("script");
+        script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+        script1.async = true;
+        document.head.appendChild(script1);
+
+        const script2 = document.createElement("script");
+        script2.text = `
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+        `;
+        document.head.appendChild(script2);
+    }
+
+    document
+        .getElementById("accept-cookies")
+        ?.addEventListener("click", () => handleCookieChoice("accept"));
+    document
+        .getElementById("decline-cookies")
+        ?.addEventListener("click", () => handleCookieChoice("decline"));
+
+    // Check for existing choice when the page loads
+    const existingChoice = getStorageItem(STORAGE_KEY);
+    console.log(`Initial cookie choice: ${existingChoice}`);
+
+    if (existingChoice) {
+        hideBanner();
+        if (existingChoice === "accept") {
+            loadGoogleAnalytics();
+        }
+    }
+</script>

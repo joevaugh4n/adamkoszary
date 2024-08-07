@@ -15,6 +15,8 @@
     "@astrojs/starlight": "^0.25.3",
     "@astrojs/starlight-tailwind": "^2.0.3",
     "@astrojs/tailwind": "^5.1.0",
+    "@jop-software/astro-cookieconsent": "^3.0.0",
+    "@porscheofficial/cookie-consent-banner-react": "^4.0.3",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -25,7 +27,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwindcss": "^3.4.7",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "vanilla-cookieconsent": "^3.0.1"
   },
   "devDependencies": {
     "@iconify-json/tabler": "^1.1.118",
