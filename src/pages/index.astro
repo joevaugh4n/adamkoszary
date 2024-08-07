@@ -1,6 +1,6 @@
 ---
 // Imports for the different components used by the page.
-import Contact from "../components/Contact.astro";
+import ContactForm from "../components/Contact.astro";
 import Header from "../components/Header.astro";
 import HR from "../components/atoms/HR.astro";
 import Layout from "../layouts/Layout.astro";
@@ -28,7 +28,7 @@ import TripleC from "../../src/images/triplec.webp";
 <Layout
   metaDescription="Adam Koszary is an expert in social media and digital engagement for museums, galleries, libraries, archives, and theatres."
   title="Adam Koszary"
-  ready={false}
+  ready={false /** accepts true or false */}
 >
   <Header title="Adam Koszary">
     <!-- Social icons -->
@@ -87,7 +87,7 @@ import TripleC from "../../src/images/triplec.webp";
   />
 </PreviousClients>
 <HR />
-<Contact
+<ContactForm
   description="Chatting to me is  free, and I have a discount for smaller organisations (less than £100k annual revenue)."
   title="Get in touch"
 />

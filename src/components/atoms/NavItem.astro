@@ -1,0 +1,13 @@
+---
+import Button from "./Button.astro";
+
+interface Props {
+    url: string;
+    className?: string;
+    caption: string;
+}
+
+const { url, className = "ml-3", caption } = Astro.props;
+---
+
+<a href={url} class={className}><Button caption={caption} /></a>

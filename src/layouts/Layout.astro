@@ -1,9 +1,9 @@
 ---
 import { ViewTransitions } from "astro:transitions"; // Astro view transitions
 import AdamOGImage from "../../src/images/opengraph.jpg"; // Open Graph image
-import Button from "../components/atoms/Button.astro"; // Button component used in the Nav
 import Footer from "../components/Footer.astro"; // Page footer component
 import Nav from "../components/Nav.astro"; // Nav component
+import NavLink from "../components/atoms/NavItem.astro";
 
 // OGType options
 export enum OGType {
@@ -109,8 +109,8 @@ const {
 
   <body class="px-8 max-w-7xl">
     <Nav>
-      <a href="/#posts" class="ml-3"><Button caption="Posts" /></a>
-      <a href="/#contact" class="ml-3"><Button caption="Contact" /></a>
+      <NavLink url="/#posts" caption="Posts" />
+      <NavLink url="/#contact" caption="Contact" />
     </Nav>
     <main class="min-h-screen flex flex-col my-2 mx-auto">
       {
