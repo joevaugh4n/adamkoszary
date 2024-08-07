@@ -8,7 +8,7 @@ import Logo from "../components/atoms/Logo.astro";
 import Posts from "../components/Posts.astro";
 import PreviousClients from "../components/Testimonials.astro";
 import Principles from "../components/Principles.astro";
-import Services from "../components/Services.astro";
+import Services from "../components/Services";
 import SocialIcon from "../components/atoms/SocialIcon.astro";
 
 // Import for the Principles section's hero image. To use a different image, edit the file name below.
@@ -44,7 +44,7 @@ import TripleC from "../../src/images/triplec.webp";
     />
   </Header>
   <HR />
-  <Services title="What I do" />
+  <Services client:load />
   <HR />
   <Principles heroImage={PrinciplesImage} />
   <HR />
