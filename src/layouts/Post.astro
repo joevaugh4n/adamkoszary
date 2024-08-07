@@ -20,7 +20,7 @@ const { title, description, CTA, ogImage } = Astro.props;
   ogType={OGType.Article}
   ogImage={ogImage}
 >
-  <article class="flex flex-col mx-auto mt-4 px-8">
+  <article class="flex flex-col mx-auto mt-4 md:px-8">
     <!-- All content within the slot is handled by [slug].astro -->
     <slot />
     <HR />

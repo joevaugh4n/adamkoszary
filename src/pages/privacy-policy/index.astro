@@ -3,7 +3,8 @@ import Subpage from "../../layouts/Subpage.astro";
 import { fetchPageContent } from "../../lib/wordpress";
 
 // Fetch the privacy policy content
-const { content: privacyPolicyContent } = await fetchPageContent("privacy-policy");
+const { content: privacyPolicyContent } =
+    await fetchPageContent("privacy-policy");
 ---
 
 <Subpage
@@ -12,5 +13,8 @@ const { content: privacyPolicyContent } = await fetchPageContent("privacy-policy
     description="How I use your data"
     noindex={true}
 >
-    <div class="prose text-black dark:text-white prose-h2:dark:text-white prose-h2:font-semibold prose-h2:mb-4 prose-p:mb-1 prose-ul:mt-2 prose-a:dark:text-white prose-strong:dark:text-white" set:html={privacyPolicyContent} />
+    <div
+        class="prose text-pretty text-black dark:text-white prose-h2:dark:text-white prose-h2:font-semibold prose-h2:mb-4 prose-p:mb-1 prose-ul:mt-2 prose-a:dark:text-white prose-strong:dark:text-white max-w-[100ch]"
+        set:html={privacyPolicyContent}
+    />
 </Subpage>
