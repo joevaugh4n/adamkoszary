@@ -33,7 +33,7 @@ interface Props {
   // Set a canonical URL for this page
   canonicalUrl?: string;
   // Define og image
-  ogImage?: ImageMetadata;
+  ogImage?: ImageMetadata | string;
   // og type properties. Defaults to website
   ogType?: OGType;
   // Twitter card content
@@ -50,6 +50,10 @@ const {
   twitterCard = "summary_large_image",
   ready = true,
 } = Astro.props;
+
+function getImageUrl(image: ImageMetadata | string): string {
+  return typeof image === "string" ? image : image.src;
+}
 ---
 
 <!doctype html>
@@ -97,17 +101,21 @@ const {
     <meta property="og:url" content={Astro.url} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={metaDescription} />
-    {ogImage && <meta property="og:image" content={ogImage.src} />}
+    {ogImage && <meta property="og:image" content={getImageUrl(ogImage)} />}
 
     <!-- Twitter -->
     <meta property="twitter:card" content={twitterCard} />
     <meta property="twitter:url" content={Astro.url} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={metaDescription} />
-    {ogImage && <meta property="twitter:image" content={ogImage.src} />}
+    {
+      ogImage && (
+        <meta property="twitter:image" content={getImageUrl(ogImage)} />
+      )
+    }
   </head>
 
-  <body class="px-8 max-w-7xl">
+  <body class="px-8 max-w-7xl mx-auto">
     <Nav>
       <NavLink url="/#posts" caption="Posts" />
       <NavLink url="/#contact" caption="Contact" />

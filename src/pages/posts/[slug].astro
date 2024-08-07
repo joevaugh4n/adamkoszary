@@ -1,8 +1,9 @@
 ---
-import Post from "../../layouts/Post.astro";
-import Tag from "../../components/atoms/Tag.astro";
 import { wpquery } from "../../lib/wordpress";
-import { Picture } from "astro:assets";
+import BlogHero from "../../components/BlogHero.astro";
+import BlogShares from "../../components/BlogShares.astro";
+import BlogTitle from "../../components/BlogTitle.astro";
+import Post from "../../layouts/Post.astro";
 
 interface PostProps {
   title: string;
@@ -26,14 +27,6 @@ interface PostProps {
 
 interface Props {
   post: PostProps;
-}
-
-function formatDate(date: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(new Date(date));
 }
 
 // API call to fetch the data
@@ -88,40 +81,43 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+const fallbackImageUrl = "/src/images/adam_hedge.webp";
 ---
 
-<Post title={post.title} description={post.excerpt}>
-  <article>
+<Post
+  title={post.title}
+  description={post.excerpt}
+  ogImage={post.featuredImage?.node.mediaItemUrl || fallbackImageUrl}
+>
+  <Fragment class="flex flex-col mx-auto">
     {
-      post.featuredImage && post.featuredImage.node && (
-        <div class="h-[400px] overflow-hidden mb-8 rounded ">
-          <Picture
-            loading="eager"
-            src={post.featuredImage.node.mediaItemUrl}
-            alt={post.featuredImage.node.altText || ""}
-            height="200"
-            width="1000"
-            class="object-cover"
-          />
-        </div>
+      post.featuredImage && (
+        <BlogHero
+          src={post.featuredImage.node.mediaItemUrl}
+          alt={post.featuredImage.node.altText || ""}
+        />
       )
     }
 
-    <hgroup>
-      <p class="text-gray-600 dark:text-white mb-4">
-        {formatDate(post.dateGmt)}
-      </p>
-
-      <h1 class="text-4xl uppercase mb-4">{post.title}</h1>
-
-      <div class="mb-6 flex gap-2 flex-wrap">
-        {post.tags.nodes.map((tag) => <Tag link tag={tag.name} />)}
+    <div
+      class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+    >
+      <div class="w-full md:w-1/5 flex justify-center md:justify-start">
+        <BlogShares url={Astro.url.toString()} />
       </div>
-    </hgroup>
+      <div class="w-full md:w-3/5 text-center">
+        <BlogTitle
+          date={post.dateGmt}
+          title={post.title}
+          tags={post.tags.nodes}
+        />
+      </div>
+      <div class="hidden sm:block md:w-1/5"></div>
+    </div>
 
     <div
-      class="dark:text-white prose dark:prose-invert prose-img:rounded prose-img:mx-auto prose-img:w-full prose-img:max-w-full md:prose-img:max-w-[80%] lg:prose-img:max-w-[70%] prose-img:block"
+      class="max-w-[100ch] dark:text-white prose dark:prose-invert prose-img:rounded prose-img:mx-auto prose-img:w-full prose-img:max-w-full md:prose-img:max-w-[80%] lg:prose-img:max-w-[70%] prose-img:block prose-figcaption:text-center"
       set:html={post.content}
     />
-  </article>
+  </Fragment>
 </Post>

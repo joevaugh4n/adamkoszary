@@ -1,0 +1,24 @@
+---
+import SocialIcon from "./atoms/SocialIcon.astro";
+
+interface Props {
+    url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<aside class="flex gap-2 self-end">
+    <SocialIcon
+        name="tabler:brand-x"
+        title="Share on Twitter"
+        type="inline"
+        url={`https://twitter.com/intent/tweet?url=${url}`}
+    />
+    <SocialIcon
+        name="tabler:brand-Linkedin"
+        title="Share on Linkedn"
+        type="inline"
+        url={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
+    />
+</aside>

@@ -1,4 +1,5 @@
 ---
+import BlogHero from "../components/BlogHero.astro";
 import Layout, { OGType } from "./Layout.astro";
 import Contact from "../components/Contact.astro";
 import HR from "../components/atoms/HR.astro";
@@ -7,19 +8,26 @@ interface Props {
   title: string;
   description: string;
   CTA?: string;
+  ogImage?: ImageMetadata | string;
 }
 
-const { title, description, CTA } = Astro.props;
-
-// All styling here is handled by [slug].astro
+const { title, description, CTA, ogImage } = Astro.props;
 ---
 
-<Layout title={title} metaDescription={description} ogType={OGType.Article}>
-  <slot />
-  <HR />
-  <Contact
-    title="Reach out"
-    description={CTA ||
-      "Interested in what I do and how I can help? Get in touch. Chatting to me is free, and I have a discount for smaller organisations (less than £100k annual revenue). "}
-  />
+<Layout
+  title={title}
+  metaDescription={description}
+  ogType={OGType.Article}
+  ogImage={ogImage}
+>
+  <article class="flex flex-col mx-auto mt-4 px-8">
+    <!-- All content within the slot is handled by [slug].astro -->
+    <slot />
+    <HR />
+    <Contact
+      title="Reach out"
+      description={CTA ||
+        "Interested in what I do and how I can help? Get in touch. Chatting to me is free, and I have a discount for smaller organisations (less than £100k annual revenue). "}
+    />
+  </article>
 </Layout>

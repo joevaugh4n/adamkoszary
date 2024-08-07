@@ -1,0 +1,25 @@
+---
+import Picture from "astro/components/Picture.astro";
+
+
+interface Props {
+    src: string;
+    alt: string;
+    height?: number;
+    width?: number;
+    className?: string;
+}
+
+const { src, alt, height = 200, width = 1000, className } = Astro.props;
+---
+
+<div class="h-auto pb-8 overflow-hidden rounded self-center">
+    <Picture
+        {width}
+        {height}
+        loading="eager"
+        src={src}
+        alt={alt}
+        class={className}
+    />
+</div>

@@ -28,7 +28,7 @@ import TripleC from "../../src/images/triplec.webp";
 <Layout
   metaDescription="Adam Koszary is an expert in social media and digital engagement for museums, galleries, libraries, archives, and theatres."
   title="Adam Koszary"
-  ready={false /** accepts true or false */}
+  ready={true /** accepts true or false */}
 >
   <Header title="Adam Koszary">
     <!-- Social icons -->
@@ -43,54 +43,55 @@ import TripleC from "../../src/images/triplec.webp";
       url="https://linkedin.com/in/adam-koszary"
     />
   </Header>
-<HR />
-<Services title="What I do" />
-<HR />
-<Principles heroImage={PrinciplesImage} />
-<HR />
-<PreviousClients title="Previous clients">
-  <Logo
-    org="British Museum"
-    logoImage={BM}
-    url="https://www.britishmuseum.org/"
+  <HR />
+  <Services title="What I do" />
+  <HR />
+  <Principles heroImage={PrinciplesImage} />
+  <HR />
+  <PreviousClients title="Previous clients">
+    <Logo
+      org="British Museum"
+      logoImage={BM}
+      url="https://www.britishmuseum.org/"
+    />
+    <Logo
+      org="Historic England"
+      logoImage={HistoricEngland}
+      url="https://historicengland.org.uk/"
+    />
+    <Logo
+      org="Good Law Project"
+      logoImage={GoodLawProject}
+      url="https://goodlawproject.org/"
+    />
+    <Logo
+      org="Museums Association"
+      logoImage={MuseumsAssociation}
+      url="https://www.museumsassociation.org/"
+    />
+    <Logo
+      org="Bletchley Park"
+      logoImage={BletchleyPark}
+      url="https://bletchleypark.org.uk/"
+    />
+    <Logo org="Triple C" logoImage={TripleC} url="https://triplec.org.uk/" />
+    <Logo
+      org="London Art Studies"
+      logoImage={LondonArtStudies}
+      url="https://londonartstudies.com/"
+    />
+    <Logo
+      org="Museums & Galleries Edinburgh"
+      logoImage={MuseumsGalleriesEdinburgh}
+      url="https://www.edinburghmuseums.org.uk/"
+    />
+  </PreviousClients>
+  <HR />
+  <ContactForm
+    description="Chatting to me is  free, and I have a discount for smaller organisations (less than £100k annual revenue)."
+    title="Get in touch"
   />
-  <Logo
-    org="Historic England"
-    logoImage={HistoricEngland}
-    url="https://historicengland.org.uk/"
-  />
-  <Logo
-    org="Good Law Project"
-    logoImage={GoodLawProject}
-    url="https://goodlawproject.org/"
-  />
-  <Logo
-    org="Museums Association"
-    logoImage={MuseumsAssociation}
-    url="https://www.museumsassociation.org/"
-  />
-  <Logo
-    org="Bletchley Park"
-    logoImage={BletchleyPark}
-    url="https://bletchleypark.org.uk/"
-  />
-  <Logo org="Triple C" logoImage={TripleC} url="https://triplec.org.uk/" />
-  <Logo
-    org="London Art Studies"
-    logoImage={LondonArtStudies}
-    url="https://londonartstudies.com/"
-  />
-  <Logo
-    org="Museums & Galleries Edinburgh"
-    logoImage={MuseumsGalleriesEdinburgh}
-    url="https://www.edinburghmuseums.org.uk/"
-  />
-</PreviousClients>
-<HR />
-<ContactForm
-  description="Chatting to me is  free, and I have a discount for smaller organisations (less than £100k annual revenue)."
-  title="Get in touch"
-/>
-<HR />
-<Posts title="Posts" />
-<HR />
+  <HR />
+  <Posts title="Posts" />
+  <HR />
+</Layout>

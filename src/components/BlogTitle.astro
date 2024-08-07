@@ -1,0 +1,49 @@
+---
+import Tag from "./atoms/Tag.astro";
+
+interface TagProps {
+    id: string;
+    name: string;
+}
+
+interface Props {
+    date: string;
+    title: string;
+    tags?: TagProps[] | null;
+}
+
+const { date, title, tags } = Astro.props;
+
+const formatDate = (date: string) =>
+    new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    }).format(new Date(date));
+---
+
+<hgroup
+    class="flex flex-col items-center text-center max-w-3xl mx-auto md:pb-8 pb-4 px-4"
+>
+    <p
+        class="text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3"
+    >
+        {formatDate(date)}
+    </p>
+
+    <h1
+        class=`md:text-5xl text-4xl font-bold text-gray-800 dark:text-white leading-tight text-pretty`
+    >
+        {title}
+    </h1>
+
+    {
+        tags && tags.length > 0 && (
+            <div class="flex flex-wrap justify-center gap-3 mt-6 pb-4">
+                {tags.map(({ name }) => (
+                    <Tag link tag={name} />
+                ))}
+            </div>
+        )
+    }
+</hgroup>

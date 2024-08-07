@@ -1,5 +1,6 @@
 ---
 import { ViewTransitions } from "astro:transitions";
+import H2 from "./atoms/H2.astro";
 import Keith from "../images/keith.webp";
 import Drawer from "./atoms/Drawer.astro";
 import { fetchPageContent } from "../lib/wordpress";
@@ -69,12 +70,8 @@ const { title } = Astro.props;
 <ViewTransitions />
 
 <section class="max-w-7xl mx-auto">
-  <h2
-    id="services"
-    class="md:text-4xl text-2xl md:mb-4 mb-2 font-medium dark:text-white text-black"
-  >
-    {title}
-  </h2>
+  <H2 title={title} />
+
   <p>{intro}</p>
   <div class="grid md:grid-cols-2 w-full mt-8 gap-x-8 gap-y-8">
     {
