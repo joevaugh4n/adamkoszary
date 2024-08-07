@@ -88,6 +88,9 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const fallbackImageUrl = "/src/images/adam_hedge.webp";
+
+// Construct the full URL for the post
+const postUrl = new URL(`/posts/${post.slug}`, 'https://adamkoszary.co.uk').toString();
 ---
 
 <Post
@@ -109,9 +112,7 @@ const fallbackImageUrl = "/src/images/adam_hedge.webp";
       class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
     >
       <div class="w-full md:w-1/5 flex justify-center md:justify-start">
-        <BlogShares
-          url={`https://adamkoszary.co.uk${Astro.url.pathname.toString()}`}
-        />
+        <BlogShares url={postUrl} />
       </div>
 
       <div class="w-full md:w-3/5 text-center">
