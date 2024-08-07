@@ -10,11 +10,25 @@ interface Props {
     name: string;
     /** The icon target URL. Be sure to add the full link. */
     url: string;
+    /** Variant */
+    type?: "homepage" | "inline";
 }
 
-const { title, className = "lg:text-6xl text-4xl", name, url } = Astro.props;
+const {
+    title,
+    className = "lg:text-6xl text-4xl",
+    name,
+    url,
+    type = "homepage",
+} = Astro.props;
 ---
 
-<a title={title} href={url}>
-    <Icon title={title} class={className} name={name.toLowerCase()} /></a
+<a title={title} href={url} class="w-min">
+    <Icon
+        title={title}
+        class={type == "homepage"
+            ? className
+            : "md:text-4xl text-3xl border rounded-full p-1"}
+        name={name.toLowerCase()}
+    /></a
 >

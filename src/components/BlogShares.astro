@@ -1,0 +1,24 @@
+---
+import SocialIcon from "./atoms/SocialIcon.astro";
+
+interface Props {
+    url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<aside class="flex gap-2 self-end">
+    <SocialIcon
+        name="tabler:brand-x"
+        title="Follow me on Twitter"
+        type="inline"
+        url="https://x.com/AdamKoszary"
+    />
+    <SocialIcon
+        name="tabler:brand-Linkedin"
+        title="Follow me on LinkedIn"
+        type="inline"
+        url="https://linkedin.com/in/adam-koszary"
+    />
+</aside>

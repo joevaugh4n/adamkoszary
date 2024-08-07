@@ -1,6 +1,7 @@
 ---
+import { capitalise } from "../../lib/utils";
 import Subpage from "../../layouts/Subpage.astro";
-import Post from "../../components/atoms/Post.astro";
+import Post, { type TagProps } from "../../components/atoms/Post.astro";
 import TagCard from "../../components/atoms/Tag.astro";
 import { wpquery } from "../../lib/wordpress";
 
@@ -32,7 +33,6 @@ interface TagDataProps {
     nodes: TagNode[];
   };
 }
-
 export async function getStaticPaths() {
   const data = await wpquery({
     query: `
@@ -54,15 +54,19 @@ export async function getStaticPaths() {
   }
 
   return data.tags.nodes.map((tag: TagNode) => ({
-    params: { tag: tag.slug },
-    props: { tagSlug: tag.slug },
+    params: { tag: encodeURIComponent(tag.slug.toLowerCase()) },
+    props: { tagSlug: tag.slug.toLowerCase() },
   }));
 }
 
 const { tagSlug } = Astro.props;
 
-// Fetch tag data, posts, and other active tags
-let data: TagDataProps = { tag: { name: "", slug: "", posts: { nodes: [] } }, tags: { nodes: [] } };
+const encodeSlug = (slug: string) => encodeURIComponent(slug.toLowerCase());
+
+let data: TagDataProps = {
+  tag: { name: "", slug: "", posts: { nodes: [] } },
+  tags: { nodes: [] },
+};
 try {
   const response = await wpquery({
     query: `
@@ -94,10 +98,20 @@ try {
         }
       }
     `,
-    variables: { slug: tagSlug },
+    variables: { slug: encodeSlug(tagSlug) },
   });
 
   if (response.tag && response.tags?.nodes) {
+    response.tag.slug = response.tag.slug.toLowerCase();
+    response.tag.posts.nodes.forEach((post: any) => {
+      post.tags.nodes.forEach((tag: any) => {
+        tag.slug = tag.slug.toLowerCase();
+      });
+    });
+    response.tags.nodes.forEach((tag: any) => {
+      tag.slug = tag.slug.toLowerCase();
+    });
+
     data = response as TagDataProps;
   } else {
     console.error("Tag data or tags nodes missing in the response", response);
@@ -108,19 +122,17 @@ try {
 
 const tag = data.tag;
 const posts = data.tag.posts.nodes;
-const otherActiveTags = data.tags.nodes.filter((t: TagNode) => t.slug !== tagSlug && t.count > 0);
+const otherActiveTags = data.tags.nodes.filter(
+  (t: TagNode) => t.slug !== tagSlug && t.count > 0,
+);
 ---
 
 <Subpage
   description={`Posts tagged with ${tag.name}, by Adam Koszary.`}
-  title={`Posts tagged with ${tag.name}`}
+  title={`Posts tagged with '${capitalise(tag.name)}'`}
 >
-  <h1 class="mt-20 mb-8 text-2xl uppercase">
-    ON <span class="italic">{tag.name}</span>
-  </h1>
-
   <section class="grid md:grid-cols-[2fr_1fr] gap-8">
-    <div class="grid lg:grid-cols-2 gap-x-8 gap-y-4">
+    <div class="grid gap-x-8 gap-y-4">
       {
         posts.map((post: PostNode) => (
           <Post
@@ -134,7 +146,7 @@ const otherActiveTags = data.tags.nodes.filter((t: TagNode) => t.slug !== tagSlu
       }
     </div>
     <aside class="md:border-l md:pl-4 md:border-t-0 md:pt-0 border-t pt-4">
-      <h2 class="text-xl mb-4">OTHER TAGS</h2>
+      <h2 class="text-xl mb-4 font-bold">Other tags</h2>
       <ul class="flex flex-wrap gap-2">
         {
           otherActiveTags.map((activeTag: TagNode) => (

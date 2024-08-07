@@ -1,4 +1,6 @@
 ---
+import { capitalise, encodeSlug } from "../../lib/utils";
+
 interface Props {
   tag: string;
   link?: boolean;
@@ -6,20 +8,21 @@ interface Props {
 
 const { tag, link = false } = Astro.props;
 
+const tagSlug = encodeSlug(tag);
 ---
 
 <Fragment>
   {
     link ? (
       <a
-        href={`/tags/${tag.toLowerCase().replace(/\s+/g, "-")}`}
-        class="lowercase text-sm rounded-full px-2 py-1 font-mono bg-slate-200 text-black w-fit"
+        href={`/tags/${tagSlug}`}
+        class="text-sm rounded-full px-2 py-1 font-mono bg-slate-200 text-black w-fit"
       >
-        {tag}
+        {capitalise(tag)}
       </a>
     ) : (
-      <div class="lowercase text-sm rounded-full px-2 py-1 font-mono bg-slate-200 text-black w-fit">
-        {tag}
+      <div class="text-sm rounded-full px-2 py-1 font-mono bg-slate-200 text-black w-fit">
+        {capitalise(tag)}
       </div>
     )
   }

@@ -85,15 +85,13 @@ const {title} = Astro.props;
 <section id="posts" class="min-h-screen max-w-7xl mx-auto w-full">
   <H2 title={title} />
 
-  
   {uniqueTags.length > 0 &&
   <!-- Map all unique tags associated with posts -->
-  <div class="mb-8 flex flex-wrap gap-2">
+  <div class="mb-8 flex flex-wrap gap-2 mt-4">
     {uniqueTags.map((tag: Tag) => <Tag tag={tag.name} link />)}
   </div>}
 
-  <!-- Render posts with tags -->
-  <div class="grid w-full gap-x-4 gap-y-8 md:grid-cols-2">
+  <div class="grid w-full gap-x-8 gap-y-8 md:grid-cols-2">
     {
       data.posts.nodes.map((post: PostProps) => (
         <Post

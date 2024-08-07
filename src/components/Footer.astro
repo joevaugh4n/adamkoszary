@@ -7,8 +7,8 @@ interface Props {
 const { year = new Date().getFullYear() } = Astro.props;
 ---
 
-<footer class="self-end my-8 flex flex-col items-end text-right mx-auto">
-  <p>&copy; Adam Koszary, {year}</p>
+<footer class="self-end my-8 flex flex-col items-end text-right mx-auto text-xs">
+  <p class="mb-px">&copy; Adam Koszary, {year}</p>
   <p>
     Designed by <a href="https://joevaughan.net" class="underline font-semibold"
       >Joe Vaughan</a
