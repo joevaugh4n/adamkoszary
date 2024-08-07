@@ -15,6 +15,13 @@ interface Props {
 
 const { slug, title, date, prose, tags } = Astro.props;
 
+// Helper function to get the first sentence of the content
+const getFirstSentence = (content: string): string => {
+  const match = content.match(/[^.!?]*[.!?]/);
+  return match ? match[0] : "";
+};
+
+// Function to format the date
 function formatDate(date: string) {
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
@@ -22,6 +29,9 @@ function formatDate(date: string) {
     day: "numeric",
   }).format(new Date(date));
 }
+
+// Ensure prose contains at least the first sentence of the content
+const formattedProse = prose || getFirstSentence(prose);
 
 const link = `/posts/${slug}`;
 ---
@@ -33,7 +43,7 @@ const link = `/posts/${slug}`;
   <div class="flex-grow">
     <p class="text-sm mb-2">{formatDate(date)}</p>
     <h3 class="text-2xl mb-2 font-semibold">{title}</h3>
-    <div class="mb-2" set:html={prose} />
+    <div class="mb-2" set:html={formattedProse} />
   </div>
   <div class="flex gap-2 mt-2 flex-wrap justify-end">
     {(tags ?? []).map((tag) => <Tag tag={tag.name} />)}

@@ -1,7 +1,6 @@
 ---
 import Picture from "astro/components/Picture.astro";
 
-
 interface Props {
     src: string;
     alt: string;
@@ -21,5 +20,6 @@ const { src, alt, height = 200, width = 1000, className } = Astro.props;
         src={src}
         alt={alt}
         class={className}
+        fetchpriority="high"
     />
 </div>

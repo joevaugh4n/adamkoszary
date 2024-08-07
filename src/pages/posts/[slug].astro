@@ -29,6 +29,12 @@ interface Props {
   post: PostProps;
 }
 
+// Helper function to get the first sentence of the content
+const getFirstSentence = (content: string): string => {
+  const match = content.match(/[^.!?]*[.!?]/);
+  return match ? match[0] : "";
+};
+
 // API call to fetch the data
 export async function getStaticPaths() {
   try {
@@ -66,7 +72,7 @@ export async function getStaticPaths() {
         post: {
           title: post.title || "Untitled",
           dateGmt: post.dateGmt || new Date().toISOString(),
-          excerpt: post.excerpt || "",
+          excerpt: post.excerpt || getFirstSentence(post.content || ""),
           slug: post.slug || "unknown",
           content: post.content || "",
           tags: post.tags || { nodes: [] },
