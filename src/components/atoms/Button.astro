@@ -4,13 +4,18 @@ interface Props {
   caption: string;
   font?: "mono" | "handwriting";
   width?: `fit` | "md";
+  isActive?: boolean;
 }
 
-const { caption, font = "mono", width = "fit" } = Astro.props;
+const { caption, font = "mono", width = "fit", isActive = false } = Astro.props;
 ---
 
 <button
-  class=`${width == 'fit' ? 'w-fit' : 'w-32'} text-sm text-black rounded-lg md:px-4 px-2 md:h-12 h-8 ${font=='mono'? 'font-mono' : 'font-handwriting'} bg-slate-200 hover:bg-black dark:hover:bg-slate-500 hover:text-white tracking-tight`
+  class={`${width == "fit" ? "w-fit" : "w-32"} text-sm rounded-lg md:px-4 px-2 md:h-12 h-8 ${font == "mono" ? "font-mono" : "font-handwriting"} tracking-tight transition-colors duration-300 ${
+    isActive
+      ? "bg-black text-white hover:bg-slate-500"
+      : "bg-slate-200 text-black hover:bg-black hover:text-white dark:hover:bg-slate-500"
+  }`}
 >
   {caption}
 </button>

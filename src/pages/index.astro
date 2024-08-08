@@ -24,6 +24,7 @@ import MuseumsAssociation from "../../src/images/museumsassociation.svg";
 import MuseumsGalleriesEdinburgh from "../../src/images/museumsgalleriesedinburgh.webp";
 import TripleC from "../../src/images/triplec.webp";
 
+// Aliases for social icons. Just makes the code a tiny bit cleaner.
 const xIcon = "tabler:brand-x";
 const linkedinIcon = "tabler:brand-linkedin";
 ---
@@ -35,11 +36,15 @@ const linkedinIcon = "tabler:brand-linkedin";
 >
   <Header title="Adam Koszary">
     <!-- Social icons -->
-    <SocialIcon title="Twitter" url="https://x.com/AdamKoszary" name={xIcon} />
+    <SocialIcon
+      title="Twitter"
+      url="https://x.com/AdamKoszary"
+      name={xIcon /** social icons are defined at lines 27 & 28 */}
+    />
     <SocialIcon
       title="Linkedn"
       name="tabler:brand-Linkedin"
-      url={linkedinIcon}
+      url={linkedinIcon /** social icons are defined at lines 27 & 28 */}
     />
   </Header>
   <HR />
