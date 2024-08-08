@@ -102,7 +102,7 @@ function CookieBanner({ GA_MEASUREMENT_ID }: CookieBannerProps) {
     >
       <div className="max-w-screen-xl mx-auto flex lg:flex-row flex-col items-center justify-between">
         <p className="py-4 px-4 sm:mb-0 text-sm text-black text-pretty">
-          We use cookies to make this service work and analyse performance.
+          We use cookies to make this service work and analyse performance.&nbsp;
           <a
             href="/privacy-policy"
             className="text-blue-600 hover:text-blue-800 underline"
