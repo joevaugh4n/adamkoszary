@@ -23,24 +23,28 @@ import LondonArtStudies from "../../src/images/londonartstudies.webp";
 import MuseumsAssociation from "../../src/images/museumsassociation.svg";
 import MuseumsGalleriesEdinburgh from "../../src/images/museumsgalleriesedinburgh.webp";
 import TripleC from "../../src/images/triplec.webp";
+
+// Aliases for social icons. Just makes the code a tiny bit cleaner.
+const xIcon = "tabler:brand-x";
+const linkedinIcon = "tabler:brand-linkedin";
 ---
 
 <Layout
-  metaDescription="Adam Koszary is an expert in social media and digital engagement for museums, galleries, libraries, archives, and theatres."
-  title="Adam Koszary"
-  ready={false /** accepts true or false */}
+  metaDescription={"Adam Koszary is an expert in social media and digital engagement for museums, galleries, libraries, archives, and theatres." /** page meta description */}
+  title={"Adam Koszary" /** if title is 'adam koszary', no ' | Adam Koszary' gets added after */}
+  ready={true /** accepts true or false */}
 >
   <Header title="Adam Koszary">
     <!-- Social icons -->
     <SocialIcon
       title="Twitter"
       url="https://x.com/AdamKoszary"
-      name="tabler:brand-x"
+      name={xIcon /** social icons are defined at lines 27 & 28 */}
     />
     <SocialIcon
       title="Linkedn"
       name="tabler:brand-Linkedin"
-      url="https://linkedin.com/in/adam-koszary"
+      url={linkedinIcon /** social icons are defined at lines 27 & 28 */}
     />
   </Header>
   <HR />
@@ -88,7 +92,7 @@ import TripleC from "../../src/images/triplec.webp";
   </PreviousClients>
   <HR />
   <ContactForm
-    description="Chatting to me is  free, and I have a discount for smaller organisations (less than £100k annual revenue)."
+    description="Interested in what I do and how I can help? Chatting to me is free, and I can work to your budget :)"
     title="Get in touch"
   />
   <HR />

@@ -3,6 +3,8 @@ title: Using this site
 description: How to use this Astro site
 ---
 
+_Last updated: 8/8/2024_
+
 There are two ways you can edit this website’s content:
 
 - **WordPress**: Most of the homepage, posts, and subpages pull all their content from your WordPress dashboard. This means you can change content without having to go under the hood (aka open a code editor).
