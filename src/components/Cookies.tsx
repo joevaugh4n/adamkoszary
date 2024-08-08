@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { type CookieBannerProps, type CookieChoice } from "../lib/cookies";
 
 const STORAGE_KEY = "cookieChoice";
@@ -6,21 +6,19 @@ const STORAGE_KEY = "cookieChoice";
 function CookieBanner({ GA_MEASUREMENT_ID }: CookieBannerProps) {
   const [cookieChoice, setCookieChoice] = useState<CookieChoice | null>(null);
 
-  useEffect(() => {
-    const existingChoice = getStorageItem(STORAGE_KEY);
-    setCookieChoice(existingChoice);
-  }, []);
-
   function getStorageItem(key: string): CookieChoice | null {
-    const item = localStorage.getItem(key);
-    if (!item) return null;
+    if (typeof window !== "undefined" && window.localStorage) {
+      const item = localStorage.getItem(key);
+      if (!item) return null;
 
-    const { value, expiry } = JSON.parse(item);
-    if (Date.now() > expiry) {
-      localStorage.removeItem(key);
-      return null;
+      const { value, expiry } = JSON.parse(item);
+      if (Date.now() > expiry) {
+        localStorage.removeItem(key);
+        return null;
+      }
+      return value as CookieChoice;
     }
-    return value as CookieChoice;
+    return null;
   }
 
   function setStorageItem(
@@ -28,8 +26,10 @@ function CookieBanner({ GA_MEASUREMENT_ID }: CookieBannerProps) {
     value: CookieChoice,
     expiryDays: number
   ) {
-    const expiry = Date.now() + expiryDays * 24 * 60 * 60 * 1000;
-    localStorage.setItem(key, JSON.stringify({ value, expiry }));
+    if (typeof window !== "undefined" && window.localStorage) {
+      const expiry = Date.now() + expiryDays * 24 * 60 * 60 * 1000;
+      localStorage.setItem(key, JSON.stringify({ value, expiry }));
+    }
   }
 
   function handleCookieChoice(choice: CookieChoice) {
@@ -53,12 +53,17 @@ function CookieBanner({ GA_MEASUREMENT_ID }: CookieBannerProps) {
       window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
       gtag('js', new Date());
-      gtag('config', '${GA_MEASUREMENT_ID}');
+      gtag('config', '${GA_MEASUREMENT_ID}';
     `;
     document.head.appendChild(script2);
   }
 
-  if (cookieChoice === null) {
+  function renderCookieBanner() {
+    const existingChoice = getStorageItem(STORAGE_KEY);
+    if (existingChoice === "accept") {
+      return null; // Don't render the cookie banner if the user has accepted
+    }
+
     return (
       <div
         id="cookie-banner"
@@ -66,7 +71,7 @@ function CookieBanner({ GA_MEASUREMENT_ID }: CookieBannerProps) {
       >
         <div className="max-w-screen-xl mx-auto flex lg:flex-row flex-col items-center justify-between">
           <p className="py-4 px-4 sm:mb-0 text-sm text-black text-pretty">
-            We use cookies to make this service work and analyse performance.
+            We use cookies to make this service work and analyse performance.&nbsp;
             <a
               href="/privacy-policy"
               className="text-blue-600 hover:text-blue-800 underline"
@@ -95,7 +100,7 @@ function CookieBanner({ GA_MEASUREMENT_ID }: CookieBannerProps) {
     );
   }
 
-  return null;
+  return renderCookieBanner();
 }
 
 export default CookieBanner;
