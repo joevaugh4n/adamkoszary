@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { type CookieBannerProps, type CookieChoice } from "../lib/cookies";
 
 const STORAGE_KEY = "cookieChoice";
+const ACCEPT_EXPIRY_DAYS = 365; // 1 year
 const DECLINE_EXPIRY_DAYS = 30;
 
 function isCookiesAccepted(): boolean {
@@ -56,7 +57,7 @@ function CookieBanner({ GA_MEASUREMENT_ID }: CookieBannerProps) {
   function handleCookieChoice(choice: CookieChoice) {
     console.log(`Cookie choice: ${choice}`);
     if (choice === "accept") {
-      setStorageItem(STORAGE_KEY, choice, 365); // Store for 1 year
+      setStorageItem(STORAGE_KEY, choice, ACCEPT_EXPIRY_DAYS);
     } else {
       setStorageItem(STORAGE_KEY, choice, DECLINE_EXPIRY_DAYS);
     }
