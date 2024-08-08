@@ -1,17 +1,15 @@
 ---
-import BlogHero from "../components/BlogHero.astro";
 import Layout, { OGType } from "./Layout.astro";
-import Contact from "../components/Contact.astro";
+import ContactForm from "../components/Contact.astro";
 import HR from "../components/atoms/HR.astro";
 
 interface Props {
   title: string;
   description: string;
-  CTA?: string;
   ogImage?: ImageMetadata | string;
 }
 
-const { title, description, CTA, ogImage } = Astro.props;
+const { title, description, ogImage } = Astro.props;
 ---
 
 <Layout
@@ -24,10 +22,9 @@ const { title, description, CTA, ogImage } = Astro.props;
     <!-- All content within the slot is handled by [slug].astro, https://vscode.dev/github/joevaugh4n/adamkoszary/blob/main/src/pages/posts/%5Bslug%5D.astro -->
     <slot />
     <HR />
-    <Contact
+    <ContactForm
       title="Reach out"
-      description={CTA ||
-        "Interested in what I do and how I can help? Get in touch. Chatting to me is free, and I have a discount for smaller organisations (less than £100k annual revenue). "}
+      description="Interested in what I do and how I can help? Chatting to me is free, and I can work to your budget"
     />
   </article>
 </Layout>
