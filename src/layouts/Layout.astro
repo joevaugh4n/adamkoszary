@@ -4,7 +4,7 @@ import AdamOGImage from "../../src/images/opengraph.jpg"; // Open Graph image
 import Footer from "../components/Footer.astro"; // Page footer component
 import Nav from "../components/Nav.astro"; // Nav component
 import NavLink from "../components/atoms/NavItem.astro"; // Individual nav item
-import CookieBanner from "../components/Cookies.astro";
+import CookieBanner from "../components/Cookies";
 
 // OGType options
 export enum OGType {
@@ -122,7 +122,7 @@ function getImageUrl(image: ImageMetadata | string): string {
   </head>
 
   <body class="md:px-8 px-4 max-w-7xl mx-auto">
-    <CookieBanner GA_MEASUREMENT_ID="G-63R54V45CT" />
+    <CookieBanner client:load GA_MEASUREMENT_ID="G-63R54V45CT" />
     <Nav>
       <NavLink url="/#posts" caption="Posts" />
       <NavLink url="/#contact" caption="Contact" />
