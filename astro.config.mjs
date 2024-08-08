@@ -3,8 +3,6 @@ import tailwind from '@astrojs/tailwind';
 import icon from 'astro-icon';
 import starlight from '@astrojs/starlight';
 import react from '@astrojs/react';
-import jopSoftwarecookieconsent from '@jop-software/astro-cookieconsent';
-
 
 // https://astro.build/config
 export default defineConfig({
