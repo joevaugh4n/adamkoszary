@@ -15,7 +15,7 @@ const { image, title, content } = Astro.props;
     {
         // If there's content (via slug), render it. Else, use what's provided
         content ? (
-            <div set:html={content} class="prose dark:text-white text-black" />
+            <div set:html={content} class="prose dark:text-white text-black text-pretty" />
         ) : (
             <slot />
         )

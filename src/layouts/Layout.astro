@@ -94,7 +94,13 @@ function getImageUrl(image: ImageMetadata | string): string {
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title} | Adam Koszary</title>
+    <title>
+      {
+        title == "Adam Koszary"
+          ? title
+          : `${title} | Adam Koszary` /** if page title is 'Adam Koszary', don't append name. Else, append name */
+      }
+    </title>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={ogType} />
