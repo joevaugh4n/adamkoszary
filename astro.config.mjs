@@ -9,7 +9,7 @@ export default defineConfig({
   integrations: [tailwind(), icon(), starlight({
     title: 'Adam Koszary docs',
     disable404Route: true
-  }), react(), jopSoftwarecookieconsent()],
+  }), react()],
   server: {
     proxy: {
       '/wp-admin': {
