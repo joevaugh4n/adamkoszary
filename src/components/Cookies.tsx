@@ -37,8 +37,7 @@ function setStorageItem(key: string, value: CookieChoice, expiryDays: number) {
     console.error("Error setting value in localStorage:", error);
   }
 }
-
-function CookieBanner({ GA_MEASUREMENT_ID }: CookieBannerProps) {
+export default function CookieBanner({ GA_MEASUREMENT_ID }: CookieBannerProps) {
   const [cookieChoice, setCookieChoice] = useState<CookieChoice | null>(null);
   const [isBannerVisible, setIsBannerVisible] = useState(false);
 
@@ -47,8 +46,8 @@ function CookieBanner({ GA_MEASUREMENT_ID }: CookieBannerProps) {
     setCookieChoice(existingChoice);
 
     if (existingChoice === "accept") {
-      console.log("Cookies accepted, loading Google Analytics");
-      loadGoogleAnalytics();
+      console.log("Cookies accepted, ensuring Google Analytics is loaded");
+      ensureGoogleAnalytics();
     }
 
     setIsBannerVisible(existingChoice === null);
@@ -61,29 +60,29 @@ function CookieBanner({ GA_MEASUREMENT_ID }: CookieBannerProps) {
 
     if (choice === "accept") {
       console.log("Cookies accepted, loading Google Analytics");
-      loadGoogleAnalytics();
+      ensureGoogleAnalytics();
     }
 
     setIsBannerVisible(false);
   }
 
-  function loadGoogleAnalytics() {
-    console.log("Starting Google Analytics setup");
-    const script1 = document.createElement("script");
-    script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-    script1.async = true;
-    document.head.appendChild(script1);
-    console.log("Google Analytics script added:", script1.src);
+  function ensureGoogleAnalytics() {
+    if (typeof window !== 'undefined' && !window.gtag) {
+      console.log("Loading Google Analytics");
+      const script = document.createElement("script");
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+      script.async = true;
+      document.head.appendChild(script);
 
-    const script2 = document.createElement("script");
-    script2.text = `
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', '${GA_MEASUREMENT_ID}');
-    `;
-    document.head.appendChild(script2);
-    console.log("Google Analytics configuration script added");
+      script.onload = () => {
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function (...args: any[]) {
+          window.dataLayer.push(arguments);
+        }
+        window.gtag('js', new Date());
+        window.gtag('config', GA_MEASUREMENT_ID);
+      };
+    }
   }
 
   if (cookieChoice !== null && !isBannerVisible) {
@@ -96,15 +95,14 @@ function CookieBanner({ GA_MEASUREMENT_ID }: CookieBannerProps) {
       role="dialog"
       aria-live="polite"
       aria-label="Cookie consent banner"
-      className={`fixed bottom-0 left-0 right-0 bg-gray-100 shadow-md z-50 px-4 pb-4 pt-2 transition-opacity duration-500 ${
-        isBannerVisible ? "opacity-100" : "opacity-0 pointer-events-none"
-      }`}
+      className={`fixed bottom-0 left-0 right-0 bg-gray-100 shadow-md z-50 px-4 pb-4 pt-2 transition-opacity duration-500 ${isBannerVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
     >
       <div className="max-w-screen-xl mx-auto flex lg:flex-row flex-col items-center justify-between">
         <p className="py-4 px-4 sm:mb-0 text-sm text-black text-pretty">
           We use cookies to make this service work and analyse performance.&nbsp;
-          <a
-            href="/privacy-policy"
+
+          <a href="/privacy-policy"
             className="text-blue-600 hover:text-blue-800 underline"
           >
             Privacy Policy
@@ -132,5 +130,3 @@ function CookieBanner({ GA_MEASUREMENT_ID }: CookieBannerProps) {
     </div>
   );
 }
-
-export default CookieBanner;
