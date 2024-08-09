@@ -50,7 +50,7 @@ export default function Drawer({ title, children }: DrawerProps) {
                 onClick={toggleOpen}
                 aria-expanded={open}
             >
-                <h2 className="flex justify-between text-left">
+                <h2 className="flex justify-between text-left text-lg">
                     {title}
                     <svg
                         className={`w-5 h-5 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
