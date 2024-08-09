@@ -26,13 +26,11 @@ export async function wpquery({ query, variables = {} }: WPGraphQLParams): Promi
     const result: WPGraphQLResponse = await res.json();
 
     if (result.errors) {
-      result.errors.forEach((error) => console.error('GraphQL error:', error.message));
       throw new Error('Error in GraphQL response');
     }
 
     return result.data ?? {};
   } catch (error) {
-    console.error('Fetch error:', error);
     return {};
   }
 }
@@ -79,11 +77,9 @@ export const fetchPageContent = async (slug: string): Promise<{ title: string; c
         pageContent = pageData.content;
         pageTitle = pageData.title;
       }
-    } else {
-      console.error("No nodes found in the response", response);
     }
   } catch (error) {
-    console.error("Error fetching page content:", error);
+    // Handle error silently
   }
 
   return { title: pageTitle, content: pageContent };

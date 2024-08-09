@@ -1,4 +1,3 @@
-// blog.service.ts
 import { wpquery } from "./wordpress";
 
 interface Tag {
@@ -54,11 +53,9 @@ export async function fetchBlogPosts(): Promise<DataProps> {
     if (response.posts?.nodes) {
       return response as DataProps;
     } else {
-      console.error("No posts found in the response", response);
       return { posts: { nodes: [] } };
     }
   } catch (error) {
-    console.error("Error fetching post data:", error);
     return { posts: { nodes: [] } };
   }
 }
@@ -90,7 +87,6 @@ export async function fetchLatestPost(): Promise<PostProps> {
     if (response.posts?.nodes?.[0]) {
       return response.posts.nodes[0];
     } else {
-      console.error("No posts found in the response", response);
       return {
         dateGmt: '',
         title: '',
@@ -100,7 +96,6 @@ export async function fetchLatestPost(): Promise<PostProps> {
       };
     }
   } catch (error) {
-    console.error("Error fetching latest post data:", error);
     return {
       dateGmt: '',
       title: '',
