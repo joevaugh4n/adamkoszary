@@ -19,7 +19,7 @@ export default {
       },
       fontFamily: {
         sans: 'Inter',
-        mono: ['IBM Plex Mono', 'Monospace'],
+        mono: ['Monospace'],
         handwriting: 'Permanent Marker'
       },
       colors: {
