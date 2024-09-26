@@ -40,11 +40,13 @@ const linkedinIcon = "tabler:brand-linkedin";
       title="Twitter"
       url="https://x.com/AdamKoszary"
       name={xIcon /** social icons are defined at lines 27 & 28 */}
+      data-testid="twitter-follow-button"
     />
     <SocialIcon
       title="Linkedn"
-      name="tabler:brand-Linkedin"
-      url={linkedinIcon /** social icons are defined at lines 27 & 28 */}
+      url="https://www.linkedin.com/in/adam-koszary/"
+      name={linkedinIcon /** social icons are defined at lines 27 & 28 */}
+      data-testid="linkedin-follow-button"
     />
   </Header>
   <HR />
@@ -57,37 +59,49 @@ const linkedinIcon = "tabler:brand-linkedin";
       org="British Museum"
       logoImage={BM}
       url="https://www.britishmuseum.org/"
+      date-testid="bm-button"
     />
     <Logo
       org="Historic England"
       logoImage={HistoricEngland}
       url="https://historicengland.org.uk/"
+      data-testid="historic-england-button"
     />
     <Logo
       org="Good Law Project"
       logoImage={GoodLawProject}
       url="https://goodlawproject.org/"
+      data-testid="good-law-project-button"
     />
     <Logo
       org="Museums Association"
       logoImage={MuseumsAssociation}
       url="https://www.museumsassociation.org/"
+      data-testid="ma-button"
     />
     <Logo
       org="Bletchley Park"
       logoImage={BletchleyPark}
       url="https://bletchleypark.org.uk/"
+      data-testid="bletchley-park-button"
     />
-    <Logo org="Triple C" logoImage={TripleC} url="https://triplec.org.uk/" />
+    <Logo
+      org="Triple C"
+      logoImage={TripleC}
+      url="https://triplec.org.uk/"
+      data-testid="triple-c-button"
+    />
     <Logo
       org="London Art Studies"
       logoImage={LondonArtStudies}
       url="https://londonartstudies.com/"
+      data-testid="london-art-studies-button"
     />
     <Logo
       org="Museums & Galleries Edinburgh"
       logoImage={MuseumsGalleriesEdinburgh}
       url="https://www.edinburghmuseums.org.uk/"
+      data-testid="museums-galleries-edinburgh-button"
     />
   </PreviousClients>
   <HR />

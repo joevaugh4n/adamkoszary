@@ -1,99 +1,34 @@
 ---
 import Post from "./atoms/Post.astro";
-import { wpquery } from "../lib/wordpress";
 import H2 from "./atoms/H2.astro";
 import Tag from "./atoms/Tag.astro";
-
-// Define interfaces
-interface Tag {
-  name: string;
-  slug: string;
-  count: number;
-}
-
-interface PostProps {
-  dateGmt: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  tags: { nodes: Tag[] };
-}
-
-interface DataProps {
-  posts: {
-    nodes: PostProps[];
-  };
-}
-
-// Initialize data with default empty structure
-let data: DataProps = { posts: { nodes: [] } };
-let uniqueTags: Tag[] = [];
-
-try {
-  // API call
-  const response = await wpquery({
-    query: `
-      query GetPostExcerptsAndAllTags {
-        posts {
-          nodes {
-            title
-            dateGmt
-            excerpt
-            slug
-            featuredImage {
-              node {
-                mediaItemUrl
-                altText
-              }
-            }
-            tags {
-              nodes {
-                name
-                slug
-                count
-              }
-            }
-          }
-        }
-      }
-    `,
-  });
-
-  if (response.posts?.nodes) {
-    data = response as DataProps;
-
-    // Collect all unique tags from posts
-    const tagsSet = new Set();
-    data.posts.nodes.forEach((post: PostProps) => {
-      post.tags.nodes.forEach((tag) => tagsSet.add(JSON.stringify(tag)));
-    });
-    uniqueTags = Array.from(tagsSet).map((tag: any) => JSON.parse(tag));
-  } else {
-    console.error("No posts found in the response", response);
-  }
-} catch (error) {
-  console.error("Error fetching post data:", error);
-}
+import { fetchBlogPosts, getUniqueTags } from "../lib/posts";
 
 interface Props {
   title: string;
 }
 
-const {title} = Astro.props;
+const { title } = Astro.props;
+const { posts } = await fetchBlogPosts();
+const uniqueTags = getUniqueTags(posts.nodes);
 ---
 
 <section id="posts" class="min-h-screen max-w-7xl mx-auto w-full">
   <H2 title={title} />
 
-  {uniqueTags.length > 0 &&
-  <!-- Map all unique tags associated with posts -->
-  <div class="mb-8 flex flex-wrap gap-2 mt-4">
-    {uniqueTags.map((tag: Tag) => <Tag tag={tag.name} link />)}
-  </div>}
+  {
+    uniqueTags.length > 0 && (
+      <div class="mb-8 flex flex-wrap gap-2 mt-4">
+        {uniqueTags.map((tag) => (
+          <Tag tag={tag.name} link />
+        ))}
+      </div>
+    )
+  }
 
   <div class="grid w-full gap-x-8 gap-y-8 md:grid-cols-2">
     {
-      data.posts.nodes.map((post: PostProps) => (
+      posts.nodes.map((post) => (
         <Post
           date={post.dateGmt}
           title={post.title}
