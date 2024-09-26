@@ -150,7 +150,7 @@ const otherActiveTags = data.tags.nodes.filter(
       <ul class="flex flex-wrap gap-2">
         {
           otherActiveTags.map((activeTag: TagNode) => (
-            <TagCard tag={activeTag.name} />
+            <TagCard link tag={activeTag.name} />
           ))
         }
       </ul>
