@@ -2,6 +2,13 @@
 import Layout, { OGType } from "./Layout.astro";
 import ContactForm from "../components/Contact.astro";
 import HR from "../components/atoms/HR.astro";
+import { decode } from "html-entities";
+
+function sanitizeMetadata(input: string): string {
+  const noHtml = input.replace(/<\/?[^>]+(>|$)/g, ""); // Remove HTML tags
+  const decoded = decode(noHtml); // Decode HTML entities
+  return decoded.trim().replace(/\n/g, ""); // Remove newlines and trim
+}
 
 interface Props {
   title: string;
@@ -10,11 +17,15 @@ interface Props {
 }
 
 const { title, description, ogImage } = Astro.props;
+
+const sanitizedText = sanitizeMetadata(description);
+
+console.log(sanitizedText);
 ---
 
 <Layout
   title={title}
-  metaDescription={description}
+  metaDescription={sanitizedText}
   ogType={OGType.Article}
   ogImage={ogImage}
 >
