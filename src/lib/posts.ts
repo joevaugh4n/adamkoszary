@@ -58,7 +58,7 @@ export async function fetchBlogPosts(): Promise<DataProps> {
     });
 
     if (response.posts?.nodes) {
-      const sanitizedPosts = response.posts.nodes.map((post) => ({
+      const sanitizedPosts = response.posts.nodes.map((post:PostProps) => ({
         ...post,
         excerpt: sanitizeExcerpt(post.excerpt),
       }));
