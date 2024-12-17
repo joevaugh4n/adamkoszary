@@ -34,7 +34,7 @@ export async function getStaticPaths() {
     const data = await wpquery({
       query: `
         query GetPostExcerpts {
-          posts {
+          posts(first:1000) {
             nodes {
               title
               dateGmt
