@@ -11,6 +11,8 @@ interface Props {
 const { title } = Astro.props;
 const { posts } = await fetchBlogPosts();
 const uniqueTags = getUniqueTags(posts.nodes);
+
+console.log(posts)
 ---
 
 <section id="posts" class="min-h-screen max-w-7xl mx-auto w-full">

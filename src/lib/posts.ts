@@ -1,4 +1,5 @@
 import { wpquery } from "./wordpress";
+import { decode } from "html-entities";
 
 interface Tag {
   name: string;
@@ -20,12 +21,18 @@ interface DataProps {
   };
 }
 
+function sanitizeExcerpt(input: string): string {
+  const noHtml = input.replace(/<\/?[^>]+(>|$)/g, ""); // Remove HTML tags
+  const decoded = decode(noHtml); // Decode HTML entities
+  return decoded.trim().replace(/\n/g, ""); // Remove newlines and trim
+}
+
 export async function fetchBlogPosts(): Promise<DataProps> {
   try {
     const response = await wpquery({
       query: `
         query GetPostExcerptsAndAllTags {
-          posts {
+          posts(first:1000) {
             nodes {
               title
               dateGmt
@@ -51,7 +58,11 @@ export async function fetchBlogPosts(): Promise<DataProps> {
     });
 
     if (response.posts?.nodes) {
-      return response as DataProps;
+      const sanitizedPosts = response.posts.nodes.map((post) => ({
+        ...post,
+        excerpt: sanitizeExcerpt(post.excerpt),
+      }));
+      return { posts: { nodes: sanitizedPosts } };
     } else {
       return { posts: { nodes: [] } };
     }
@@ -85,7 +96,11 @@ export async function fetchLatestPost(): Promise<PostProps> {
     });
 
     if (response.posts?.nodes?.[0]) {
-      return response.posts.nodes[0];
+      const latestPost = response.posts.nodes[0];
+      return {
+        ...latestPost,
+        excerpt: sanitizeExcerpt(latestPost.excerpt),
+      };
     } else {
       return {
         dateGmt: '',
@@ -105,6 +120,7 @@ export async function fetchLatestPost(): Promise<PostProps> {
     };
   }
 }
+
 
 export function getUniqueTags(posts: PostProps[]): Tag[] {
   const tagsSet = new Set();
