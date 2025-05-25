@@ -25,7 +25,7 @@ export default defineConfig({
         }
       },
       CSS: true,
-      Image: true,
+      Image: false,
       JavaScript: true,
       SVG: true
     })

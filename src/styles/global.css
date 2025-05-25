@@ -2,7 +2,7 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --font-handwriting: 'Permanent Marker', cursive;
+    --font-handwriting: 'Permanent Marker', cursive;
 }
 
 a {
