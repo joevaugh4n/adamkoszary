@@ -8,3 +8,7 @@
 a {
     @apply hover:cursor-pointer
 }
+
+body {
+    @apply dark:bg-black dark:text-white;
+}
