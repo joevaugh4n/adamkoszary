@@ -1,8 +1,6 @@
 import { defineConfig } from 'astro/config'
 import icon from 'astro-icon'
-import starlight from '@astrojs/starlight'
 import react from '@astrojs/react'
-
 import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
@@ -12,10 +10,6 @@ export default defineConfig({
   },
   integrations: [
     icon(),
-    starlight({
-      title: 'Adam Koszary docs',
-      disable404Route: true
-    }),
     react(),
     (await import('astro-compress')).default({
       CSS: false,
