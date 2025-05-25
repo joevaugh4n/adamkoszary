@@ -1,12 +1,18 @@
 ---
 import Button from "./atoms/Button.astro";
+import Hamburger from "./Hamburger.tsx";
 ---
 
 <nav
-  class="flex justify-between items-center md:sticky md:top-0 py-2 backdrop-blur-sm backdrop-hue-rotate-60 z-50"
+  class="flex md:justify-between justify-end md:sticky md:top-0 py-2 backdrop-blur-sm backdrop-hue-rotate-60 z-50"
 >
-  <a href="/#home"> <Button font="handwriting" caption="Adam Koszary" /></a>
-  <div class="flex gap-1">
-    <slot />
+  <div class="md:block hidden">
+    <a href="/#home"> <Button font="handwriting" caption="Adam Koszary" /></a>
+  </div>
+  <div class="md:flex hidden gap-1">
+    <slot id="menu" />
+  </div>
+  <div class="md:hidden flex gap-1">
+    <Hamburger client:load />
   </div>
 </nav>

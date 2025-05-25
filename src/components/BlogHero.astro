@@ -12,14 +12,18 @@ interface Props {
 const { src, alt, height = 200, width = 1000, className } = Astro.props;
 ---
 
-<div class="h-auto overflow-hidden rounded-sm self-center aspect-video md:mb-6 mb-4">
-    <Picture
-        {width}
-        {height}
-        loading="eager"
-        src={src}
-        alt={alt}
-        class={className}
-        fetchpriority="high"
-    />
+<div
+    class="h-auto overflow-hidden rounded-sm self-center aspect-video md:mb-6 mb-4"
+>
+    <a href={Astro.url.pathname}>
+        <Picture
+            {width}
+            {height}
+            loading="eager"
+            src={src}
+            alt={alt}
+            class={className}
+            fetchpriority="high"
+        />
+    </a>
 </div>

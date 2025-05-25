@@ -91,10 +91,10 @@ const fallbackImageUrl = "/src/images/adam_hedge.webp";
   <Fragment class="flex flex-col mx-auto">
     {
       post.featuredImage && (
-        <BlogHero
-          src={post.featuredImage.node.mediaItemUrl}
-          alt={post.featuredImage.node.altText || ""}
-        />
+          <BlogHero
+            src={post.featuredImage.node.mediaItemUrl}
+            alt={post.featuredImage.node.altText || ""}
+          />
       )
     }
 
@@ -117,7 +117,8 @@ const fallbackImageUrl = "/src/images/adam_hedge.webp";
 
     <div
       class="max-w-[100ch] dark:text-white prose dark:prose-invert prose-img:rounded prose-img:mx-auto prose-img:w-full prose-img:max-w-full md:prose-img:max-w-[80%] lg:prose-img:max-w-[70%] prose-img:block prose-figcaption:text-center"
-      set:html={post.content}
-    />
+    >
+      <span set:html={post.content} />
+    </div>
   </Fragment>
 </Post>
