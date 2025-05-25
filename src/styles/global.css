@@ -12,3 +12,7 @@ a {
 body {
     @apply dark:bg-black dark:text-white;
 }
+
+button {
+    @apply hover:cursor-pointer;
+}
