@@ -42,7 +42,7 @@ export default function Drawer({ title, children }: DrawerProps) {
                 className={`
                     p-4 text-pretty rounded-lg w-full font-mono
                     bg-slate-200 text-black
-                    hover:bg-black hover:text-white 
+                    hover:bg-black hover:text-white  hover:cursor-pointer
                     dark:hover:bg-slate-500
                     tracking-tight transition-colors duration-300 ease-in-out
                     ${open ? 'drawer-open bg-black text-white dark:bg-slate-500' : ''}

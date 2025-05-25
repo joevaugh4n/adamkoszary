@@ -11,7 +11,7 @@ const { caption, font = "mono", width = "fit", isActive = false } = Astro.props;
 ---
 
 <button
-  class={`${width == "fit" ? "w-fit" : "w-32"} text-sm rounded-lg px-4 md:h-12 h-8 ${font == "mono" ? "font-mono" : "font-handwriting"} tracking-tight transition-colors duration-300 ${
+  class={`${width == "fit" ? "w-fit" : "w-32"} cursor-pointer text-sm rounded-lg px-4 md:h-12 h-8 ${font == "mono" ? "font-mono" : "font-handwriting"} tracking-tight transition-colors duration-300 ${
     isActive
       ? "bg-black text-white hover:bg-slate-500"
       : "bg-slate-200 text-black hover:bg-black hover:text-white dark:hover:bg-slate-500"

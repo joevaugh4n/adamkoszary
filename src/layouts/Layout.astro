@@ -6,6 +6,9 @@ import { GoogleFontsOptimizer } from "astro-google-fonts-optimizer";
 import Nav from "../components/Nav.astro"; // Nav component
 import NavLink from "../components/atoms/NavItem.astro"; // Individual nav item
 import CookieBanner from "../components/Cookies";
+import "./src/styles/global.css";
+import "@fontsource-variable/inter";
+import "@fontsource/permanent-marker";
 
 // OGType options
 export enum OGType {
@@ -131,7 +134,10 @@ function getImageUrl(image: ImageMetadata | string): string {
     <Nav>
       <NavLink url="/#posts" caption="Posts" />
       <NavLink url="/contact" caption="Contact" />
-      <NavLink url="https://content-of-the-week.beehiiv.com/subscribe" caption="Newsletter" />
+      <NavLink
+        url="https://content-of-the-week.beehiiv.com/subscribe"
+        caption="Newsletter"
+      />
     </Nav>
 
     <main class="min-h-screen flex flex-col my-2 mx-auto">
@@ -146,5 +152,3 @@ function getImageUrl(image: ImageMetadata | string): string {
     <Footer />
   </body>
 </html>
-
-<style></style>
