@@ -46,12 +46,6 @@ interface DataProps {
   };
 }
 
-interface PageDataProps {
-  pages: {
-    nodes: PageNode[];
-  };
-}
-
 /** Core GraphQL Fetch **/
 
 export async function wpquery({

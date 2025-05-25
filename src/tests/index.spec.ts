@@ -6,8 +6,8 @@ const browsers = [chromium, firefox, webkit];
 // Function to run tests in multiple browsers
 for (const browserType of browsers) {
     test.describe(`Testing in ${browserType.name()}`, () => {
-        
-        test('meta is correct and elements are present', async ({}) => {
+
+        test('meta is correct and elements are present', async ({ }) => {
             const browser = await browserType.launch();
             const context = await browser.newContext();
             const page = await context.newPage();
@@ -19,7 +19,7 @@ for (const browserType of browsers) {
             await expect(page).toHaveTitle('Adam Koszary');
 
             // Check meta description
-            const metaDescription = await page.locator('meta[name="description"]');
+            const metaDescription = page.locator('meta[name="description"]');
             await expect(metaDescription).toHaveAttribute('content', 'Adam Koszary is an expert in social media and digital engagement for museums, galleries, libraries, archives, and theatres.');
 
             // Wait for the header to be visible
@@ -38,7 +38,7 @@ for (const browserType of browsers) {
             await browser.close();
         });
 
-        test('blogpost loads correctly', async ({}) => {
+        test('blogpost loads correctly', async ({ }) => {
             const browser = await browserType.launch();
             const context = await browser.newContext();
             const page = await context.newPage();
@@ -57,7 +57,7 @@ for (const browserType of browsers) {
             await browser.close();
         });
 
-        test('posts page loads correctly', async ({}) => {
+        test('posts page loads correctly', async ({ }) => {
             const browser = await browserType.launch();
             const context = await browser.newContext();
             const page = await context.newPage();
