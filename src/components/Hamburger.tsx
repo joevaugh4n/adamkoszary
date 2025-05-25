@@ -1,8 +1,7 @@
-import burger from '../images/burger.svg'
-import burgerWhite from '../images/burger-white.svg'
-import close from '../images/close.svg'
-import closeWhite from '../images/close-white.svg'
 import { useState } from 'react'
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoMdCloseCircle } from "react-icons/io";
+
 
 interface BurgerProps {
     state: boolean;
@@ -11,9 +10,8 @@ interface BurgerProps {
 
 export function Burger({ setState, state }: BurgerProps) {
     return (
-        <button className='cursor-pointer' onClick={() => setState(!state)}>
-            <img className='dark:hidden h-10' src={burger.src} />
-            <img className='not-dark:hidden h-10' src={burgerWhite.src} />
+        <button className='hover:cursor-pointer hover:text-slate-500' onClick={() => setState(!state)}>
+            <GiHamburgerMenu className='text-2xl' />
         </button>
     )
 }
@@ -25,9 +23,8 @@ interface ButtonProps {
 
 export function Close({ setState, state }: ButtonProps) {
     return (
-        <button onClick={() => setState(!state)}>
-            <img className='dark:hidden h-8' src={close.src} />
-            <img className='not-dark:hidden h-8' src={closeWhite.src} />
+        <button onClick={() => setState(!state)} className='hover:text-slate-200 inline-block w-fit justify-end'>
+            <IoMdCloseCircle className='text-2xl' />
         </button>
     )
 }
@@ -58,27 +55,28 @@ export function List({ state, setState }: ButtonProps) {
         },
     ]
     return (
-        <ul className='flex flex-col items-end gap-8 pt-8'>
-            {ListItems.map((item) =>
-                <li key={item.id} >
-                    <a href={item.url} title={item.string}
-                        className='text-xl rounded-lg px-8 py-4 tracking-tight transition-colors duration-300 font-mono bg-slate-200 text-black hover:bg-black hover:text-white dark:hover:bg-slate-500'>
-                        {item.string}
-                    </a>
+        <div className='flex items-start gap-4'>
+            <ul className='flex flex-col gap-6 mt-2 items-end'>
+                {ListItems.map((item) =>
+                    <li key={item.id} >
+                        <a href={item.url} title={item.string}
+                            className='text-xl rounded-lg px-6 py-2 tracking-tight transition-colors duration-300 font-mono bg-slate-200 text-black hover:bg-black hover:text-white dark:hover:bg-slate-500'>
+                            {item.string}
+                        </a>
 
-                </li >
-            )
-            }
-            <li><Close state={state} setState={setState} />
-            </li>
-        </ul >
+                    </li >
+                )
+                }
+            </ul >
+            <Close state={state} setState={setState} />
+        </div>
     )
 }
 
 export default function Menu() {
     const [expand, setExpand] = useState(false)
     return (
-        <nav className={`md:hidden flex z-10 self-end`}>
+        <nav className={`md:hidden flex`}>
             {expand ? <List state={expand} setState={setExpand} /> : <Burger state={expand} setState={setExpand} />}
         </nav>
     )
