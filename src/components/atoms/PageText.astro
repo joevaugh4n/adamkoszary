@@ -10,12 +10,17 @@ interface Props {
 const { image, title, content } = Astro.props;
 ---
 
-<article class={`${image ? "lg:w-3/5" : ""} w-full flex flex-col`}>
+<article
+    class={`${image ? "lg:w-3/5" : ""} w-full flex flex-col lg:items-start md:items-center items-start`}
+>
     <H2 title={title} />
     {
         // If there's content (via slug), render it. Else, use what's provided
         content ? (
-            <div set:html={content} class="prose dark:text-white text-black text-pretty" />
+            <div
+                set:html={content}
+                class="prose dark:text-white text-black text-pretty"
+            />
         ) : (
             <slot />
         )

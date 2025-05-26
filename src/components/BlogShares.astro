@@ -9,7 +9,7 @@ const { url } = Astro.props;
 ---
 
 <aside class="flex flex-col">
-    <div class="flex gap-2 mb-4 md:justify-start justify-center">
+    <div class="flex gap-2 mb-4 md:justify-start justify-center items-end">
         <SocialIcon
             name="tabler:brand-x"
             title="Follow me on Twitter"
@@ -22,5 +22,6 @@ const { url } = Astro.props;
             type="inline"
             url="https://linkedin.com/in/adam-koszary"
         />
+        <a class="prose hover:underline" href={Astro.url.pathname}>Permalink</a>
     </div>
 </aside>

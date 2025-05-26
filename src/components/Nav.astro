@@ -9,10 +9,10 @@ import Hamburger from "./Hamburger.tsx";
   <div>
     <a href="/#home"> <Button font="handwriting" caption="Adam Koszary" /></a>
   </div>
-  <div class="md:flex hidden gap-1">
+  <div class="lg:flex hidden gap-1">
     <slot id="menu" />
   </div>
-  <div class="md:hidden flex gap-1">
+  <div class="lg:hidden flex gap-1">
     <Hamburger client:load />
   </div>
 </nav>

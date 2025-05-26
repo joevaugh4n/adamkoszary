@@ -76,7 +76,7 @@ export function List({ state, setState }: ButtonProps) {
 export default function Menu() {
     const [expand, setExpand] = useState(false)
     return (
-        <nav className={`md:hidden flex`}>
+        <nav className='flex'>
             {expand ? <List state={expand} setState={setExpand} /> : <Burger state={expand} setState={setExpand} />}
         </nav>
     )
