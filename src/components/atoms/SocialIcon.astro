@@ -2,33 +2,33 @@
 import { Icon } from "astro-icon/components";
 
 interface Props {
-    /** Link title.*/
-    title: string;
-    /** Optional: The icon's styling. This is set by default. Note: className is used as 'class' is a reserved word. */
-    className?: string;
-    /** The icon image. Choose from any of the icons here: https://icon-sets.iconify.design/tabler/. For example: 'tabler:brand-linkedin'.*/
-    name: string;
-    /** The icon target URL. Be sure to add the full link. */
-    url: string;
-    /** Variant */
-    type?: "homepage" | "inline";
+  /** Link title.*/
+  title: string;
+  /** Optional: The icon's styling. This is set by default. Note: className is used as 'class' is a reserved word. */
+  className?: string;
+  /** The icon image. Choose from any of the icons here: https://icon-sets.iconify.design/tabler/. For example: 'tabler:brand-linkedin'.*/
+  name: string;
+  /** The icon target URL. Be sure to add the full link. */
+  url: string;
+  /** Variant */
+  type?: "homepage" | "inline";
 }
 
 const {
-    title,
-    className = "lg:text-6xl text-4xl",
-    name,
-    url,
-    type = "homepage",
+  title,
+  className = "lg:text-6xl text-4xl",
+  name,
+  url,
+  type = "homepage",
 } = Astro.props;
 ---
 
 <a title={title} href={url} class="w-min">
-    <Icon
-        title={title}
-        class={type == "homepage"
-            ? className
-            : "md:text-4xl text-3xl border rounded-full p-1"}
-        name={name.toLowerCase()}
-    /></a
+  <Icon
+    title={title}
+    class={type == "homepage"
+      ? className
+      : "md:text-4xl text-3xl border rounded-full p-1"}
+    name={name.toLowerCase()}
+  /></a
 >

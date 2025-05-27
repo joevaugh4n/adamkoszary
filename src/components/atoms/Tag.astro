@@ -9,6 +9,7 @@ interface Props {
 const { tag, link = false } = Astro.props;
 
 const tagSlug = encodeSlug(tag);
+const baseStyle = `text-xs rounded-full px-2 py-1 font-mono w-fit`;
 ---
 
 <Fragment>
@@ -16,12 +17,12 @@ const tagSlug = encodeSlug(tag);
     link ? (
       <a
         href={`/tags/${tagSlug}`}
-        class="text-xs rounded-full px-2 py-1 font-mono hover:bg-black hover:text-white bg-slate-200 text-black w-fit"
+        class={`${baseStyle} + hover:bg-black hover:text-white bg-slate-200 text-black`}
       >
         {capitalise(tag)}
       </a>
     ) : (
-      <div class="text-sm rounded-full px-2 py-1 font-mono bg-slate-200 text-black w-fit">
+      <div class={`${baseStyle} + bg-slate-200 text-black w-fit`}>
         {capitalise(tag)}
       </div>
     )
