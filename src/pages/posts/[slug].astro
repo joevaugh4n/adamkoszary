@@ -91,15 +91,16 @@ const fallbackImageUrl = "/src/images/adam_hedge.webp";
   <Fragment class="flex flex-col mx-auto">
     {
       post.featuredImage && (
-          <BlogHero
-            src={post.featuredImage.node.mediaItemUrl}
-            alt={post.featuredImage.node.altText || ""}
-          />
+        <BlogHero
+          src={post.featuredImage.node.mediaItemUrl}
+          alt={post.featuredImage.node.altText || ""}
+          className="rounded-sm"
+        />
       )
     }
 
     <div
-      class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+      class="flex flex-col md:flex-row justify-between items-center md:space-y-4 space-y-0"
     >
       <div class="w-full md:w-1/5 flex justify-center md:justify-start">
         <BlogShares url={`https://adamkoszary.co.uk/posts/${post.slug}}`} />

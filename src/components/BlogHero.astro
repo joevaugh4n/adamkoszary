@@ -2,28 +2,26 @@
 import { Picture } from "astro:assets";
 
 interface Props {
-    src: string;
-    alt: string;
-    height?: number;
-    width?: number;
-    className?: string;
+  src: string;
+  alt: string;
+  height?: number;
+  width?: number;
+  className?: string;
 }
 
-const { src, alt, height = 200, width = 2000, className } = Astro.props;
+const { src, alt, height = 200, width = 1200, className } = Astro.props;
 ---
 
-<div
-    class="w-full rounded-sm aspect-video md:mb-6 mb-4"
->
-    <a href={Astro.url.pathname}>
-        <Picture
-            {width}
-            {height}
-            loading="eager"
-            src={src}
-            alt={alt}
-            class={className}
-            fetchpriority="high"
-        />
-    </a>
+<div class="flex md:mb-6 mb-4 justify-center">
+  <a class="inline-block sm:w-2/3 w-full" href={Astro.url.pathname}>
+    <Picture
+      {width}
+      {height}
+      loading="eager"
+      src={src}
+      alt={alt}
+      class={`inline-block ${className}`}
+      fetchpriority="high"
+    />
+  </a>
 </div>
