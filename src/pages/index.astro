@@ -24,19 +24,17 @@ import MuseumsAssociation from "../../src/images/museumsassociation.svg";
 import MuseumsGalleriesEdinburgh from "../../src/images/museumsgalleriesedinburgh.webp";
 import TripleC from "../../src/images/triplec.webp";
 
-// Aliases for social icons. Just makes the code a tiny bit cleaner.
 const xIcon = "tabler:brand-x";
 const linkedinIcon = "tabler:brand-linkedin";
 ---
 
-<!-- Top menu nav defined in Layout copmponent -->
+{/** Top nav items defined in Layout component */}
 <Layout
   metaDescription={"Adam Koszary is an expert in social media and digital engagement for museums, galleries, libraries, archives, and theatres." /** page meta description */}
   title={"Adam Koszary" /** if title is 'adam koszary', no ' | Adam Koszary' gets added after */}
   ready={true /** accepts true or false */}
 >
   <Header title="Adam Koszary">
-    <!-- Social icons -->
     <SocialIcon
       title="Twitter"
       url="https://x.com/AdamKoszary"
@@ -51,7 +49,6 @@ const linkedinIcon = "tabler:brand-linkedin";
     />
   </Header>
   <HR />
-  // A React component - hence the client:load part
   <Services client:load />
   <HR />
   <Principles heroImage={PrinciplesImage} />
@@ -107,7 +104,7 @@ const linkedinIcon = "tabler:brand-linkedin";
     />
   </PreviousClients>
   <HR />
-  // This uses Netlify forms
+  {/** Uses Netlify forms */}
   <ContactForm
     blurb
     description="Interested in what I do and how I can help? Chatting to me is free, and I can work to your budget :)"
