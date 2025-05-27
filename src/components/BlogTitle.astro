@@ -34,14 +34,14 @@ console.log(tags);
   </p>
 
   <h1
-    class={`md:text-5xl text-3xl font-bold text-gray-800 dark:text-white leading-[1.25] text-balance md:pb-4 pb-2`}
+    class={`md:text-5xl sm:text-3xl text-lg font-bold text-gray-800 dark:text-white leading-[1.25] sm:text-balance text-wrap md:pb-4 pb-2`}
   >
     {title}
   </h1>
 
   {
     tags && tags.length > 0 && (
-      <div class="flex flex-wrap justify-center gap-3 mt-4 pb-4">
+      <div class="sm:flex sm:flex-wrap justify-center grid gap-3 mt-4 pb-4">
         {tags.map(({ name }) => (
           <Tag link tag={name} />
         ))}

@@ -29,6 +29,7 @@ const xIcon = "tabler:brand-x";
 const linkedinIcon = "tabler:brand-linkedin";
 ---
 
+<!-- Top menu nav defined in Layout copmponent -->
 <Layout
   metaDescription={"Adam Koszary is an expert in social media and digital engagement for museums, galleries, libraries, archives, and theatres." /** page meta description */}
   title={"Adam Koszary" /** if title is 'adam koszary', no ' | Adam Koszary' gets added after */}
@@ -50,6 +51,7 @@ const linkedinIcon = "tabler:brand-linkedin";
     />
   </Header>
   <HR />
+  // A React component - hence the client:load part
   <Services client:load />
   <HR />
   <Principles heroImage={PrinciplesImage} />
@@ -105,8 +107,9 @@ const linkedinIcon = "tabler:brand-linkedin";
     />
   </PreviousClients>
   <HR />
+  // This uses Netlify forms
   <ContactForm
-  blurb
+    blurb
     description="Interested in what I do and how I can help? Chatting to me is free, and I can work to your budget :)"
     title="Get in touch"
   />

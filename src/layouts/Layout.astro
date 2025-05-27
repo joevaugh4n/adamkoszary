@@ -128,14 +128,15 @@ function getImageUrl(image: ImageMetadata | string): string {
     }
   </head>
 
-  <body class="md:px-8 px-4 max-w-7xl mx-auto">
+  <body class="lg:px-8 px-4 max-w-7xl mx-auto">
     <CookieBanner client:load GA_MEASUREMENT_ID="G-63R54V45CT" />
 
+    <!-- Navigation links - each button uses the NavLink component, which accepts a URL and a title. Please note: you will also need to make any changes here to the Hamburger.tsx component (which is the version shown on mobile devices) -->
     <Nav>
       <NavLink url="/#posts" caption="Posts" />
       <NavLink url="/contact" caption="Contact" />
       <NavLink
-        url="https://content-of-the-week.beehiiv.com/subscribe"
+        url="https://newsletter.adamkoszary.co.uk/subscribe"
         caption="Newsletter"
       />
     </Nav>
@@ -143,6 +144,7 @@ function getImageUrl(image: ImageMetadata | string): string {
     <main class="min-h-screen flex flex-col my-2 mx-auto">
       {
         ready ? (
+          //* The slot allows space for the main page content to render *//
           <slot />
         ) : (
           <div class="text-center">🚧 Under construction 🚧</div>

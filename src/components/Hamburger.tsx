@@ -41,7 +41,7 @@ export function List({ state, setState }: ButtonProps) {
         {
             id: 0,
             string: 'Newsletter',
-            url: 'https://content-of-the-week.beehiiv.com/subscribe',
+            url: 'https://newsletter.adamkoszary.co.uk/subscribe',
         },
         {
             id: 1,
